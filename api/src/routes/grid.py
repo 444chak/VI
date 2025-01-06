@@ -5,6 +5,7 @@ from fastapi import APIRouter, HTTPException
 from classes import grids
 from classes.grid import Grid
 from models.grid import GridCreation
+from model.hexa import Hexa
 from utils.generate_id import generate_unique_id
 
 router = APIRouter()
@@ -37,5 +38,35 @@ async def get_grid(grid_id: int) -> dict:
         )
 
     grid = grids[grid_id]
+
+    return {"grid_id": grid_id, "grid": grid.encode()}
+
+
+@router.put("/start/{grid_id}", summary="Set the start point")
+async def set_start(grid_id: int, hexa: Hexa) -> dict:
+    """Set the start hexagon of the grid."""
+    if grid_id not in grids:
+        raise HTTPException(
+            status_code=404,
+            detail="Grid not found.",
+        )
+
+    grid = grids[grid_id]
+    grid.set_start(hexa)
+
+    return {"grid_id": grid_id, "grid": grid.encode()}
+
+
+@router.put("/end/{grid_id}", summary="Set the end point")
+async def set_end(grid_id: int, hexa: Hexa) -> dict:
+    """Set the end hexagon of the grid."""
+    if grid_id not in grids:
+        raise HTTPException(
+            status_code=404,
+            detail="Grid not found.",
+        )
+
+    grid = grids[grid_id]
+    grid.set_end(hexa)
 
     return {"grid_id": grid_id, "grid": grid.encode()}
