@@ -5,7 +5,7 @@ from fastapi import APIRouter, HTTPException
 from classes import grids
 from classes.grid import Grid
 from models.grid import GridCreation
-from model.hexa import Hexa
+from models.hexa import Hexa
 from utils.generate_id import generate_unique_id
 
 router = APIRouter()
