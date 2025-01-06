@@ -42,3 +42,12 @@ class Hexa:
             Hexa(0, 1),
         ]
         return self + directions[direction]
+
+    def encode(self) -> dict:
+        """Encode the hexagon.
+
+        Returns:
+            dict: encoded hexagon
+
+        """
+        return {"x": self.x, "y": self.y}

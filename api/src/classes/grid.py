@@ -1,6 +1,8 @@
 """Grid class module."""
 
-from hexa import Hexa
+import time
+
+from classes.hexa import Hexa
 
 
 class Grid:
@@ -21,6 +23,9 @@ class Grid:
         self.width = width
         self.height = height
         self.grid = [[0 for _ in range(width)] for _ in range(height)]
+        self.start = Hexa(0, 0)
+        self.end = Hexa(width - 1, height - 1)
+        self.created_at = time.time()
 
     def set_start(self, hexa: Hexa) -> None:
         """Set the start hexagon.
@@ -74,3 +79,20 @@ class Grid:
             if self.in_bounds(neighbor):
                 neighbors.append(neighbor)
         return neighbors
+
+    def encode(self) -> dict:
+        """Encode the grid.
+
+        Returns:
+            dict: encoded grid
+
+        """
+        return {
+            "width": self.width,
+            "height": self.height,
+            "start": self.start.encode(),
+            "end": self.end.encode(),
+            "grid": [
+                [self.grid[x][y] for y in range(self.width)] for x in range(self.height)
+            ],
+        }
