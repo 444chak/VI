@@ -1,13 +1,25 @@
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
 import { Typography, Box } from "@mui/joy";
 import Hexa from "../components/hexa/Hexa";
 
 export default function Home() {
   const numberColumns = 20;
-  const numberRows = 25;
+  const numberRows = 10;
   const size = 64; // min 64
+
+  useEffect(() => {
+    // Disable text selection for elements
+    // with class "no-select"
+    const noSelectElements = document.querySelectorAll(".no-select");
+    noSelectElements.forEach((element) => {
+      (element as HTMLElement).style.userSelect = "none";
+    });
+  }, []);
+
   return (
-    <Box display="flex" flexDirection="row">
+    <Box display="flex" flexDirection="row" className="no-select">
       <Typography gridColumn="span 3">Home</Typography>
       {[...Array(numberColumns)].map((_, index) => (
         <div
