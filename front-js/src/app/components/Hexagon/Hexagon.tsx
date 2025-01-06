@@ -9,6 +9,7 @@ interface HexaProps {
 }
 
 const defaultSize = 64;
+const defaultColor = "lightgrey";
 
 function getSize(size?: number) {
   return size ? size : defaultSize;
@@ -24,7 +25,7 @@ export default function Hexa({
   const size = getSize(propSize);
 
   // Couleur de remplissage basée sur l'état
-  const fillColor = color ? color : "black";
+  const fillColor = color ? color : defaultColor;
 
   return (
     <>
