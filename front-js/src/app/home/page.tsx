@@ -1,44 +1,35 @@
 import React from "react";
 import { Typography, Box } from "@mui/joy";
 import Hexa from "../components/hexa/Hexa";
-import { Grid2 } from "@mui/material";
 
 export default function Home() {
+  const numberColumns = 20;
+  const numberRows = 25;
+  const size = 64; // min 64
   return (
-    <Box>
-      <Typography>Home</Typography>
-      <Grid2
-        container
-        justifyContent="center"
-        // rowSpacing={0}
-        // columnGap={0}
-        // rowGap={0}
-      >
-        <Grid2 size={1} spacing={0}>
-          <Hexa size={64} />
-          <Hexa />
-          <Hexa />
-          <Hexa />
-          <Hexa />
-          <Hexa />
-        </Grid2>
-        <Grid2 size={1} spacing={0} sx={{ mt: "2rem" }}>
-          <Hexa />
-          <Hexa />
-          <Hexa />
-          <Hexa />
-          <Hexa />
-          <Hexa />
-        </Grid2>
-        <Grid2 size={1} spacing={0}>
-          <Hexa />
-          <Hexa />
-          <Hexa />
-          <Hexa />
-          <Hexa />
-          <Hexa />
-        </Grid2>
-      </Grid2>
+    <Box display="flex" flexDirection="row">
+      <Typography gridColumn="span 3">Home</Typography>
+      {[...Array(numberColumns)].map((_, index) => (
+        <div
+          key={index}
+          style={
+            index % 2 !== 0
+              ? {
+                  marginTop: `${size * 0.45}px`,
+                  marginLeft: `${-size * 0.2}px`,
+                  marginRight: `${-size * 0.2}px`,
+                }
+              : {}
+          }
+        >
+          {[...Array(numberRows)].map((_, innerIndex) => (
+            <React.Fragment key={innerIndex}>
+              <Hexa size={size} />
+              <br />
+            </React.Fragment>
+          ))}
+        </div>
+      ))}
     </Box>
   );
 }
