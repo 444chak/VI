@@ -1,21 +1,19 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Typography, Box, Button } from "@mui/joy";
-import Hexa from "../components/hexa/Hexa";
-import Space from "../components/Space/Space";
+import { Typography, Box, Button, ButtonGroup } from "@mui/joy";
+import Hexa from "../components/Hexagon/Hexagon";
+import { Grid2 } from "@mui/material";
+import EraserIcon from "../components/icons/Eraser";
 
 export default function Home() {
   const numberColumns = 20;
   const numberRows = 16;
   const size = 64; // min 64
 
-  // Gestion de l'état des paramètres de la grille (Algo ou Hexa)
-  const [isActive, setIsActive] = useState<"Hexa" | "Algo">("Hexa");
-
   // Gestion de l'état des couleurs pour chaque hexagone
   const [hexColors, setHexColors] = useState(
-    Array(numberColumns * numberRows).fill("") // Initialisation avec des couleurs vides
+    Array(numberColumns * numberRows).fill("") // Init with empty colors
   );
 
   // Réinitialise toutes les couleurs
@@ -24,9 +22,9 @@ export default function Home() {
   };
 
   // Change la couleur d'un hexagone au clic
-  const handleHexClick = (index: number) => {
+  const handleHexClick = (index: number, color: string) => {
     const newColors = [...hexColors];
-    newColors[index] = "blue"; // Définit la couleur bleue pour cet index
+    newColors[index] = color;
     setHexColors(newColors);
   };
 
@@ -52,8 +50,7 @@ export default function Home() {
 
   // vérifier quand le bouton de souris est relâché
   useEffect(() => {
-    const handleMouseUp = (event: MouseEvent) => {
-      console.log("Mouse up", event);
+    const handleMouseUp = () => {
       setMouseStatus(false);
     };
     window.addEventListener("mouseup", handleMouseUp);
@@ -62,111 +59,139 @@ export default function Home() {
     };
   }, []);
 
-  const handleMouseEnter = (index: number) => {
+  // Gestion du survol de la souris
+  const handleMouseEnter = (index: number, color: string) => {
     if (mouseStatus) {
-      handleHexClick(index);
+      handleHexClick(index, color);
     }
+  };
+
+  const [activeButton, setActiveButton] = useState(0);
+  const [activeColor, setActiveColor] = useState("");
+
+  const colors: { [key: number]: string } = {
+    1: "",
+    2: "black",
+    3: "blue",
+    4: "green",
+    5: "lightblue",
+  };
+
+  const handleOnActionButtons = (index: number) => {
+    setActiveButton(activeButton === index ? 0 : index);
+    setActiveColor(colors[index]);
   };
 
   return (
     <>
-      <Space
-        direction="horizontal"
-        margin={{ top: "50px", left: "20px", right: "20px" }}
-        sizes={["50%", "50%"]}
-        space="50px"
-      >
-        {/* Boutons Hexa et Algo */}
-        <Box
-          display="flex"
-          flexDirection={"row"}
-          alignItems={"center"}
-          justifyContent={"center"}
-          gap={2}
-        >
-          <Button
-            color={isActive === "Hexa" ? "primary" : "neutral"}
-            onClick={() => setIsActive("Hexa")}
-          >
-            Hexa
-          </Button>
-          <Button
-            color={isActive === "Algo" ? "primary" : "neutral"}
-            onClick={() => setIsActive("Algo")}
-          >
-            Algo
-          </Button>
-        </Box>
+      <Grid2 container spacing={2} sx={{ mt: 10 }}>
+        <Grid2 size={3}>
+          <Box display="flex" flexDirection={"column"} alignItems={"center"}>
+            <ButtonGroup orientation="vertical" size="lg" variant="outlined">
+              {[
+                {
+                  color: "danger" as const,
+                  label: "Réinitialiser la grille",
+                  onClick: resetColors,
+                  variant: "soft",
+                },
+                {
+                  color: "neutral" as const,
+                  label: "Gomme",
+                  onClick: () => handleOnActionButtons(1),
+                  startDecorator: <EraserIcon color="#121212" />,
+                },
+                {
+                  color: "primary" as const,
+                  label: "Ajouter des murs",
+                  onClick: () => handleOnActionButtons(2),
+                },
 
-        {/* Grille paramètre Algo */}
-        {isActive === "Algo" && (
-          <>
-            <Typography>Algo</Typography>
-          </>
-        )}
-
-        {/* Grille paramètre Hexa */}
-        {isActive === "Hexa" && (
-          <>
-            <Typography>Hexa</Typography>
-          </>
-        )}
-
-        {/* Grille principale */}
-        <Box
-          display="flex"
-          flexDirection={"column"}
-          alignItems={"center"}
-          justifyContent={"center"}
-        >
+                {
+                  color: "primary" as const,
+                  label: "Ajouter de l'eau",
+                  onClick: () => handleOnActionButtons(3),
+                },
+                {
+                  color: "success" as const,
+                  label: "Ajouter de l'herbe",
+                  onClick: () => handleOnActionButtons(4),
+                },
+                {
+                  color: "primary" as const,
+                  label: "Ajouter de la glace",
+                  onClick: () => handleOnActionButtons(5),
+                },
+              ].map((buttonProps, index) => (
+                <Button
+                  key={index}
+                  color={buttonProps.color}
+                  variant={
+                    index === 0
+                      ? "outlined"
+                      : activeButton === index
+                      ? "soft"
+                      : "outlined"
+                  }
+                  onClick={buttonProps.onClick}
+                  startDecorator={buttonProps.startDecorator}
+                >
+                  {buttonProps.label}
+                </Button>
+              ))}
+            </ButtonGroup>
+          </Box>
+        </Grid2>
+        <Grid2 size={6}>
+          {/* Grille principale */}
           <Box
             display="flex"
-            flexDirection="row"
-            className="no-select"
-            gap={2}
-            mb={2}
+            flexDirection={"column"}
+            alignItems={"center"}
+            justifyContent={"center"}
           >
-            <Typography>Home</Typography>
-            <Button color="primary" onClick={resetColors}>
-              Reset
-            </Button>
-          </Box>
-          <Box display="flex" flexDirection="row" className="no-select">
-            {[...Array(numberColumns)].map((_, colIndex) => (
-              <div
-                key={colIndex}
-                style={
-                  colIndex % 2 !== 0
-                    ? {
-                        marginTop: `${size * 0.45}px`,
-                        marginLeft: `${-size * 0.2}px`,
-                        marginRight: `${-size * 0.2}px`,
-                      }
-                    : {}
-                }
-              >
-                {[...Array(numberRows)].map((_, rowIndex) => {
-                  const index = colIndex * numberRows + rowIndex; // Calcul de l'index unique pour chaque hexagone
-                  return (
-                    <React.Fragment key={index}>
-                      <Hexa
-                        size={size}
-                        color={hexColors[index]} // Passe la couleur actuelle
-                        onMouseDown={() => handleHexClick(index)} // Gestion du clic
-                        onMouseEnter={
-                          () => handleMouseEnter(index) // Gestion du survol
+            <Box display="flex" flexDirection="row" className="no-select">
+              {[...Array(numberColumns)].map((_, colIndex) => (
+                <div
+                  key={colIndex}
+                  style={
+                    colIndex % 2 !== 0
+                      ? {
+                          marginTop: `${size * 0.45}px`,
+                          marginLeft: `${-size * 0.2}px`,
+                          marginRight: `${-size * 0.2}px`,
                         }
-                        className="no-select"
-                      />
-                      <br />
-                    </React.Fragment>
-                  );
-                })}
-              </div>
-            ))}
+                      : {}
+                  }
+                >
+                  {[...Array(numberRows)].map((_, rowIndex) => {
+                    const index = colIndex * numberRows + rowIndex; // Calcul de l'index unique pour chaque hexagone
+                    return (
+                      <React.Fragment key={index}>
+                        <Hexa
+                          size={size}
+                          color={hexColors[index]} // Passe la couleur actuelle
+                          onMouseDown={() => handleHexClick(index, activeColor)} // Gestion du clic
+                          onMouseEnter={
+                            () => handleMouseEnter(index, activeColor) // Gestion du survol
+                          }
+                          className="no-select"
+                        />
+                        <br />
+                      </React.Fragment>
+                    );
+                  })}
+                </div>
+              ))}
+            </Box>
           </Box>
-        </Box>
-      </Space>
+        </Grid2>
+        <Grid2 size={3}>
+          <Box display="flex" flexDirection={"column"} alignItems={"center"}>
+            <Typography>Right</Typography>
+          </Box>
+        </Grid2>
+      </Grid2>
     </>
   );
 }
