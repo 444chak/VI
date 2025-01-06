@@ -1,0 +1,25 @@
+[project]
+name = "VI-API"
+version = "1.0.0"
+description = "A simple FastAPI application"
+authors = [
+    { name = "444chak", email = "444chak@gmail.com" },
+    { name = "Eliott B", email = "contact@eliott-b.fr" },
+]
+dependencies = ["fastapi[standard]>=0.115.0", "uvicorn"]
+requires-python = ">=3.11"
+readme = "README.md"
+license = { text = "MIT" }
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[tool.pdm]
+distribution = true
+
+[tool.pdm.scripts]
+api = "uvicorn src.app:app --reload --log-level debug"
+
+[tool.ruff]
+select = ["ALL"]
