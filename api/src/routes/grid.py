@@ -25,3 +25,17 @@ async def login(grid_creation: GridCreation) -> dict:
     grids[grid_id] = grid
 
     return {"grid_id": grid_id, "grid": grid.encode()}
+
+
+@router.get("/{grid_id}", summary="Get a grid")
+async def get_grid(grid_id: int) -> dict:
+    """Get a grid by its id."""
+    if grid_id not in grids:
+        raise HTTPException(
+            status_code=404,
+            detail="Grid not found.",
+        )
+
+    grid = grids[grid_id]
+
+    return {"grid_id": grid_id, "grid": grid.encode()}
