@@ -38,6 +38,36 @@ export default function Home() {
     });
   }, []);
 
+  const [mouseStatus, setMouseStatus] = useState(false); // false = souris relâchée, true = souris enfoncée
+  // vérifier quand le bouton de souris est enfoncé
+  useEffect(() => {
+    const handleMouseDown = () => {
+      setMouseStatus(true);
+    };
+    window.addEventListener("mousedown", handleMouseDown);
+    return () => {
+      window.removeEventListener("mousedown", handleMouseDown);
+    };
+  }, []);
+
+  // vérifier quand le bouton de souris est relâché
+  useEffect(() => {
+    const handleMouseUp = (event: MouseEvent) => {
+      console.log("Mouse up", event);
+      setMouseStatus(false);
+    };
+    window.addEventListener("mouseup", handleMouseUp);
+    return () => {
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, []);
+
+  const handleMouseEnter = (index: number) => {
+    if (mouseStatus) {
+      handleHexClick(index);
+    }
+  };
+
   return (
     <>
       <Space
@@ -47,7 +77,13 @@ export default function Home() {
         space="50px"
       >
         {/* Boutons Hexa et Algo */}
-        <Box display="flex" flexDirection={"row"} alignItems={"center"} justifyContent={"center"} gap={2}>
+        <Box
+          display="flex"
+          flexDirection={"row"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          gap={2}
+        >
           <Button
             color={isActive === "Hexa" ? "primary" : "neutral"}
             onClick={() => setIsActive("Hexa")}
@@ -63,22 +99,33 @@ export default function Home() {
         </Box>
 
         {/* Grille paramètre Algo */}
-        {isActive === "Algo" && 
-        (<>
-          <Typography>Algo</Typography>
-        </>)
-        }
+        {isActive === "Algo" && (
+          <>
+            <Typography>Algo</Typography>
+          </>
+        )}
 
         {/* Grille paramètre Hexa */}
-        {isActive === "Hexa" && 
-        (<>
-          <Typography>Hexa</Typography>
-        </>)
-        }
+        {isActive === "Hexa" && (
+          <>
+            <Typography>Hexa</Typography>
+          </>
+        )}
 
         {/* Grille principale */}
-        <Box display="flex" flexDirection={"column"} alignItems={"center"} justifyContent={"center"}>
-          <Box display="flex" flexDirection="row" className="no-select" gap={2} mb={2}>
+        <Box
+          display="flex"
+          flexDirection={"column"}
+          alignItems={"center"}
+          justifyContent={"center"}
+        >
+          <Box
+            display="flex"
+            flexDirection="row"
+            className="no-select"
+            gap={2}
+            mb={2}
+          >
             <Typography>Home</Typography>
             <Button color="primary" onClick={resetColors}>
               Reset
@@ -105,7 +152,11 @@ export default function Home() {
                       <Hexa
                         size={size}
                         color={hexColors[index]} // Passe la couleur actuelle
-                        onClick={() => handleHexClick(index)} // Gestion du clic
+                        onMouseDown={() => handleHexClick(index)} // Gestion du clic
+                        onMouseEnter={
+                          () => handleMouseEnter(index) // Gestion du survol
+                        }
+                        className="no-select"
                       />
                       <br />
                     </React.Fragment>
