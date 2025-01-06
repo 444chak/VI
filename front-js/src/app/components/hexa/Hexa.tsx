@@ -12,6 +12,7 @@ function getSize(size?: number) {
   return size ? size : defaultSize;
 }
 
+
 export default function Hexa({ size: propSize, color: PropColor }: HexaProps) {
   const size = getSize(propSize);
   const [isHovered, setIsHovered] = useState(false);
@@ -21,6 +22,7 @@ export default function Hexa({ size: propSize, color: PropColor }: HexaProps) {
   };
 
   const fillColor = isHovered ? "blue" : PropColor;
+  
   return (
     <>
       <svg
