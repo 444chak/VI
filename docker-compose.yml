@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+  api:
+    image: python:3.13
+    container_name: vi-api
+    working_dir: /opt/api
+    command: bash -c "pip install pdm && pdm install && pdm run api --host 0.0.0.0"
+    volumes:
+      - ./api:/opt/api
+    restart: always
+    ports:
+      - "8000:8000"
+    networks:
+      - app-network
+  # web:
+  #   image: node:23.0
+  #   container_name: networkers-web
+  #   working_dir: /opt/web
+  #   command: bash -c "npm install && npm run build && npm run start"
+  #   volumes:
+  #     - ./front-js:/opt/web
+  #   depends_on:
+  #     - api
+  #   restart: always
+  #   ports:
+  #     - "3000:3000"
+  #   env_file:
+  #     - .env/common
+  #   networks:
+  #     - app-network
+
+networks:
+  app-network:
+    driver: bridge
