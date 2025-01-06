@@ -8,3 +8,9 @@ class GridCreation(BaseModel):
 
     width: int
     height: int
+
+
+class GridModel(BaseModel):
+    """Model for a grid."""
+
+    grid: list[list[int]]

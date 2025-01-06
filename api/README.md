@@ -16,6 +16,7 @@
   - [Get](#get)
   - [Set start point](#set-start-point)
   - [Set end point](#set-end-point)
+  - [Update](#update)
 
 ## Framework
 
@@ -114,5 +115,23 @@ Dans le dossier `src`, on retrouve les dossiers et fichiers suivants :
 {
   "x": 0,
   "y": 0
+}
+```
+
+### Update
+
+| Méthode | URL         | Description         |
+| ------- | ----------- | ------------------- |
+| PATCH   | /grids/{id} | Update a grid by id |
+
+**Request**  
+
+```json
+{
+  "grid": [
+    [0, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0]
+  ]
 }
 ```

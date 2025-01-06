@@ -4,7 +4,7 @@ from fastapi import APIRouter, HTTPException
 
 from classes import grids
 from classes.grid import Grid
-from models.grid import GridCreation
+from models.grid import GridCreation, GridModel
 from models.hexa import Hexa
 from utils.generate_id import generate_unique_id
 
@@ -80,5 +80,25 @@ async def set_end(grid_id: int, hexa: Hexa) -> dict:
             status_code=400,
             detail=str(e),
         ) from e
+
+    return {"grid_id": grid_id, "grid": grid.encode()}
+
+
+@router.patch("/{grid_id}", summary="Update a grid")
+async def update_grid(grid_id: int, new_grid: GridModel) -> dict:
+    """Update a grid."""
+    if grid_id not in grids:
+        raise HTTPException(
+            status_code=404,
+            detail="Grid not found.",
+        )
+
+    grid = grids[grid_id]
+    if grid.width != len(new_grid.grid) or grid.height != len(new_grid.grid[0]):
+        raise HTTPException(
+            status_code=400,
+            detail="Grid size must be the same.",
+        )
+    grid.grid = new_grid.grid
 
     return {"grid_id": grid_id, "grid": grid.encode()}
