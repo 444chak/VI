@@ -4,12 +4,14 @@ import logging
 import threading
 import time
 
+from classes.grid import Grid
+
 # Configure logging to match uvicorn style
 logging.basicConfig(format="%(levelname)s:     %(message)s", level=logging.INFO)
 
 logger = logging.getLogger("vi-api")
 
-grids = {}  # grid_id: Grid
+grids: dict[int, Grid] = {}  # grid_id: Grid
 
 
 def cleanup_grids() -> None:

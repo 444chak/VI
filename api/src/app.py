@@ -27,4 +27,4 @@ async def get_info() -> dict:
     return info
 
 
-app.include_router(grid.router, prefix="/grid", tags=["grid"])
+app.include_router(grid.router, prefix="/grids", tags=["grids"])

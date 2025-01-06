@@ -42,7 +42,7 @@ async def get_grid(grid_id: int) -> dict:
     return {"grid_id": grid_id, "grid": grid.encode()}
 
 
-@router.put("/start/{grid_id}", summary="Set the start point")
+@router.put("/{grid_id}/start", summary="Set the start point")
 async def set_start(grid_id: int, hexa: Hexa) -> dict:
     """Set the start hexagon of the grid."""
     if grid_id not in grids:
@@ -52,12 +52,18 @@ async def set_start(grid_id: int, hexa: Hexa) -> dict:
         )
 
     grid = grids[grid_id]
-    grid.set_start(hexa)
+    try:
+        grid.set_start(hexa)
+    except ValueError as e:
+        raise HTTPException(
+            status_code=400,
+            detail=str(e),
+        ) from e
 
     return {"grid_id": grid_id, "grid": grid.encode()}
 
 
-@router.put("/end/{grid_id}", summary="Set the end point")
+@router.put("/{grid_id}/end", summary="Set the end point")
 async def set_end(grid_id: int, hexa: Hexa) -> dict:
     """Set the end hexagon of the grid."""
     if grid_id not in grids:
@@ -67,6 +73,12 @@ async def set_end(grid_id: int, hexa: Hexa) -> dict:
         )
 
     grid = grids[grid_id]
-    grid.set_end(hexa)
+    try:
+        grid.set_end(hexa)
+    except ValueError as e:
+        raise HTTPException(
+            status_code=400,
+            detail=str(e),
+        ) from e
 
     return {"grid_id": grid_id, "grid": grid.encode()}
