@@ -23,9 +23,11 @@ export default function Home() {
 
   // Change la couleur d'un hexagone au clic
   const handleHexClick = (index: number, color: string) => {
-    const newColors = [...hexColors];
-    newColors[index] = color;
-    setHexColors(newColors);
+    if (activeButton !== 0) {
+      const newColors = [...hexColors];
+      newColors[index] = color;
+      setHexColors(newColors);
+    }
   };
 
   useEffect(() => {
@@ -84,9 +86,17 @@ export default function Home() {
 
   return (
     <>
-      <Grid2 container spacing={2} sx={{ mt: 10 }}>
+      <Box display="flex" flexDirection={"column"} alignItems={"center"}>
+        <Typography level="h1" sx={{ mt: 3, mb: 2 }}>
+          VI
+        </Typography>
+      </Box>
+      <Grid2 container spacing={2}>
         <Grid2 size={3}>
           <Box display="flex" flexDirection={"column"} alignItems={"center"}>
+            <Typography level="h2" sx={{ mb: 2 }}>
+              Outils
+            </Typography>
             <ButtonGroup orientation="vertical" size="lg" variant="outlined">
               {[
                 {
@@ -144,12 +154,16 @@ export default function Home() {
         </Grid2>
         <Grid2 size={6}>
           {/* Grille principale */}
+
           <Box
             display="flex"
             flexDirection={"column"}
             alignItems={"center"}
             justifyContent={"center"}
           >
+            <Typography level="h2" sx={{ mb: 2 }}>
+              Grille
+            </Typography>
             <Box display="flex" flexDirection="row" className="no-select">
               {[...Array(numberColumns)].map((_, colIndex) => (
                 <div
@@ -188,7 +202,42 @@ export default function Home() {
         </Grid2>
         <Grid2 size={3}>
           <Box display="flex" flexDirection={"column"} alignItems={"center"}>
-            <Typography>Right</Typography>
+            <Typography level="h2" sx={{ mb: 2 }}>
+              Algorithmes
+            </Typography>
+            <ButtonGroup orientation="vertical" size="lg" variant="outlined">
+              {[
+                {
+                  color: "neutral" as const,
+                  label: "Dijkstra",
+                  onClick: () => {},
+                },
+                {
+                  color: "neutral" as const,
+                  label: "A* - Manhattan",
+                  onClick: () => {},
+                },
+                {
+                  color: "neutral" as const,
+                  label: "DFS - Parcours en profondeur",
+                  onClick: () => {},
+                },
+                {
+                  color: "neutral" as const,
+                  label: "BFS - Parcours en largeur",
+                  onClick: () => {},
+                },
+              ].map((buttonProps, index) => (
+                <Button
+                  key={index}
+                  color={buttonProps.color}
+                  variant="outlined"
+                  onClick={buttonProps.onClick}
+                >
+                  {buttonProps.label}
+                </Button>
+              ))}
+            </ButtonGroup>
           </Box>
         </Grid2>
       </Grid2>
