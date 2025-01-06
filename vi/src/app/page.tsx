@@ -1,9 +1,21 @@
 import Image from "next/image";
+import Hexa from "./components/hexa/Hexa";
 
 export default function Home() {
   return (
     <main>
-      <p>Sale couille</p>
+      <Hexa />
+      <Hexa />
+      <Hexa />
+      <Hexa />
+      <Hexa />
+      <Hexa />
+      <Hexa />
+      <Hexa />
+      <Hexa />
+      <Hexa />
+      <Hexa />
+      <Hexa />
     </main>
   );
 }

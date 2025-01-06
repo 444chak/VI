@@ -1,0 +1,16 @@
+.hex::before {
+    content: "\2B22";
+    display: block;
+    color: white;
+    font-size: 135px;
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+
+    margin: -125px;
+
+    position: relative;
+    right: 10%;
+    bottom: 80%;
+}
