@@ -3,7 +3,8 @@ import "./style.css";
 
 interface HexaProps {
   size?: number;
-  color?: string;
+  color?: string; // Couleur actuelle
+  onClick?: () => void; // Fonction appelée au clic
 }
 
 const defaultSize = 64;
@@ -12,8 +13,7 @@ function getSize(size?: number) {
   return size ? size : defaultSize;
 }
 
-
-export default function Hexa({ size: propSize, color: PropColor }: HexaProps) {
+export default function Hexa({ size: propSize, color: defaultColor, onClick }: HexaProps) {
   const size = getSize(propSize);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -21,8 +21,13 @@ export default function Hexa({ size: propSize, color: PropColor }: HexaProps) {
     setIsHovered(true);
   };
 
-  const fillColor = isHovered ? "blue" : PropColor;
-  
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  // Couleur de remplissage basée sur l'état
+  const fillColor = isHovered && !defaultColor ? "blue" : defaultColor || "black";
+
   return (
     <>
       <svg
@@ -34,6 +39,8 @@ export default function Hexa({ size: propSize, color: PropColor }: HexaProps) {
         viewBox="0 0 200 173.20508075688772"
         fill={fillColor}
         onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onClick={onClick} // Déclenchement de la fonction au clic
       >
         <path d="M0 86.60254037844386L50 0L150 0L200 86.60254037844386L150 173.20508075688772L50 173.20508075688772Z"></path>
       </svg>
