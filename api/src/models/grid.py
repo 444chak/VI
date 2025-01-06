@@ -8,6 +8,8 @@ class Grid:
         self,
         width: int,
         height: int,
+        start: tuple[int, int] = (-1, -1),
+        end: tuple[int, int] = (-1, -1),
     ) -> None:
         """Create a grid.
 
@@ -20,3 +22,5 @@ class Grid:
         self.height = height
         self.grid = [[0 for _ in range(width)] for _ in range(height)]
         self.grid_path = [[0 for _ in range(width)] for _ in range(height)]
+        self.start = start
+        self.end = end
