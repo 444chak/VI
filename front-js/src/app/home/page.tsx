@@ -11,11 +11,50 @@ import IceIcon from "../components/icons/Ice";
 import HerbIcon from "../components/icons/Herb";
 import WallIcon from "../components/icons/Wall";
 import Space from "../components/Space/Space";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 export default function Home() {
   const numberColumns = 20;
   const numberRows = 16;
-  const size = 64; // min 64
+  const isSmallScreen = useMediaQuery("(max-width:600px)");
+  const isMediumScreen = useMediaQuery("(max-width:960px)");
+  const isMediumLargeScreen = useMediaQuery("(max-width:1280px)");
+  const isLargeScreen = useMediaQuery("(max-width:1440px)");
+  const sizes = {
+    small: 20,
+    medium: 30,
+    mediumLarge: 30,
+    large: 40,
+    ultraLarge: 50,
+  };
+
+  const size = isSmallScreen
+    ? sizes.small
+    : isMediumScreen
+    ? sizes.medium
+    : isMediumLargeScreen
+    ? sizes.mediumLarge
+    : isLargeScreen
+    ? sizes.large
+    : sizes.ultraLarge;
+
+  const [grid, setGrid] = useState(Array(numberColumns * numberRows).fill(2));
+
+  const colors: { [key: number]: string } = {
+    1: "",
+    2: "black",
+    3: "blue",
+    4: "green",
+    5: "lightblue",
+  };
+
+  const colorValues: { [key: string]: number } = {
+    "": 2,
+    black: -1,
+    blue: 5,
+    green: 3,
+    lightblue: 1,
+  };
 
   // Gestion de l'état des couleurs pour chaque hexagone
   const [hexColors, setHexColors] = useState(
@@ -25,6 +64,7 @@ export default function Home() {
   // Réinitialise toutes les couleurs
   const resetColors = () => {
     setHexColors(Array(numberColumns * numberRows).fill(""));
+    setGrid(Array(numberColumns * numberRows).fill(2));
   };
 
   // Change la couleur d'un hexagone au clic
@@ -33,6 +73,11 @@ export default function Home() {
       const newColors = [...hexColors];
       newColors[index] = color;
       setHexColors(newColors);
+      setGrid((prevGrid) => {
+        const newGrid = [...prevGrid];
+        newGrid[index] = colorValues[color];
+        return newGrid;
+      });
     }
   };
 
@@ -77,14 +122,6 @@ export default function Home() {
   const [activeButton, setActiveButton] = useState(0);
   const [activeColor, setActiveColor] = useState("");
 
-  const colors: { [key: number]: string } = {
-    1: "",
-    2: "black",
-    3: "blue",
-    4: "green",
-    5: "lightblue",
-  };
-
   const handleOnActionButtons = (index: number) => {
     setActiveButton(activeButton === index ? 0 : index);
     setActiveColor(colors[index]);
@@ -92,13 +129,20 @@ export default function Home() {
 
   return (
     <>
+      {grid.map((value, index) => {
+        return index % numberRows === 0
+          ? `[${value},`
+          : index % numberRows === numberRows - 1
+          ? `${value}],`
+          : `${value},`;
+      })}
       <Box display="flex" flexDirection={"column"} alignItems={"center"}>
         <Typography level="h1" sx={{ mt: 3, mb: 2 }}>
           VI
         </Typography>
       </Box>
       <Grid2 container spacing={2}>
-        <Grid2 size={3}>
+        <Grid2 size={isMediumScreen ? 12 : 3}>
           <Box display="flex" flexDirection={"column"} alignItems={"center"}>
             <Typography level="h2" sx={{ mb: 2 }}>
               Outils
@@ -106,7 +150,17 @@ export default function Home() {
             {/*
                 TODO : Each child of a grid should have a unique key prop.
             */}
-            <ButtonGroup orientation="vertical" size="lg" variant="outlined">
+            <ButtonGroup
+              orientation="vertical"
+              variant="outlined"
+              size={
+                isSmallScreen
+                  ? "sm"
+                  : isMediumScreen || isMediumLargeScreen
+                  ? "md"
+                  : "lg"
+              }
+            >
               {[
                 {
                   color: "danger" as const,
@@ -114,7 +168,7 @@ export default function Home() {
                   tooltip: "Réinitialise tous les hexagones",
                   onClick: resetColors,
                   variant: "soft",
-                  startDecorator: <CrossIcon color="#C41C1C" />
+                  startDecorator: <CrossIcon color="#C41C1C" />,
                 },
                 {
                   color: "neutral" as const,
@@ -128,7 +182,7 @@ export default function Home() {
                   label: "Murs",
                   tooltip: "Empêche le passage",
                   onClick: () => handleOnActionButtons(2),
-                  startDecorator: <WallIcon color="#121212" />
+                  startDecorator: <WallIcon color="#121212" />,
                 },
 
                 {
@@ -136,21 +190,21 @@ export default function Home() {
                   label: "Eau",
                   tooltip: "Ralenti, ajoute 5 points au chemin",
                   onClick: () => handleOnActionButtons(3),
-                  startDecorator: <WaterIcon color="#0B6BCB" />
+                  startDecorator: <WaterIcon color="#0B6BCB" />,
                 },
                 {
                   color: "success" as const,
                   label: "Herbe",
                   tooltip: "Ralenti, ajoute 3 point au chemin",
                   onClick: () => handleOnActionButtons(4),
-                  startDecorator: <HerbIcon color="#1F7A1F" />
+                  startDecorator: <HerbIcon color="#1F7A1F" />,
                 },
                 {
                   color: "primary" as const,
                   label: "Glace",
                   tooltip: "Accelère, enlève 1 point au chemin",
                   onClick: () => handleOnActionButtons(5),
-                  startDecorator: <IceIcon color="#0B6BCB" />
+                  startDecorator: <IceIcon color="#0B6BCB" />,
                 },
               ].map((buttonProps, index) => (
                 <Tooltip
@@ -174,7 +228,7 @@ export default function Home() {
                     startDecorator={buttonProps.startDecorator}
                     sx={{
                       "--Button-gap": "20px",
-                      justifyContent : "left"
+                      justifyContent: "left",
                     }}
                   >
                     {buttonProps.label}
@@ -193,7 +247,7 @@ export default function Home() {
             </Space>
           </Box>
         </Grid2>
-        <Grid2 size={6}>
+        <Grid2 size={isMediumScreen ? 12 : 6}>
           {/* Grille principale */}
 
           <Box
@@ -241,7 +295,7 @@ export default function Home() {
             </Box>
           </Box>
         </Grid2>
-        <Grid2 size={3}>
+        <Grid2 size={isMediumScreen ? 12 : 3}>
           <Box display="flex" flexDirection={"column"} alignItems={"center"}>
             <Typography level="h2" sx={{ mb: 2 }}>
               Algorithmes
