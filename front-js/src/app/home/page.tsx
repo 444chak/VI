@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Typography, Box, Button, ButtonGroup } from "@mui/joy";
+import { Typography, Box, Button, ButtonGroup, Tooltip } from "@mui/joy";
 import Hexa from "../components/Hexagon/Hexagon";
 import { Grid2 } from "@mui/material";
 import EraserIcon from "../components/icons/Eraser";
+import Space from "../components/Space/Space";
 
 export default function Home() {
   const numberColumns = 20;
@@ -97,59 +98,81 @@ export default function Home() {
             <Typography level="h2" sx={{ mb: 2 }}>
               Outils
             </Typography>
+            {/*
+                TODO : Each child of a grid should have a unique key prop.
+            */}
             <ButtonGroup orientation="vertical" size="lg" variant="outlined">
               {[
                 {
                   color: "danger" as const,
                   label: "Réinitialiser la grille",
+                  tooltip: "Réinitialise tous les hexagones",
                   onClick: resetColors,
                   variant: "soft",
                 },
                 {
                   color: "neutral" as const,
                   label: "Gomme",
+                  tooltip: "Efface la couleur de l'hexagone séléctionné",
                   onClick: () => handleOnActionButtons(1),
                   startDecorator: <EraserIcon color="#121212" />,
                 },
                 {
-                  color: "primary" as const,
+                  color: "neutral" as const,
                   label: "Ajouter des murs",
+                  tooltip: "Empêche le passage",
                   onClick: () => handleOnActionButtons(2),
                 },
 
                 {
                   color: "primary" as const,
                   label: "Ajouter de l'eau",
+                  tooltip: "Ralenti, ajoute 5 points au chemin",
                   onClick: () => handleOnActionButtons(3),
                 },
                 {
                   color: "success" as const,
                   label: "Ajouter de l'herbe",
+                  tooltip: "Ralenti, ajoute 3 point au chemin",
                   onClick: () => handleOnActionButtons(4),
                 },
                 {
                   color: "primary" as const,
                   label: "Ajouter de la glace",
+                  tooltip: "Accelère, enlève 1 point au chemin",
                   onClick: () => handleOnActionButtons(5),
                 },
               ].map((buttonProps, index) => (
-                <Button
+                <Tooltip
+                  title={buttonProps.tooltip ? buttonProps.tooltip : ""}
+                  arrow
+                  placement="right"
+                  variant="outlined"
                   key={index}
-                  color={buttonProps.color}
-                  variant={
-                    index === 0
-                      ? "outlined"
-                      : activeButton === index
-                      ? "soft"
-                      : "outlined"
-                  }
-                  onClick={buttonProps.onClick}
-                  startDecorator={buttonProps.startDecorator}
                 >
-                  {buttonProps.label}
-                </Button>
+                  <Button
+                    key={index}
+                    color={buttonProps.color}
+                    variant={
+                      index === 0
+                        ? "outlined"
+                        : activeButton === index
+                          ? "soft"
+                          : "outlined"
+                    }
+                    onClick={buttonProps.onClick}
+                    startDecorator={buttonProps.startDecorator}
+                  >
+                    {buttonProps.label}
+                  </Button>
+                </Tooltip>
               ))}
             </ButtonGroup>
+            <Space direction="vertical" space="60px">
+              <Tooltip title="Les hexagones par défauts ont un poid de 2 points" variant="soft" placement="bottom">
+                <Typography>Infos *</Typography>
+              </Tooltip>
+            </Space>
           </Box>
         </Grid2>
         <Grid2 size={6}>
@@ -171,10 +194,10 @@ export default function Home() {
                   style={
                     colIndex % 2 !== 0
                       ? {
-                          marginTop: `${size * 0.45}px`,
-                          marginLeft: `${-size * 0.2}px`,
-                          marginRight: `${-size * 0.2}px`,
-                        }
+                        marginTop: `${size * 0.45}px`,
+                        marginLeft: `${-size * 0.2}px`,
+                        marginRight: `${-size * 0.2}px`,
+                      }
                       : {}
                   }
                 >
@@ -210,32 +233,43 @@ export default function Home() {
                 {
                   color: "neutral" as const,
                   label: "Dijkstra",
-                  onClick: () => {},
+                  onClick: () => { },
+
                 },
                 {
                   color: "neutral" as const,
-                  label: "A* - Manhattan",
-                  onClick: () => {},
+                  label: "A*",
+                  tooltip: "Heuristique de Manhattan",
+                  onClick: () => { },
                 },
                 {
                   color: "neutral" as const,
-                  label: "DFS - Parcours en profondeur",
-                  onClick: () => {},
+                  label: "DFS",
+                  tooltip: "Parcours en profondeur",
+                  onClick: () => { },
                 },
                 {
                   color: "neutral" as const,
-                  label: "BFS - Parcours en largeur",
-                  onClick: () => {},
+                  label: "BFS",
+                  tooltip: "Parcours en largeur",
+                  onClick: () => { },
                 },
               ].map((buttonProps, index) => (
-                <Button
-                  key={index}
-                  color={buttonProps.color}
+                <Tooltip
+                  title={buttonProps.tooltip ? buttonProps.tooltip : ""}
+                  arrow
+                  placement="left"
                   variant="outlined"
-                  onClick={buttonProps.onClick}
                 >
-                  {buttonProps.label}
-                </Button>
+                  <Button
+                    key={index}
+                    color={buttonProps.color}
+                    variant="outlined"
+                    onClick={buttonProps.onClick}
+                  >
+                    {buttonProps.label}
+                  </Button>
+                </Tooltip>
               ))}
             </ButtonGroup>
           </Box>
