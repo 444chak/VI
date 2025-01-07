@@ -1,5 +1,7 @@
 from collections import deque
-from classes import Grid, Hexa
+from classes.hexa import Hexa
+from classes.grid import Grid
+
 
 def bfs(grid: Grid) -> list[Hexa]:
     """
