@@ -61,7 +61,7 @@ class Grid:
             bool: True if the hexagon is in bounds, False otherwise
 
         """
-        return 0 <= hexa.q < self.width and 0 <= hexa.r < self.height
+        return 0 <= hexa.x < self.width and 0 <= hexa.y < self.height
 
     def get_neighbors(self, hexa: Hexa) -> list[Hexa]:
         """Get neighbors of the hexagon.
