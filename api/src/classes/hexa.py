@@ -22,6 +22,15 @@ class Hexa:
         """
         return Hexa(self.x + other.x, self.y + other.y)
 
+    def __hash__(self) -> int:
+        """
+        Returns a hash value for the hexagon.
+
+        Returns:
+            int: The hash value.
+        """
+        return hash((self.x, self.y))
+
     def neighbor(self, direction: int) -> "Hexa":
         """Get a neighbor of the hexagon.
 
