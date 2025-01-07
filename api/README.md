@@ -11,12 +11,8 @@
 - [Codes](#codes)
   - [Architecture](#architecture)
 - [Routes](#routes)
-  - [Grids](#grids)
-    - [Create](#create)
-  - [Get](#get)
-  - [Set start point](#set-start-point)
-  - [Set end point](#set-end-point)
-  - [Update](#update)
+  - [App](#app)
+    - [Get info](#get-info)
 
 ## Framework
 
@@ -65,73 +61,10 @@ Dans le dossier `src`, on retrouve les dossiers et fichiers suivants :
 
 ## Routes
 
-### Grids
+### App
 
-#### Create
+#### Get info
 
-| Méthode | URL     | Description   |
-| ------- | ------- | ------------- |
-| POST    | /grids/ | Create a grid |
-
-**Request**  
-
-```json
-{
-  "width": 1,
-  "height": 1,
-}
-```
-
-### Get
-
-| Méthode | URL         | Description      |
-| ------- | ----------- | ---------------- |
-| GET     | /grids/{id} | Get a grid by id |
-
-### Set start point
-
-| Méthode | URL               | Description                         |
-| ------- | ----------------- | ----------------------------------- |
-| PUT     | /grids/{id}/start | Set the start point of a grid by id |
-
-**Request**  
-
-```json
-{
-  "x": 0,
-  "y": 0
-}
-```
-
-### Set end point
-
-| Méthode | URL             | Description                       |
-| ------- | --------------- | --------------------------------- |
-| PUT     | /grids/{id}/end | Set the end point of a grid by id |
-
-**Request**  
-
-```json
-{
-  "x": 0,
-  "y": 0
-}
-```
-
-### Update
-
-| Méthode | URL         | Description         |
-| ------- | ----------- | ------------------- |
-| PATCH   | /grids/{id} | Update a grid by id |
-
-**Request**  
-
-```json
-{
-  "grid": [
-    [0, 0, 0],
-    [0, 0, 0],
-    [0, 0, 0]
-  ]
-}
-```
+| Méthode | URL | Description    |
+| ------- | --- | -------------- |
+| GET     | /   | Get API's info |
