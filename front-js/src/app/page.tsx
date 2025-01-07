@@ -21,11 +21,21 @@ const theme = extendTheme({
 export default function Home() {
   const router = useRouter();
   useEffect(() => {
-    new BlurGradientBg({
-      dom: "box",
-      colors: ["#650101", "#4b0101", "#280606", "#320103"],
-      loop: true,
-    });
+    const handleResize = () => {
+      new BlurGradientBg({
+        dom: "box",
+        colors: ["#650101", "#4b0101", "#280606", "#320103"],
+        loop: true,
+      });
+    };
+
+  handleResize();
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   return (
