@@ -12,6 +12,7 @@ import HerbIcon from "../components/icons/Herb";
 import WallIcon from "../components/icons/Wall";
 import Space from "../components/Space/Space";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import Logo from "../components/Logo";
 
 export default function Home() {
   const numberColumns = 20;
@@ -138,7 +139,7 @@ export default function Home() {
       })}
       <Box display="flex" flexDirection={"column"} alignItems={"center"}>
         <Typography level="h1" sx={{ mt: 3, mb: 2 }}>
-          VI
+          <Logo />
         </Typography>
       </Box>
       <Grid2 container spacing={2}>
