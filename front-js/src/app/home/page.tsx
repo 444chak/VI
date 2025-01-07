@@ -174,6 +174,7 @@ export default function Home() {
 
   useEffect(() => {
     resetColors();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
