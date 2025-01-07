@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 
 import { BlurGradientBg } from "./modules/BlurGradientBg.module";
 import { useEffect } from "react";
+import HexagonSvg from "./components/HexagonSvg/HexagonSvg";
 const theme = extendTheme({
   colorSchemes: {
     light: {
@@ -38,6 +39,9 @@ export default function Home() {
           zIndex: -1,
         }}
       ></div>
+      <div>
+        <HexagonSvg/>
+      </div>
       <div style={{ position: "relative", zIndex: 1 }}>
         <Box
           sx={{
