@@ -5,6 +5,11 @@ import { Typography, Box, Button, ButtonGroup, Tooltip } from "@mui/joy";
 import Hexa from "../components/Hexagon/Hexagon";
 import { Grid2 } from "@mui/material";
 import EraserIcon from "../components/icons/Eraser";
+import CrossIcon from "../components/icons/Cross";
+import WaterIcon from "../components/icons/Water";
+import IceIcon from "../components/icons/Ice";
+import HerbIcon from "../components/icons/Herb";
+import WallIcon from "../components/icons/Wall";
 import Space from "../components/Space/Space";
 
 export default function Home() {
@@ -105,10 +110,11 @@ export default function Home() {
               {[
                 {
                   color: "danger" as const,
-                  label: "Réinitialiser la grille",
+                  label: "Réinitialiser",
                   tooltip: "Réinitialise tous les hexagones",
                   onClick: resetColors,
                   variant: "soft",
+                  startDecorator: <CrossIcon color="#C41C1C" />
                 },
                 {
                   color: "neutral" as const,
@@ -119,28 +125,32 @@ export default function Home() {
                 },
                 {
                   color: "neutral" as const,
-                  label: "Ajouter des murs",
+                  label: "Murs",
                   tooltip: "Empêche le passage",
                   onClick: () => handleOnActionButtons(2),
+                  startDecorator: <WallIcon color="#121212" />
                 },
 
                 {
                   color: "primary" as const,
-                  label: "Ajouter de l'eau",
+                  label: "Eau",
                   tooltip: "Ralenti, ajoute 5 points au chemin",
                   onClick: () => handleOnActionButtons(3),
+                  startDecorator: <WaterIcon color="#0B6BCB" />
                 },
                 {
                   color: "success" as const,
-                  label: "Ajouter de l'herbe",
+                  label: "Herbe",
                   tooltip: "Ralenti, ajoute 3 point au chemin",
                   onClick: () => handleOnActionButtons(4),
+                  startDecorator: <HerbIcon color="#1F7A1F" />
                 },
                 {
                   color: "primary" as const,
-                  label: "Ajouter de la glace",
+                  label: "Glace",
                   tooltip: "Accelère, enlève 1 point au chemin",
                   onClick: () => handleOnActionButtons(5),
+                  startDecorator: <IceIcon color="#0B6BCB" />
                 },
               ].map((buttonProps, index) => (
                 <Tooltip
@@ -162,6 +172,10 @@ export default function Home() {
                     }
                     onClick={buttonProps.onClick}
                     startDecorator={buttonProps.startDecorator}
+                    sx={{
+                      "--Button-gap": "20px",
+                      justifyContent : "left"
+                    }}
                   >
                     {buttonProps.label}
                   </Button>
