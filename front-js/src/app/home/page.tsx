@@ -72,6 +72,15 @@ export default function Home() {
   const resetColors = () => {
     setHexColors(Array(numberColumns * numberRows).fill(""));
     setGrid(Array(numberColumns * numberRows).fill(2));
+    setStartState({ x: 0, y: 0 });
+    const newColors = [];
+    newColors[0] = "#afafaf";
+    setHexColors(newColors);
+    setGrid((prevGrid) => {
+      const newGrid = [...prevGrid];
+      newGrid[0] = colorValues.start;
+      return newGrid;
+    });
   };
 
   const [startState, setStartState] = useState({ x: 0, y: 0 });
@@ -81,7 +90,7 @@ export default function Home() {
     if (activeButton === 6) {
       setStart(index);
     } else if (activeButton !== 0) {
-      if (hexColors[index] !== "#afafaf") {
+      if (hexColors[index] !== colors[6]) {
         const newColors = [...hexColors];
         newColors[index] = color;
         setHexColors(newColors);
