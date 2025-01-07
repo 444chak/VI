@@ -8,6 +8,7 @@ import {
   ButtonGroup,
   Tooltip,
   Slider,
+  Alert,
 } from "@mui/joy";
 import Hexa from "../components/Hexagon/Hexagon";
 import { Grid2 } from "@mui/material";
@@ -22,6 +23,8 @@ import FlagIcon from "../components/icons/Flag";
 import HouseIcon from "../components/icons/House";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Logo from "../components/Logo";
+import InfoIcon from "../components/icons/Info";
+import WarningIcon from "../components/icons/Warning";
 
 export default function Home() {
   // const Columns = 20;
@@ -251,6 +254,21 @@ export default function Home() {
                 Outils
               </Typography>
             </Box>
+            <Box
+              display="flex"
+              flexDirection={"column"}
+              alignItems={"center"}
+              paddingLeft={"2rem"}
+              paddingRight={"2rem"}
+            >
+              <Alert
+                color="primary"
+                startDecorator={<InfoIcon color="currentColor" />}
+                size="sm"
+              >
+                Les hexagones ont un poids de 2 par défaut.
+              </Alert>
+            </Box>
             <Box display="flex" flexDirection={"column"} alignItems={"center"}>
               <Button
                 color="danger"
@@ -391,15 +409,6 @@ export default function Home() {
                   </Tooltip>
                 ))}
               </ButtonGroup>
-            </Box>
-            <Box display="flex" flexDirection={"column"} alignItems={"center"}>
-              <Tooltip
-                title="Les hexagones ont un poids de 2 par défaut."
-                variant="soft"
-                placement="bottom"
-              >
-                <Typography>Infos *</Typography>
-              </Tooltip>
             </Box>
           </Space>
         </Grid2>
