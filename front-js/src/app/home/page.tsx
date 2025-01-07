@@ -34,12 +34,12 @@ export default function Home() {
   const size = isSmallScreen
     ? sizes.small
     : isMediumScreen
-      ? sizes.medium
-      : isMediumLargeScreen
-        ? sizes.mediumLarge
-        : isLargeScreen
-          ? sizes.large
-          : sizes.ultraLarge;
+    ? sizes.medium
+    : isMediumLargeScreen
+    ? sizes.mediumLarge
+    : isLargeScreen
+    ? sizes.large
+    : sizes.ultraLarge;
 
   const [grid, setGrid] = useState(Array(numberColumns * numberRows).fill(2));
 
@@ -60,7 +60,7 @@ export default function Home() {
     green: 3,
     lightblue: 1,
     start: 0,
-    end: 0
+    end: 0,
   };
 
   // Gestion de l'état des couleurs pour chaque hexagone
@@ -74,19 +74,59 @@ export default function Home() {
     setGrid(Array(numberColumns * numberRows).fill(2));
   };
 
+  const [startState, setStartState] = useState({ x: 0, y: 0 });
+
   // Change la couleur d'un hexagone au clic
   const handleHexClick = (index: number, color: string) => {
-    if (activeButton !== 0) {
-      const newColors = [...hexColors];
-      newColors[index] = color;
-      setHexColors(newColors);
+    if (activeButton === 6) {
+      setStart(index);
+    } else if (activeButton !== 0) {
+      if (hexColors[index] !== "#afafaf") {
+        const newColors = [...hexColors];
+        newColors[index] = color;
+        setHexColors(newColors);
+        setGrid((prevGrid) => {
+          const newGrid = [...prevGrid];
+          newGrid[index] = colorValues[color];
+          return newGrid;
+        });
+      }
+    }
+  };
+
+  const setStart = (index?: number) => {
+    if (index === undefined) {
+      index = startState.x * numberRows + startState.y;
+    }
+    const old_start = startState;
+    // set new start
+    setStartState({ x: Math.floor(index / numberRows), y: index % numberRows });
+    const updatedColors = [...hexColors];
+    updatedColors[index] = "#afafaf";
+    setHexColors(updatedColors);
+    setGrid((prevGrid) => {
+      const newGrid = [...prevGrid];
+      newGrid[index] = colorValues.start;
+      return newGrid;
+    });
+
+    // remove old start
+    const old_start_index = old_start.x * numberRows + old_start.y;
+    if (old_start_index !== index) {
+      updatedColors[old_start_index] = "";
+      setHexColors(updatedColors);
       setGrid((prevGrid) => {
         const newGrid = [...prevGrid];
-        newGrid[index] = colorValues[color];
+        newGrid[old_start_index] = colorValues[""];
         return newGrid;
       });
     }
   };
+
+  useEffect(() => {
+    setStart();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     // Désactiver la sélection du texte pour les éléments
@@ -140,8 +180,8 @@ export default function Home() {
         return index % numberRows === 0
           ? `[${value},`
           : index % numberRows === numberRows - 1
-            ? `${value}],`
-            : `${value},`;
+          ? `${value}],`
+          : `${value},`;
       })}
       <Box display="flex" flexDirection={"column"} alignItems={"center"}>
         <Typography level="h1" sx={{ mt: 3, mb: 2 }}>
@@ -157,7 +197,8 @@ export default function Home() {
               </Typography>
             </Box>
             <Box display="flex" flexDirection={"column"} alignItems={"center"}>
-              <Button color="danger"
+              <Button
+                color="danger"
                 variant="outlined"
                 onClick={resetColors}
                 startDecorator={<CrossIcon color="#C41C1C" />}
@@ -177,8 +218,8 @@ export default function Home() {
                   isSmallScreen
                     ? "sm"
                     : isMediumScreen || isMediumLargeScreen
-                      ? "md"
-                      : "lg"
+                    ? "md"
+                    : "lg"
                 }
               >
                 {[
@@ -224,18 +265,12 @@ export default function Home() {
                     arrow
                     placement="right"
                     variant="outlined"
-                    key={index}
+                    key={index + 1}
                   >
                     <Button
-                      key={index}
+                      key={index + 1}
                       color={buttonProps.color}
-                      variant={
-                        index === 0
-                          ? "outlined"
-                          : activeButton === index
-                            ? "soft"
-                            : "outlined"
-                      }
+                      variant={activeButton === index + 1 ? "soft" : "outlined"}
                       onClick={buttonProps.onClick}
                       startDecorator={buttonProps.startDecorator}
                       sx={{
@@ -257,8 +292,8 @@ export default function Home() {
                   isSmallScreen
                     ? "sm"
                     : isMediumScreen || isMediumLargeScreen
-                      ? "md"
-                      : "lg"
+                    ? "md"
+                    : "lg"
                 }
               >
                 {[
@@ -276,25 +311,19 @@ export default function Home() {
                     tooltip: "Place le point d'arrivée",
                     onClick: () => handleOnActionButtons(7),
                     startDecorator: <FlagIcon color="#9A5B13" />,
-                  }
+                  },
                 ].map((buttonProps, index) => (
                   <Tooltip
                     title={buttonProps.tooltip ? buttonProps.tooltip : ""}
                     arrow
                     placement="right"
                     variant="outlined"
-                    key={index}
+                    key={index + 6}
                   >
                     <Button
-                      key={index}
+                      key={index + 6}
                       color={buttonProps.color}
-                      variant={
-                        index === 0
-                          ? "outlined"
-                          : activeButton === index
-                            ? "soft"
-                            : "outlined"
-                      }
+                      variant={activeButton === index + 6 ? "soft" : "outlined"}
                       onClick={buttonProps.onClick}
                       startDecorator={buttonProps.startDecorator}
                       sx={{
@@ -338,10 +367,10 @@ export default function Home() {
                   style={
                     colIndex % 2 !== 0
                       ? {
-                        marginTop: `${size * 0.45}px`,
-                        marginLeft: `${-size * 0.2}px`,
-                        marginRight: `${-size * 0.2}px`,
-                      }
+                          marginTop: `${size * 0.45}px`,
+                          marginLeft: `${-size * 0.2}px`,
+                          marginRight: `${-size * 0.2}px`,
+                        }
                       : {}
                   }
                 >
@@ -377,25 +406,25 @@ export default function Home() {
                 {
                   color: "neutral" as const,
                   label: "Dijkstra",
-                  onClick: () => { },
+                  onClick: () => {},
                 },
                 {
                   color: "neutral" as const,
                   label: "A*",
                   tooltip: "Heuristique de Manhattan",
-                  onClick: () => { },
+                  onClick: () => {},
                 },
                 {
                   color: "neutral" as const,
                   label: "DFS",
                   tooltip: "Parcours en profondeur",
-                  onClick: () => { },
+                  onClick: () => {},
                 },
                 {
                   color: "neutral" as const,
                   label: "BFS",
                   tooltip: "Parcours en largeur",
-                  onClick: () => { },
+                  onClick: () => {},
                 },
               ].map((buttonProps, index) => (
                 <Tooltip
