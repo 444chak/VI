@@ -29,3 +29,13 @@ Vous serez évalués sur les aspects suivants :
 Le code doit être suffisamment commenté et explicite pour qu'on puisse le lire facilement. Attention, comme d'habitude vous devez maîtriser tout ce que vous utilisez, tant au niveau du code que des algorithmes présentés.
 
 Le langage de programmation et le support (application, web etc) est au choix.
+
+## Poids des hexagones
+
+| Poids             | Type de terrain |
+| ----------------- | --------------- |
+| +2                | Défaut          |
+| +5                | Eau             |
+| +3                | Herbe           |
+| +1                | Glace           |
+| Non franchissable | Mur             |
