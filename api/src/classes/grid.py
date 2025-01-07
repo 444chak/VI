@@ -11,7 +11,7 @@ class Grid:
         +5: water
         +3: grass
         +1: ice
-        0: wall (impassable)
+        -1: wall (impassable)
 
     """
 
@@ -95,7 +95,7 @@ class Grid:
         return (
             0 <= hexa.x < len(self.grid)
             and 0 <= hexa.y < len(self.grid[0])
-            and self.grid[hexa.x][hexa.y] != 0
+            and self.grid[hexa.x][hexa.y] != -1
         )
 
     def get_cost(self, hexa: Hexa) -> int:
