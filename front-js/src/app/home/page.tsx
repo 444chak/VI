@@ -418,6 +418,14 @@ export default function Home() {
             <Typography level="h2" sx={{ mb: 2 }}>
               Grille
             </Typography>
+            <Alert
+              color="warning"
+              startDecorator={<WarningIcon color="currentColor" />}
+              size="sm"
+              sx={{ margin: "1rem" }}
+            >
+              Changer la taille réinitialise la grille.
+            </Alert>
           </Box>
           <Box
             display={"flex"}
@@ -428,6 +436,7 @@ export default function Home() {
             <Typography level="h3">Lignes</Typography>
             <Typography level="h3">Colonnes</Typography>
           </Box>
+
           <Box
             display={"flex"}
             flexDirection={"row"}
