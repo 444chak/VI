@@ -1,7 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Typography, Box, Button, ButtonGroup, Tooltip } from "@mui/joy";
+import {
+  Typography,
+  Box,
+  Button,
+  ButtonGroup,
+  Tooltip,
+  Slider,
+} from "@mui/joy";
 import Hexa from "../components/Hexagon/Hexagon";
 import { Grid2 } from "@mui/material";
 import EraserIcon from "../components/icons/Eraser";
@@ -17,8 +24,10 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import Logo from "../components/Logo";
 
 export default function Home() {
-  const numberColumns = 20;
-  const numberRows = 16;
+  // const Columns = 20;
+  // const Rows = 16;
+  const [Rows, setRows] = useState(16);
+  const [Columns, setColumns] = useState(20);
   const isSmallScreen = useMediaQuery("(max-width:600px)");
   const isMediumScreen = useMediaQuery("(max-width:960px)");
   const isMediumLargeScreen = useMediaQuery("(max-width:1280px)");
@@ -41,7 +50,7 @@ export default function Home() {
     ? sizes.large
     : sizes.ultraLarge;
 
-  const [grid, setGrid] = useState(Array(numberColumns * numberRows).fill(2));
+  const [grid, setGrid] = useState(Array(Columns * Rows).fill(2));
 
   const colors: { [key: number]: string } = {
     1: "",
@@ -65,36 +74,35 @@ export default function Home() {
 
   // Gestion de l'état des couleurs pour chaque hexagone
   const [hexColors, setHexColors] = useState(
-    Array(numberColumns * numberRows).fill("") // Init with empty colors
+    Array(Columns * Rows).fill("") // Init with empty colors
   );
 
   // Réinitialise toutes les couleurs
   const resetColors = () => {
-    setHexColors(Array(numberColumns * numberRows).fill(""));
-    setGrid(Array(numberColumns * numberRows).fill(2));
+    setHexColors(Array(Columns * Rows).fill(""));
+    setGrid(Array(Columns * Rows).fill(2));
     setStartState({ x: 0, y: 0 });
-    setEndState({ x: numberColumns - 1, y: numberRows - 1 });
+    setEndState({ x: Columns - 1, y: Rows - 1 });
     const newColors = [];
     newColors[0] = "#afafaf";
-    newColors[numberColumns * numberRows - 1] = "#9b1111";
+    newColors[Columns * Rows - 1] = "#9b1111";
     setHexColors(newColors);
     setGrid((prevGrid) => {
       const newGrid = [...prevGrid];
       newGrid[0] = colorValues.start;
-      newGrid[numberColumns * numberRows - 1] = colorValues.end;
+      newGrid[Columns * Rows - 1] = colorValues.end;
       return newGrid;
     });
   };
 
   const [startState, setStartState] = useState({ x: 0, y: 0 });
   const [endState, setEndState] = useState({
-    x: numberColumns - 1,
-    y: numberRows - 1,
+    x: Columns - 1,
+    y: Rows - 1,
   });
 
   // Change la couleur d'un hexagone au clic
   const handleHexClick = (index: number, color: string) => {
-    console.log(startState, endState);
     if (activeButton === 6) {
       setStart(index);
     } else if (activeButton === 7) {
@@ -115,11 +123,11 @@ export default function Home() {
 
   const setStart = (index?: number) => {
     if (index === undefined) {
-      index = startState.x * numberRows + startState.y;
+      index = startState.x * Rows + startState.y;
     }
     const old_start = startState;
     // set new start
-    setStartState({ x: Math.floor(index / numberRows), y: index % numberRows });
+    setStartState({ x: Math.floor(index / Rows), y: index % Rows });
     const updatedColors = [...hexColors];
     updatedColors[index] = "#afafaf";
     setHexColors(updatedColors);
@@ -130,7 +138,7 @@ export default function Home() {
     });
 
     // remove old start
-    const old_start_index = old_start.x * numberRows + old_start.y;
+    const old_start_index = old_start.x * Rows + old_start.y;
     if (old_start_index !== index) {
       updatedColors[old_start_index] = "";
       setHexColors(updatedColors);
@@ -143,12 +151,12 @@ export default function Home() {
   };
   const setEnd = (index?: number) => {
     if (index === undefined) {
-      index = endState.x * numberRows + endState.y;
+      index = endState.x * Rows + endState.y;
     }
 
     const old_end = endState;
     // set new end
-    setEndState({ x: Math.floor(index / numberRows), y: index % numberRows });
+    setEndState({ x: Math.floor(index / Rows), y: index % Rows });
     const updatedColors = [...hexColors];
 
     updatedColors[index] = "#9b1111";
@@ -160,7 +168,7 @@ export default function Home() {
     });
 
     // remove old end
-    const old_end_index = old_end.x * numberRows + old_end.y;
+    const old_end_index = old_end.x * Rows + old_end.y;
     if (old_end_index !== index) {
       updatedColors[old_end_index] = "";
       setHexColors(updatedColors);
@@ -226,9 +234,9 @@ export default function Home() {
   return (
     <>
       {grid.map((value, index) => {
-        return index % numberRows === 0
+        return index % Rows === 0
           ? `[${value},`
-          : index % numberRows === numberRows - 1
+          : index % Rows === Rows - 1
           ? `${value}],`
           : `${value},`;
       })}
@@ -397,20 +405,69 @@ export default function Home() {
             </Box>
           </Space>
         </Grid2>
-        <Grid2 size={isMediumScreen ? 12 : 6}>
+        <Grid2 size={isMediumScreen ? 12 : 6} zIndex={10}>
           {/* Grille principale */}
-
+          <Box display="flex" flexDirection={"column"} alignItems={"center"}>
+            <Typography level="h2" sx={{ mb: 2 }}>
+              Grille
+            </Typography>
+          </Box>
+          <Box
+            display={"flex"}
+            flexDirection={"row"}
+            justifyContent={"space-evenly"}
+            gap={"20px"}
+          >
+            <Typography level="h3">Lignes</Typography>
+            <Typography level="h3">Colonnes</Typography>
+          </Box>
+          <Box
+            display={"flex"}
+            flexDirection={"row"}
+            alignItems={"center"}
+            justifyContent={"center"}
+            gap={"20px"}
+            marginBottom={"20px"}
+            paddingLeft={"5rem"}
+            paddingRight={"5rem"}
+          >
+            <Slider
+              aria-label="Custom marks"
+              defaultValue={20}
+              step={1}
+              min={2}
+              max={40}
+              valueLabelDisplay="auto"
+              onChange={(event, newValue) => {
+                setRows(newValue as number); // Mise à jour de l'état des lignes
+              }}
+              onChangeCommitted={() => {
+                resetColors(); // Réinitialise la grille avec le nouveau nombre de lignes
+              }}
+            />
+            <Slider
+              aria-label="Custom marks"
+              defaultValue={20}
+              step={1}
+              valueLabelDisplay="auto"
+              min={2}
+              max={25}
+              onChange={(event, newValue) => {
+                setColumns(newValue as number); // Mise à jour de l'état des colonnes
+              }}
+              onChangeCommitted={() => {
+                resetColors(); // Réinitialise la grille avec le nouveau nombre de colonnes
+              }}
+            />
+          </Box>
           <Box
             display="flex"
             flexDirection={"column"}
             alignItems={"center"}
             justifyContent={"center"}
           >
-            <Typography level="h2" sx={{ mb: 2 }}>
-              Grille
-            </Typography>
             <Box display="flex" flexDirection="row" className="no-select">
-              {[...Array(numberColumns)].map((_, colIndex) => (
+              {[...Array(Columns)].map((_, colIndex) => (
                 <div
                   key={colIndex}
                   style={
@@ -423,8 +480,8 @@ export default function Home() {
                       : {}
                   }
                 >
-                  {[...Array(numberRows)].map((_, rowIndex) => {
-                    const index = colIndex * numberRows + rowIndex; // Calcul de l'index unique pour chaque hexagone
+                  {[...Array(Rows)].map((_, rowIndex) => {
+                    const index = colIndex * Rows + rowIndex; // Calcul de l'index unique pour chaque hexagone
                     return (
                       <React.Fragment key={index}>
                         <Hexa
