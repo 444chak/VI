@@ -23,11 +23,11 @@ class Hexa:
         return Hexa(self.x + other.x, self.y + other.y)
 
     def __hash__(self) -> int:
-        """
-        Returns a hash value for the hexagon.
+        """Return a hash value for the hexagon.
 
         Returns:
             int: The hash value.
+
         """
         return hash((self.x, self.y))
 
@@ -74,15 +74,6 @@ class Hexa:
         if not isinstance(other, Hexa):
             return NotImplemented
         return self.x == other.x and self.y == other.y
-
-    def __hash__(self) -> int:
-        """Get hash of the hexagon.
-
-        Returns:
-            int: hash of the hexagon
-
-        """
-        return hash((self.x, self.y))
 
     def __lt__(self, other: "Hexa") -> bool:
         """Compare hexagons for priority queue.
