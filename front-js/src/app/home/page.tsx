@@ -394,7 +394,7 @@ export default function Home() {
             </Box>
             <Box display="flex" flexDirection={"column"} alignItems={"center"}>
               <Tooltip
-                title="Les hexagones par défauts ont un poid de 2 points"
+                title="Les hexagones ont un poids de 2 par défaut."
                 variant="soft"
                 placement="bottom"
               >
