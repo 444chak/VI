@@ -100,7 +100,7 @@ export default function Home() {
     } else if (activeButton === 7) {
       setEnd(index);
     } else if (activeButton !== 0) {
-      if (hexColors[index] !== colors[6]) {
+      if (hexColors[index] !== colors[6] && hexColors[index] !== colors[7]) {
         const newColors = [...hexColors];
         newColors[index] = color;
         setHexColors(newColors);
