@@ -73,22 +73,32 @@ export default function Home() {
     setHexColors(Array(numberColumns * numberRows).fill(""));
     setGrid(Array(numberColumns * numberRows).fill(2));
     setStartState({ x: 0, y: 0 });
+    setEndState({ x: numberColumns - 1, y: numberRows - 1 });
     const newColors = [];
     newColors[0] = "#afafaf";
+    newColors[numberColumns * numberRows - 1] = "#9b1111";
     setHexColors(newColors);
     setGrid((prevGrid) => {
       const newGrid = [...prevGrid];
       newGrid[0] = colorValues.start;
+      newGrid[numberColumns * numberRows - 1] = colorValues.end;
       return newGrid;
     });
   };
 
   const [startState, setStartState] = useState({ x: 0, y: 0 });
+  const [endState, setEndState] = useState({
+    x: numberColumns - 1,
+    y: numberRows - 1,
+  });
 
   // Change la couleur d'un hexagone au clic
   const handleHexClick = (index: number, color: string) => {
+    console.log(startState, endState);
     if (activeButton === 6) {
       setStart(index);
+    } else if (activeButton === 7) {
+      setEnd(index);
     } else if (activeButton !== 0) {
       if (hexColors[index] !== colors[6]) {
         const newColors = [...hexColors];
@@ -131,10 +141,39 @@ export default function Home() {
       });
     }
   };
+  const setEnd = (index?: number) => {
+    if (index === undefined) {
+      index = endState.x * numberRows + endState.y;
+    }
+
+    const old_end = endState;
+    // set new end
+    setEndState({ x: Math.floor(index / numberRows), y: index % numberRows });
+    const updatedColors = [...hexColors];
+
+    updatedColors[index] = "#9b1111";
+    setHexColors(updatedColors);
+    setGrid((prevGrid) => {
+      const newGrid = [...prevGrid];
+      newGrid[index] = colorValues.end;
+      return newGrid;
+    });
+
+    // remove old end
+    const old_end_index = old_end.x * numberRows + old_end.y;
+    if (old_end_index !== index) {
+      updatedColors[old_end_index] = "";
+      setHexColors(updatedColors);
+      setGrid((prevGrid) => {
+        const newGrid = [...prevGrid];
+        newGrid[old_end_index] = colorValues[""];
+        return newGrid;
+      });
+    }
+  };
 
   useEffect(() => {
-    setStart();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    resetColors();
   }, []);
 
   useEffect(() => {
