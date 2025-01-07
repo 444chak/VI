@@ -3,10 +3,9 @@
 from heapq import heappop, heappush
 
 from classes.grid import Grid
-from classes.hexa import Hexa
 
 
-def dijkstra(grid: Grid, start: Hexa, end: Hexa) -> list[tuple[int, int]]:
+def dijskstra(grid: Grid) -> list[tuple[int, int]]:
     """Dijkstra algorithm for hexagonal grid.
 
     Args:
@@ -18,16 +17,16 @@ def dijkstra(grid: Grid, start: Hexa, end: Hexa) -> list[tuple[int, int]]:
         list[tuple[int, int]]: path from start to end
 
     """
-    queue = [(0, start)]
+    queue = [(0, grid.start)]
     visited = set()
-    came_from = {start: None}
+    came_from = {grid.start: None}
 
     while queue:
         cost, pos = heappop(queue)
         if pos in visited:
             continue
         visited.add(pos)
-        if pos == end:
+        if pos == grid.end:
             path = []
             while pos:
                 path.append((pos.x, pos.y))
