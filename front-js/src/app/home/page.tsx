@@ -241,9 +241,7 @@ export default function Home() {
           : `${value},`;
       })}
       <Box display="flex" flexDirection={"column"} alignItems={"center"}>
-        <Typography level="h1" sx={{ mt: 3, mb: 2 }}>
-          <Logo />
-        </Typography>
+        <Logo />
       </Box>
       <Grid2 container spacing={2}>
         <Grid2 size={isMediumScreen ? 12 : 3}>
