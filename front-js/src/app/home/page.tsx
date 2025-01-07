@@ -11,6 +11,8 @@ import IceIcon from "../components/icons/Ice";
 import HerbIcon from "../components/icons/Herb";
 import WallIcon from "../components/icons/Wall";
 import Space from "../components/Space/Space";
+import FlagIcon from "../components/icons/Flag";
+import HouseIcon from "../components/icons/House";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 export default function Home() {
@@ -31,12 +33,12 @@ export default function Home() {
   const size = isSmallScreen
     ? sizes.small
     : isMediumScreen
-    ? sizes.medium
-    : isMediumLargeScreen
-    ? sizes.mediumLarge
-    : isLargeScreen
-    ? sizes.large
-    : sizes.ultraLarge;
+      ? sizes.medium
+      : isMediumLargeScreen
+        ? sizes.mediumLarge
+        : isLargeScreen
+          ? sizes.large
+          : sizes.ultraLarge;
 
   const [grid, setGrid] = useState(Array(numberColumns * numberRows).fill(2));
 
@@ -46,6 +48,8 @@ export default function Home() {
     3: "blue",
     4: "green",
     5: "lightblue",
+    6: "#afafaf",
+    7: "#9b1111",
   };
 
   const colorValues: { [key: string]: number } = {
@@ -54,6 +58,8 @@ export default function Home() {
     blue: 5,
     green: 3,
     lightblue: 1,
+    start: 0,
+    end: 0
   };
 
   // Gestion de l'état des couleurs pour chaque hexagone
@@ -133,8 +139,8 @@ export default function Home() {
         return index % numberRows === 0
           ? `[${value},`
           : index % numberRows === numberRows - 1
-          ? `${value}],`
-          : `${value},`;
+            ? `${value}],`
+            : `${value},`;
       })}
       <Box display="flex" flexDirection={"column"} alignItems={"center"}>
         <Typography level="h1" sx={{ mt: 3, mb: 2 }}>
@@ -143,100 +149,165 @@ export default function Home() {
       </Box>
       <Grid2 container spacing={2}>
         <Grid2 size={isMediumScreen ? 12 : 3}>
-          <Box display="flex" flexDirection={"column"} alignItems={"center"}>
-            <Typography level="h2" sx={{ mb: 2 }}>
-              Outils
-            </Typography>
-            {/*
-                TODO : Each child of a grid should have a unique key prop.
-            */}
-            <ButtonGroup
-              orientation="vertical"
-              variant="outlined"
-              size={
-                isSmallScreen
-                  ? "sm"
-                  : isMediumScreen || isMediumLargeScreen
-                  ? "md"
-                  : "lg"
-              }
-            >
-              {[
-                {
-                  color: "danger" as const,
-                  label: "Réinitialiser",
-                  tooltip: "Réinitialise tous les hexagones",
-                  onClick: resetColors,
-                  variant: "soft",
-                  startDecorator: <CrossIcon color="#C41C1C" />,
-                },
-                {
-                  color: "neutral" as const,
-                  label: "Gomme",
-                  tooltip: "Efface la couleur de l'hexagone séléctionné",
-                  onClick: () => handleOnActionButtons(1),
-                  startDecorator: <EraserIcon color="#121212" />,
-                },
-                {
-                  color: "neutral" as const,
-                  label: "Murs",
-                  tooltip: "Empêche le passage",
-                  onClick: () => handleOnActionButtons(2),
-                  startDecorator: <WallIcon color="#121212" />,
-                },
+          <Space direction="vertical" space={"30px"}>
+            <Box display="flex" flexDirection={"column"} alignItems={"center"}>
+              <Typography level="h2" sx={{ mb: 2 }}>
+                Outils
+              </Typography>
+            </Box>
+            <Box display="flex" flexDirection={"column"} alignItems={"center"}>
+              <Button color="danger"
+                variant="outlined"
+                onClick={resetColors}
+                startDecorator={<CrossIcon color="#C41C1C" />}
+                sx={{
+                  "--Button-gap": "20px",
+                  justifyContent: "left",
+                }}
+              >
+                Réinitialiser
+              </Button>
+            </Box>
+            <Box display="flex" flexDirection={"column"} alignItems={"center"}>
+              <ButtonGroup
+                orientation="vertical"
+                variant="outlined"
+                size={
+                  isSmallScreen
+                    ? "sm"
+                    : isMediumScreen || isMediumLargeScreen
+                      ? "md"
+                      : "lg"
+                }
+              >
+                {[
+                  {
+                    color: "neutral" as const,
+                    label: "Gomme",
+                    tooltip: "Efface la couleur de l'hexagone séléctionné",
+                    onClick: () => handleOnActionButtons(1),
+                    startDecorator: <EraserIcon color="#121212" />,
+                  },
+                  {
+                    color: "neutral" as const,
+                    label: "Murs",
+                    tooltip: "Empêche le passage",
+                    onClick: () => handleOnActionButtons(2),
+                    startDecorator: <WallIcon color="#121212" />,
+                  },
 
-                {
-                  color: "primary" as const,
-                  label: "Eau",
-                  tooltip: "Ralenti, ajoute 5 points au chemin",
-                  onClick: () => handleOnActionButtons(3),
-                  startDecorator: <WaterIcon color="#0B6BCB" />,
-                },
-                {
-                  color: "success" as const,
-                  label: "Herbe",
-                  tooltip: "Ralenti, ajoute 3 point au chemin",
-                  onClick: () => handleOnActionButtons(4),
-                  startDecorator: <HerbIcon color="#1F7A1F" />,
-                },
-                {
-                  color: "primary" as const,
-                  label: "Glace",
-                  tooltip: "Accelère, enlève 1 point au chemin",
-                  onClick: () => handleOnActionButtons(5),
-                  startDecorator: <IceIcon color="#0B6BCB" />,
-                },
-              ].map((buttonProps, index) => (
-                <Tooltip
-                  title={buttonProps.tooltip ? buttonProps.tooltip : ""}
-                  arrow
-                  placement="right"
-                  variant="outlined"
-                  key={index}
-                >
-                  <Button
+                  {
+                    color: "primary" as const,
+                    label: "Eau",
+                    tooltip: "Ralenti, ajoute 5 points au chemin",
+                    onClick: () => handleOnActionButtons(3),
+                    startDecorator: <WaterIcon color="#0B6BCB" />,
+                  },
+                  {
+                    color: "success" as const,
+                    label: "Herbe",
+                    tooltip: "Ralenti, ajoute 3 point au chemin",
+                    onClick: () => handleOnActionButtons(4),
+                    startDecorator: <HerbIcon color="#1F7A1F" />,
+                  },
+                  {
+                    color: "primary" as const,
+                    label: "Glace",
+                    tooltip: "Accelère, enlève 1 point au chemin",
+                    onClick: () => handleOnActionButtons(5),
+                    startDecorator: <IceIcon color="#0B6BCB" />,
+                  },
+                ].map((buttonProps, index) => (
+                  <Tooltip
+                    title={buttonProps.tooltip ? buttonProps.tooltip : ""}
+                    arrow
+                    placement="right"
+                    variant="outlined"
                     key={index}
-                    color={buttonProps.color}
-                    variant={
-                      index === 0
-                        ? "outlined"
-                        : activeButton === index
-                        ? "soft"
-                        : "outlined"
-                    }
-                    onClick={buttonProps.onClick}
-                    startDecorator={buttonProps.startDecorator}
-                    sx={{
-                      "--Button-gap": "20px",
-                      justifyContent: "left",
-                    }}
                   >
-                    {buttonProps.label}
-                  </Button>
-                </Tooltip>
-              ))}
-            </ButtonGroup>
-            <Space direction="vertical" space="60px">
+                    <Button
+                      key={index}
+                      color={buttonProps.color}
+                      variant={
+                        index === 0
+                          ? "outlined"
+                          : activeButton === index
+                            ? "soft"
+                            : "outlined"
+                      }
+                      onClick={buttonProps.onClick}
+                      startDecorator={buttonProps.startDecorator}
+                      sx={{
+                        "--Button-gap": "20px",
+                        justifyContent: "left",
+                      }}
+                    >
+                      {buttonProps.label}
+                    </Button>
+                  </Tooltip>
+                ))}
+              </ButtonGroup>
+            </Box>
+            <Box display="flex" flexDirection={"column"} alignItems={"center"}>
+              <ButtonGroup
+                orientation="vertical"
+                variant="outlined"
+                size={
+                  isSmallScreen
+                    ? "sm"
+                    : isMediumScreen || isMediumLargeScreen
+                      ? "md"
+                      : "lg"
+                }
+              >
+                {[
+                  {
+                    color: "success" as const,
+                    label: "Départ",
+                    tooltip: "Place le point de départ",
+                    variant: "soft",
+                    onClick: () => handleOnActionButtons(6),
+                    startDecorator: <HouseIcon color="#1F7A1F" />,
+                  },
+                  {
+                    color: "warning" as const,
+                    label: "Objectif",
+                    tooltip: "Place le point d'arrivée",
+                    onClick: () => handleOnActionButtons(7),
+                    startDecorator: <FlagIcon color="#9A5B13" />,
+                  }
+                ].map((buttonProps, index) => (
+                  <Tooltip
+                    title={buttonProps.tooltip ? buttonProps.tooltip : ""}
+                    arrow
+                    placement="right"
+                    variant="outlined"
+                    key={index}
+                  >
+                    <Button
+                      key={index}
+                      color={buttonProps.color}
+                      variant={
+                        index === 0
+                          ? "outlined"
+                          : activeButton === index
+                            ? "soft"
+                            : "outlined"
+                      }
+                      onClick={buttonProps.onClick}
+                      startDecorator={buttonProps.startDecorator}
+                      sx={{
+                        "--Button-gap": "20px",
+                        justifyContent: "left",
+                      }}
+                    >
+                      {buttonProps.label}
+                    </Button>
+                  </Tooltip>
+                ))}
+              </ButtonGroup>
+            </Box>
+            <Box display="flex" flexDirection={"column"} alignItems={"center"}>
               <Tooltip
                 title="Les hexagones par défauts ont un poid de 2 points"
                 variant="soft"
@@ -244,8 +315,8 @@ export default function Home() {
               >
                 <Typography>Infos *</Typography>
               </Tooltip>
-            </Space>
-          </Box>
+            </Box>
+          </Space>
         </Grid2>
         <Grid2 size={isMediumScreen ? 12 : 6}>
           {/* Grille principale */}
@@ -266,10 +337,10 @@ export default function Home() {
                   style={
                     colIndex % 2 !== 0
                       ? {
-                          marginTop: `${size * 0.45}px`,
-                          marginLeft: `${-size * 0.2}px`,
-                          marginRight: `${-size * 0.2}px`,
-                        }
+                        marginTop: `${size * 0.45}px`,
+                        marginLeft: `${-size * 0.2}px`,
+                        marginRight: `${-size * 0.2}px`,
+                      }
                       : {}
                   }
                 >
@@ -305,25 +376,25 @@ export default function Home() {
                 {
                   color: "neutral" as const,
                   label: "Dijkstra",
-                  onClick: () => {},
+                  onClick: () => { },
                 },
                 {
                   color: "neutral" as const,
                   label: "A*",
                   tooltip: "Heuristique de Manhattan",
-                  onClick: () => {},
+                  onClick: () => { },
                 },
                 {
                   color: "neutral" as const,
                   label: "DFS",
                   tooltip: "Parcours en profondeur",
-                  onClick: () => {},
+                  onClick: () => { },
                 },
                 {
                   color: "neutral" as const,
                   label: "BFS",
                   tooltip: "Parcours en largeur",
-                  onClick: () => {},
+                  onClick: () => { },
                 },
               ].map((buttonProps, index) => (
                 <Tooltip
