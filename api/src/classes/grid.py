@@ -19,8 +19,7 @@ class Grid:
 
     def __init__(
         self,
-        width: int,
-        height: int,
+        grid: list[list[int]],
     ) -> None:
         """Create a grid.
 
@@ -29,11 +28,7 @@ class Grid:
             height (int): Height of the grid.
 
         """
-        self.width = width
-        self.height = height
-        self.grid = [[2 for _ in range(width)] for _ in range(height)]
-        self.start = Hexa(0, 0)
-        self.end = Hexa(width - 1, height - 1)
+        self.grid = grid
         self.created_at = time.time()
 
     def set_start(self, hexa: Hexa) -> None:
@@ -105,3 +100,11 @@ class Grid:
                 [self.grid[x][y] for y in range(self.width)] for x in range(self.height)
             ],
         }
+
+    def is_traversable(self, hex: Hexa) -> bool:
+        """Check if a hexagon is traversable."""
+        return (
+            0 <= hex.x < len(self.grid)
+            and 0 <= hex.y < len(self.grid[0])
+            and self.grid[hex.x][hex.y] != 0
+        )

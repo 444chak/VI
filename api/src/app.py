@@ -3,6 +3,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from routes import dijskstra
+
 app = FastAPI(title="VI API", version="1.0.0")
 
 app.add_middleware(
@@ -22,3 +24,6 @@ async def get_info() -> dict:
     info["version"] = "v" + app.version
     info["author"] = "BORGO, IUT Vélizy"
     return info
+
+
+app.include_router(dijskstra.router, prefix="/dijkstra", tags=["dijkstra"])

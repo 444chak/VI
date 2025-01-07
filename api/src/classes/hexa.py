@@ -1,6 +1,7 @@
 """Hexa class module."""
 
 from dataclasses import dataclass
+from typing import List
 
 
 @dataclass
@@ -43,11 +44,35 @@ class Hexa:
         ]
         return self + directions[direction]
 
-    def encode(self) -> dict:
+    def neighbors(self) -> List["Hexa"]:
+        """Get all neighbors of the hexagon.
+
+        Returns:
+            List[Hexa]: List of neighbor hexagons
+        """
+        return [self.neighbor(direction) for direction in range(6)]
+
+    def encode(self) -> tuple[int, int]:
         """Encode the hexagon.
 
         Returns:
             dict: encoded hexagon
 
         """
-        return {"x": self.x, "y": self.y}
+        return (self.x, self.y)
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Hexa):
+            return NotImplemented
+        return self.x == other.x and self.y == other.y
+
+    def __hash__(self) -> int:
+        return hash((self.x, self.y))
+
+    def __lt__(self, other: "Hexa") -> bool:
+        """Compare hexagons for priority queue."""
+        return (self.x, self.y) < (other.x, other.y)
+
+    def __repr__(self) -> str:
+        """String representation of the hexagon."""
+        return f"({self.x},{self.y})"
