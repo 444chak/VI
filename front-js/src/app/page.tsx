@@ -1,11 +1,12 @@
 "use client";
 
-import { Button } from "@mui/joy";
-import styles from "./page.module.css";
+import { Box, Button } from "@mui/joy";
 
 import { CssVarsProvider, extendTheme } from "@mui/joy/styles";
 import { useRouter } from "next/navigation";
 
+import { BlurGradientBg } from "./modules/BlurGradientBg.module";
+import { useEffect } from "react";
 const theme = extendTheme({
   colorSchemes: {
     light: {
@@ -18,17 +19,42 @@ const theme = extendTheme({
 
 export default function Home() {
   const router = useRouter();
+  useEffect(() => {
+    new BlurGradientBg({
+      dom: "box",
+      colors: ["#650101", "#4b0101", "#280606", "#320103"],
+      loop: true,
+    });
+  }, []);
+
   return (
     <CssVarsProvider theme={theme}>
-      <div className={styles.page}>
-        VI
-        <Button
-          color="primary"
-          variant="plain"
-          onClick={() => router.push("/home")}
+      <div
+        id="box"
+        style={{
+          position: "fixed",
+          width: "100vw",
+          height: "100vh",
+          zIndex: -1,
+        }}
+      ></div>
+      <div style={{ position: "relative", zIndex: 1 }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}
         >
-          go to homepage
-        </Button>
+          <Button
+            color="primary"
+            variant="plain"
+            onClick={() => router.push("/home")}
+          >
+            go to homepage
+          </Button>
+        </Box>
       </div>
     </CssVarsProvider>
   );
