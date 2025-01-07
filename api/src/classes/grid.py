@@ -6,7 +6,16 @@ from classes.hexa import Hexa
 
 
 class Grid:
-    """Grid class."""
+    """Grid class.
+
+    Grid values:
+        +2: default
+        +5: water
+        +3: grass
+        +1: ice
+        0: wall (impassable)
+
+    """
 
     def __init__(
         self,
@@ -22,7 +31,7 @@ class Grid:
         """
         self.width = width
         self.height = height
-        self.grid = [[0 for _ in range(width)] for _ in range(height)]
+        self.grid = [[2 for _ in range(width)] for _ in range(height)]
         self.start = Hexa(0, 0)
         self.end = Hexa(width - 1, height - 1)
         self.created_at = time.time()
