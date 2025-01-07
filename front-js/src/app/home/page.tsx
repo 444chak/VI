@@ -157,8 +157,8 @@ export default function Home() {
                       index === 0
                         ? "outlined"
                         : activeButton === index
-                          ? "soft"
-                          : "outlined"
+                        ? "soft"
+                        : "outlined"
                     }
                     onClick={buttonProps.onClick}
                     startDecorator={buttonProps.startDecorator}
@@ -169,7 +169,11 @@ export default function Home() {
               ))}
             </ButtonGroup>
             <Space direction="vertical" space="60px">
-              <Tooltip title="Les hexagones par défauts ont un poid de 2 points" variant="soft" placement="bottom">
+              <Tooltip
+                title="Les hexagones par défauts ont un poid de 2 points"
+                variant="soft"
+                placement="bottom"
+              >
                 <Typography>Infos *</Typography>
               </Tooltip>
             </Space>
@@ -194,10 +198,10 @@ export default function Home() {
                   style={
                     colIndex % 2 !== 0
                       ? {
-                        marginTop: `${size * 0.45}px`,
-                        marginLeft: `${-size * 0.2}px`,
-                        marginRight: `${-size * 0.2}px`,
-                      }
+                          marginTop: `${size * 0.45}px`,
+                          marginLeft: `${-size * 0.2}px`,
+                          marginRight: `${-size * 0.2}px`,
+                        }
                       : {}
                   }
                 >
@@ -233,26 +237,25 @@ export default function Home() {
                 {
                   color: "neutral" as const,
                   label: "Dijkstra",
-                  onClick: () => { },
-
+                  onClick: () => {},
                 },
                 {
                   color: "neutral" as const,
                   label: "A*",
                   tooltip: "Heuristique de Manhattan",
-                  onClick: () => { },
+                  onClick: () => {},
                 },
                 {
                   color: "neutral" as const,
                   label: "DFS",
                   tooltip: "Parcours en profondeur",
-                  onClick: () => { },
+                  onClick: () => {},
                 },
                 {
                   color: "neutral" as const,
                   label: "BFS",
                   tooltip: "Parcours en largeur",
-                  onClick: () => { },
+                  onClick: () => {},
                 },
               ].map((buttonProps, index) => (
                 <Tooltip
@@ -260,6 +263,7 @@ export default function Home() {
                   arrow
                   placement="left"
                   variant="outlined"
+                  key={"tooltip_" + index}
                 >
                   <Button
                     key={index}
