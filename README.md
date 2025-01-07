@@ -4,7 +4,7 @@ L'objectif de cette SAE est de réaliser un logiciel intéractif permettant de v
 
 ## Exemple : le logiciel *hexa*
 
-A titre d'exemple, la vidéo ci-jointe présente un logiciel nommé *hexa* réalisé en python-tkinter qui permet de visualiser les algorithmes de plus courts chemins dans les graphes : algorithmes de parcours en largeur, de Dijkstra, de Bellman-Ford, algorithme A*. L'algorithme de parcours en profondeur est également implémenté.
+A titre d'exemple, la vidéo [ci-jointe](https://www.youtube.com/watch?v=Ji9w_jThIK0) présente un logiciel nommé *hexa* réalisé en python-tkinter qui permet de visualiser les algorithmes de plus courts chemins dans les graphes : algorithmes de parcours en largeur, de Dijkstra, de Bellman-Ford, algorithme A*. L'algorithme de parcours en profondeur est également implémenté.
 
 Le principe ici est que les hexagones sont les sommets du graphe. On peut changer l'origine et la destination pour les algorithmes de parcours en largeur (si on veut reconstituer le chemin le plus court). L'algorithme affiche également les distances depuis le sommet de départ.
 
