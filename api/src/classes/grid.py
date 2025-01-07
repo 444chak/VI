@@ -1,7 +1,5 @@
 """Grid class module."""
 
-import time
-
 from classes.hexa import Hexa
 
 
@@ -21,15 +19,15 @@ class Grid:
         self,
         grid: list[list[int]],
     ) -> None:
-        """Create a grid.
+        """Create a grid object.
 
         Args:
-            width (int): Width of the grid.
-            height (int): Height of the grid.
+            grid (list[list[int]]): grid
 
         """
         self.grid = grid
-        self.created_at = time.time()
+        self.start = Hexa(0, 0)
+        self.end = Hexa(len(grid) - 1, len(grid[0]) - 1)
 
     def set_start(self, hexa: Hexa) -> None:
         """Set the start hexagon.
@@ -84,33 +82,32 @@ class Grid:
                 neighbors.append(neighbor)
         return neighbors
 
-    def encode(self) -> dict:
-        """Encode the grid.
+    def is_traversable(self, hexa: Hexa) -> bool:
+        """Check if a hexagon is traversable.
+
+        Args:
+            hexa (Hexa): Hexagon
 
         Returns:
-            dict: encoded grid
+            bool: True if the hexagon is traversable, False otherwise
 
         """
-        return {
-            "width": self.width,
-            "height": self.height,
-            "start": self.start.encode(),
-            "end": self.end.encode(),
-            "grid": [
-                [self.grid[x][y] for y in range(self.width)] for x in range(self.height)
-            ],
-        }
-
-    def is_traversable(self, hex: Hexa) -> bool:
-        """Check if a hexagon is traversable."""
         return (
-            0 <= hex.x < len(self.grid)
-            and 0 <= hex.y < len(self.grid[0])
-            and self.grid[hex.x][hex.y] != 0
+            0 <= hexa.x < len(self.grid)
+            and 0 <= hexa.y < len(self.grid[0])
+            and self.grid[hexa.x][hexa.y] != 0
         )
 
-    def get_cost(self, hex: Hexa) -> int:
-        """Get the cost of traversing a hexagon."""
-        if 0 <= hex.x < len(self.grid) and 0 <= hex.y < len(self.grid[0]):
-            return self.grid[hex.x][hex.y]
+    def get_cost(self, hexa: Hexa) -> int:
+        """Get the cost of traversing a hexagon.
+
+        Args:
+            hexa (Hexa): Hexagon
+
+        Returns:
+            int: Cost of traversing the hexagon
+
+        """
+        if 0 <= hexa.x < len(self.grid) and 0 <= hexa.y < len(self.grid[0]):
+            return self.grid[hexa.x][hexa.y]
         return float("inf")

@@ -1,7 +1,6 @@
 """Hexa class module."""
 
 from dataclasses import dataclass
-from typing import List
 
 
 @dataclass
@@ -44,35 +43,55 @@ class Hexa:
         ]
         return self + directions[direction]
 
-    def neighbors(self) -> List["Hexa"]:
+    def neighbors(self) -> list["Hexa"]:
         """Get all neighbors of the hexagon.
 
         Returns:
-            List[Hexa]: List of neighbor hexagons
+            list[Hexa]: List of neighbor hexagons
+
         """
         return [self.neighbor(direction) for direction in range(6)]
 
-    def encode(self) -> tuple[int, int]:
-        """Encode the hexagon.
+    def __eq__(self, other: object) -> bool:
+        """Return True if two hexagons are equal, False otherwise.
+
+        Args:
+            other (object): other hexagon
 
         Returns:
-            dict: encoded hexagon
+            bool: True if two hexagons are equal, False otherwise
 
         """
-        return (self.x, self.y)
-
-    def __eq__(self, other: object) -> bool:
         if not isinstance(other, Hexa):
             return NotImplemented
         return self.x == other.x and self.y == other.y
 
     def __hash__(self) -> int:
+        """Get hash of the hexagon.
+
+        Returns:
+            int: hash of the hexagon
+
+        """
         return hash((self.x, self.y))
 
     def __lt__(self, other: "Hexa") -> bool:
-        """Compare hexagons for priority queue."""
+        """Compare hexagons for priority queue.
+
+        Args:
+            other (Hexa): other hexagon
+
+        Returns:
+            bool: True if self is less than other, False otherwise
+
+        """
         return (self.x, self.y) < (other.x, other.y)
 
     def __repr__(self) -> str:
-        """String representation of the hexagon."""
+        """Get string representation of the hexagon.
+
+        Returns:
+            str: string representation of the hexagon
+
+        """
         return f"({self.x},{self.y})"

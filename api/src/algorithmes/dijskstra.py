@@ -1,12 +1,23 @@
 """Dijkstra algorithm implementation for hexagonal grid."""
 
 from heapq import heappop, heappush
-from typing import Dict, Tuple, List
-from classes.grid import Grid as G
+
+from classes.grid import Grid
 from classes.hexa import Hexa
 
 
-def dijkstra(grid: G, start: Hexa, end: Hexa) -> List[Tuple[int, int]]:
+def dijkstra(grid: Grid, start: Hexa, end: Hexa) -> list[tuple[int, int]]:
+    """Dijkstra algorithm for hexagonal grid.
+
+    Args:
+        grid (Grid): grid object
+        start (Hexa): start hexagon
+        end (Hexa): end hexagon
+
+    Returns:
+        list[tuple[int, int]]: path from start to end
+
+    """
     queue = [(0, start)]
     visited = set()
     came_from = {start: None}
