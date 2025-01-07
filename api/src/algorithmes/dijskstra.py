@@ -24,6 +24,7 @@ def dijkstra(grid: G, start: Hexa, end: Hexa) -> List[Tuple[int, int]]:
             return path[::-1]  # Return reversed path
         for neighbor in pos.neighbors():
             if grid.is_traversable(neighbor) and neighbor not in visited:
-                heappush(queue, (cost + 1, neighbor))
+                new_cost = cost + grid.get_cost(neighbor)
+                heappush(queue, (new_cost, neighbor))
                 came_from[neighbor] = pos
     return []  # Return empty list if no path found

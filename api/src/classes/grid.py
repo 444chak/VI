@@ -108,3 +108,9 @@ class Grid:
             and 0 <= hex.y < len(self.grid[0])
             and self.grid[hex.x][hex.y] != 0
         )
+
+    def get_cost(self, hex: Hexa) -> int:
+        """Get the cost of traversing a hexagon."""
+        if 0 <= hex.x < len(self.grid) and 0 <= hex.y < len(self.grid[0]):
+            return self.grid[hex.x][hex.y]
+        return float("inf")
