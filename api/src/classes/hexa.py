@@ -52,11 +52,55 @@ class Hexa:
         ]
         return self + directions[direction]
 
-    def encode(self) -> dict:
-        """Encode the hexagon.
+    def neighbors(self) -> list["Hexa"]:
+        """Get all neighbors of the hexagon.
 
         Returns:
-            dict: encoded hexagon
+            list[Hexa]: List of neighbor hexagons
 
         """
-        return {"x": self.x, "y": self.y}
+        return [self.neighbor(direction) for direction in range(6)]
+
+    def __eq__(self, other: object) -> bool:
+        """Return True if two hexagons are equal, False otherwise.
+
+        Args:
+            other (object): other hexagon
+
+        Returns:
+            bool: True if two hexagons are equal, False otherwise
+
+        """
+        if not isinstance(other, Hexa):
+            return NotImplemented
+        return self.x == other.x and self.y == other.y
+
+    def __hash__(self) -> int:
+        """Get hash of the hexagon.
+
+        Returns:
+            int: hash of the hexagon
+
+        """
+        return hash((self.x, self.y))
+
+    def __lt__(self, other: "Hexa") -> bool:
+        """Compare hexagons for priority queue.
+
+        Args:
+            other (Hexa): other hexagon
+
+        Returns:
+            bool: True if self is less than other, False otherwise
+
+        """
+        return (self.x, self.y) < (other.x, other.y)
+
+    def __repr__(self) -> str:
+        """Get string representation of the hexagon.
+
+        Returns:
+            str: string representation of the hexagon
+
+        """
+        return f"({self.x},{self.y})"
