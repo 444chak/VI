@@ -277,9 +277,14 @@ export default function Home() {
       for (let i = 0; i < response.length; i++) {
         setTimeout(() => {
           const index = response[i][0] * Rows + response[i][1];
-          updatedColors[index] = "red";
-          setHexColors([...updatedColors]);
-          setResultSize(i + 1);
+          if (
+            index !== startState.x * Rows + startState.y &&
+            index !== endState.x * Rows + endState.y
+          ) {
+            updatedColors[index] = "red";
+            setHexColors([...updatedColors]);
+            setResultSize(i + 1);
+          }
         }, i * 100);
       }
       setTimeout(() => {
