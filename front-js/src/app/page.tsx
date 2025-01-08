@@ -1,13 +1,13 @@
 "use client";
 
 import { Box, Button } from "@mui/joy";
-
 import { CssVarsProvider, extendTheme } from "@mui/joy/styles";
 import { useRouter } from "next/navigation";
 
 import { BlurGradientBg } from "./modules/BlurGradientBg.module";
 import { useEffect } from "react";
 import HexagonSvg from "./components/HexagonSvg/HexagonSvg";
+import Logo from "./components/Logo/Logo";
 const theme = extendTheme({
   colorSchemes: {
     light: {
@@ -24,7 +24,7 @@ export default function Home() {
     const handleResize = () => {
       new BlurGradientBg({
         dom: "box",
-        colors: ["#650101", "#4b0101", "#280606", "#320103"],
+        colors: ["#3d1414","#411b1b","#521919","#a30008"],
         loop: true,
       });
     };
@@ -61,13 +61,14 @@ export default function Home() {
             height: "100vh",
           }}
         >
-          <Button
-            color="primary"
-            variant="plain"
-            onClick={() => router.push("/home")}
-          >
-            go to homepage
-          </Button>
+        <Logo/>
+        <Button
+          color="primary"
+          variant="plain"
+          onClick={() => router.push("/home")}
+        >
+          Débuter
+        </Button>
         </Box>
       </div>
     </CssVarsProvider>

@@ -14,7 +14,8 @@ import Space from "../components/Space/Space";
 import FlagIcon from "../components/icons/Flag";
 import HouseIcon from "../components/icons/House";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import Logo from "../components/Logo";
+import Logo from "../components/Logo/Logo";
+import HexagonSvg from "../components/HexagonSvg/HexagonSvg";
 
 export default function Home() {
   const numberColumns = 20;
