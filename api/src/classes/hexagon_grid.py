@@ -62,6 +62,18 @@ class HexagonGrid:
         """
         return 0 <= hexagon.x < self.width and 0 <= hexagon.y < self.height
 
+    def get_value(self, hexagon: Hexagon) -> int:
+        """Return the value of the hexagon.
+
+        Args:
+            hexagon (Hex): hexagon
+
+        Returns:
+            int: value of the hexagon
+
+        """
+        return self.grid[hexagon.x][hexagon.y]
+
 
 def get_path(path: list[Hexagon]) -> list[Hexagon]:
     """Get the path from start to end.
