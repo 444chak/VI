@@ -4,7 +4,11 @@ export async function getAlgorithm(
   name: string,
   params: { grid: number[][]; start: number[]; end: number[] }
 ) {
-  const response = await apiClient.post(`/${name}/`, params);
-  const data = response.data as { result: number[][] };
-  return data.result;
+  try {
+    const response = await apiClient.post(`/${name}/`, params);
+    const data = response.data as { result: number[][] };
+    return data.result;
+  } catch {
+    return [];
+  }
 }
