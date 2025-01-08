@@ -2,16 +2,14 @@
 
 from heapq import heappop, heappush
 
-from classes.hexagon_grid import Hexagon, HexagonGrid, get_path
+from classes.hexagon_grid import HexagonGrid, get_path
 
 
 def dijskstra(hexagon_grid: HexagonGrid) -> list[tuple[int, int]]:
     """Dijkstra algorithm for hexagonal grid.
 
     Args:
-        grid (Grid): grid object
-        start (Hexa): start hexagon
-        end (Hexa): end hexagon
+        hexagon_grid (HexagonGrid): hexagonal grid
 
     Returns:
         list[tuple[int, int]]: path from start to end
