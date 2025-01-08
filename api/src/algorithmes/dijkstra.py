@@ -5,7 +5,7 @@ from heapq import heappop, heappush
 from classes.hexagon_grid import HexagonGrid, get_path
 
 
-def dijskstra(hexagon_grid: HexagonGrid) -> list[tuple[int, int]]:
+def dijkstra(hexagon_grid: HexagonGrid) -> list[tuple[int, int]]:
     """Dijkstra algorithm for hexagonal grid.
 
     Args:
