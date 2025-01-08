@@ -1,5 +1,5 @@
 // Types et interfaces
-interface ColorMapping {
+interface ValueColorMapping {
   [key: string | number]: string | number;
 }
 
@@ -7,16 +7,19 @@ interface ColorValueMapping {
   [key: string]: number;
 }
 
+interface ColorMapping {
+  [key: number]: string;
+}
+
 // Constantes des couleurs
 export const COLORS: ColorMapping = {
-  EMPTY: "",
-  WALL: "black",
-  PATH: "lightgrey",
-  WATER: "blue",
-  GRASS: "green",
-  ICE: "lightblue",
-  START: "#afafaf",
-  END: "#9b1111",
+  1: "",
+  2: "black",
+  3: "blue",
+  4: "green",
+  5: "lightblue",
+  6: "#afafaf",
+  7: "#9b1111",
 };
 
 // Valeurs associées aux couleurs
@@ -33,7 +36,7 @@ export const COLOR_VALUES: ColorValueMapping = {
 };
 
 // Mapping des valeurs vers les couleurs
-export const VALUE_TO_COLOR: ColorMapping = {
+export const VALUE_TO_COLOR: ValueColorMapping = {
   "2": "lightgrey",
   "-1": "black",
   "5": "blue",
