@@ -295,13 +295,6 @@ export default function Home() {
 
   return (
     <>
-      {grid.map((value, index) => {
-        return index % Rows === 0
-          ? `[${value},`
-          : index % Rows === Rows - 1
-          ? `${value}],`
-          : `${value},`;
-      })}
       <Box display="flex" flexDirection={"column"} alignItems={"center"}>
         <Logo />
         <Typography level="h1" sx={{ mb: 2 }}>
