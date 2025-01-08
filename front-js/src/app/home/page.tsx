@@ -26,6 +26,7 @@ import Logo from "../components/Logo";
 import InfoIcon from "../components/icons/Info";
 import WarningIcon from "../components/icons/Warning";
 import { getAlgorithm } from "../api/viApi";
+import { ERROR_MESSAGES } from "../dict";
 
 export default function Home() {
   // const Columns = 20;
@@ -94,7 +95,7 @@ export default function Home() {
   // Réinitialise toutes les couleurs
   const resetColors = () => {
     if (inProgress) {
-      setError("Veuillez attendre la fin de l'algorithme en cours");
+      setError(ERROR_MESSAGES.ALGO_IN_PROGRESS);
       return;
     }
     setError("");
@@ -291,11 +292,11 @@ export default function Home() {
 
   const callAlgorithm = async (name: string) => {
     if (inProgress) {
-      setError("Veuillez attendre la fin de l'algorithme en cours");
+      setError(ERROR_MESSAGES.ALGO_IN_PROGRESS);
       return;
     }
     if (algo) {
-      setError("Veuillez d'abord réinitialiser l'algorithme en cours");
+      setError(ERROR_MESSAGES.RESET_ALGO);
       return;
     }
     const gridParam = mapGrid(grid);
@@ -306,7 +307,7 @@ export default function Home() {
     };
     const response = await getAlgorithm(name, params);
     if (response.length === 0) {
-      setError("Aucun chemin trouvé");
+      setError(ERROR_MESSAGES.NO_PATH);
     } else if (response) {
       setInProgress(true);
       setError("");
