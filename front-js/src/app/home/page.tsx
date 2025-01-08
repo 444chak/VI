@@ -83,8 +83,8 @@ export default function Home() {
     setStartState({ x: 0, y: 0 });
     setEndState({ x: Columns - 1, y: Rows - 1 });
     const newColors = [];
-    newColors[0] = "#afafaf";
-    newColors[Columns * Rows - 1] = "#9b1111";
+    newColors[0] = COLORS[6];
+    newColors[Columns * Rows - 1] = COLORS[7];
     setHexColors(newColors);
     setGrid((prevGrid) => {
       const newGrid = [...prevGrid];
@@ -147,7 +147,7 @@ export default function Home() {
     // set new start
     setStartState({ x: Math.floor(index / Rows), y: index % Rows });
     const updatedColors = [...hexColors];
-    updatedColors[index] = "#afafaf";
+    updatedColors[index] = COLORS[6];
     setHexColors(updatedColors);
     setGrid((prevGrid) => {
       const newGrid = [...prevGrid];
@@ -177,7 +177,7 @@ export default function Home() {
     setEndState({ x: Math.floor(index / Rows), y: index % Rows });
     const updatedColors = [...hexColors];
 
-    updatedColors[index] = "#9b1111";
+    updatedColors[index] = COLORS[7];
     setHexColors(updatedColors);
     setGrid((prevGrid) => {
       const newGrid = [...prevGrid];
@@ -580,13 +580,11 @@ export default function Home() {
                 >
                   {error}
                 </Alert>
-                {error ==
-                  "Veuillez d'abord réinitialiser l'algorithme en cours" &&
-                  algo && (
-                    <Button onClick={resetAlgo} color="danger" variant="soft">
-                      Réinitialiser
-                    </Button>
-                  )}
+                {error == ERROR_MESSAGES.RESET_ALGO && algo && (
+                  <Button onClick={resetAlgo} color="danger" variant="soft">
+                    Réinitialiser
+                  </Button>
+                )}
               </Box>
             )}
 
