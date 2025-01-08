@@ -28,6 +28,8 @@ class Grid:
         self.grid = grid
         self.start = Hexa(0, 0)
         self.end = Hexa(len(grid) - 1, len(grid[0]) - 1)
+        self.width = len(grid)
+        self.height = len(grid[0])
 
     def set_start(self, hexa: Hexa) -> None:
         """Set the start hexagon.
