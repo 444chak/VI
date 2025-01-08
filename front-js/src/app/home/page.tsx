@@ -27,6 +27,7 @@ import InfoIcon from "../components/icons/Info";
 import WarningIcon from "../components/icons/Warning";
 import { getAlgorithm } from "../api/viApi";
 import {
+  ALERTS,
   ALGORITHM_LABELS,
   ALGORITHM_PATHS,
   COLOR_VALUES,
@@ -348,7 +349,7 @@ export default function Home() {
                 startDecorator={<InfoIcon color="currentColor" />}
                 size="sm"
               >
-                Les hexagones ont un poids de 2 par défaut.
+                {ALERTS.HEXA_DEFAULT_VALUE}
               </Alert>
             </Box>
             <Box display="flex" flexDirection={"column"} alignItems={"center"}>
@@ -506,7 +507,7 @@ export default function Home() {
               size="sm"
               sx={{ margin: "1rem" }}
             >
-              Changer la taille réinitialise la grille.
+              {ALERTS.CHANGE_SIZE_ALERT}
             </Alert>
           </Box>
           <Box
