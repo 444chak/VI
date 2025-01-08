@@ -342,6 +342,7 @@ export default function Home() {
     <>
       <Box display="flex" flexDirection={"column"} alignItems={"center"}>
         <Logo />
+        {/* TODO: Changer l'affichage de la taille du chemin */}
         <Typography level="h1" sx={{ mb: 2 }}>
           {resultSize}
         </Typography>
