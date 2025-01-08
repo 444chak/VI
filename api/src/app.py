@@ -3,7 +3,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routes import bfs, dijskstra
+from routes import bfs, dijkstra
 
 app = FastAPI(title="VI API", version="1.0.0")
 
@@ -26,8 +26,8 @@ async def get_info() -> dict:
     return info
 
 
-# TODO: Adapter dijkstra et dfs en fonction de la structure de données utilisée pour BFS
+# TODO: Adapter dfs en fonction de la structure de données utilisée pour BFS
 
-app.include_router(dijskstra.router, prefix="/dijskstra", tags=["dijkstra"])
+app.include_router(dijkstra.router, prefix="/dijkstra", tags=["dijkstra"])
 app.include_router(bfs.router, prefix="/bfs", tags=["bfs"])
 # app.include_router(dfs.router, prefix="/dfs", tags=["dfs"])
