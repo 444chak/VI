@@ -4,6 +4,8 @@ from collections import deque
 
 from classes.hexagon_grid import Hexagon, HexagonGrid, get_path
 
+# TODO: comparer les hexagons (valeurs avec <)
+
 
 def explore_neighbours(
     hexagon: Hexagon,
@@ -15,6 +17,7 @@ def explore_neighbours(
         (neighbor.x, neighbor.y)
         for neighbor in neighbors
         if hexagon_grid.in_bounds(neighbor)
+        and hexagon_grid.grid[neighbor.x][neighbor.y] != -1
     ]
 
 
