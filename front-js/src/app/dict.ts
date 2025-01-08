@@ -14,34 +14,34 @@ interface ColorMapping {
 // Constantes des couleurs
 export const COLORS: ColorMapping = {
   1: "",
-  2: "black",
-  3: "blue",
-  4: "green",
-  5: "lightblue",
-  6: "#afafaf",
-  7: "#9b1111",
+  2: "black", // Mur
+  3: "blue", // Eau
+  4: "green", // Herbe
+  5: "lightblue", // Glace
+  6: "#afafaf", // Départ
+  7: "#9b1111", // Arrivée
 };
 
 // Valeurs associées aux couleurs
 export const COLOR_VALUES: ColorValueMapping = {
-  "": 2,
-  undefined: 2,
-  lightgrey: 2,
-  black: -1,
-  blue: 5,
-  green: 3,
-  lightblue: 1,
-  start: 0,
-  end: 0,
+  "": 2, // Défaut
+  undefined: 2, // Défaut
+  lightgrey: 2, // Défaut
+  black: -1, // Mur
+  blue: 5, // Eau
+  green: 3, // Herbe
+  lightblue: 1, // Glace
+  start: 0, // Départ
+  end: 0, // Arrivée
 };
 
 // Mapping des valeurs vers les couleurs
 export const VALUE_TO_COLOR: ValueColorMapping = {
-  "2": "lightgrey",
-  "-1": "black",
-  "5": "blue",
-  "3": "green",
-  "1": "lightblue",
+  "2": "lightgrey", // Défaut
+  "-1": "black", // Mur
+  "5": "blue", // Eau
+  "3": "green", // Herbe
+  "1": "lightblue", // Glace
 };
 
 // Messages d'erreur
