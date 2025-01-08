@@ -62,6 +62,7 @@ export const TOOLTIPS = {
   ASTAR: "Heuristique de Manhattan",
   DFS: "Parcours en profondeur",
   BFS: "Parcours en largeur",
+  RESET_ALGO: "Réinitialiser l'algorithme en cours",
 };
 
 // États des cases
