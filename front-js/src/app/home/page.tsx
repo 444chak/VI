@@ -114,6 +114,10 @@ export default function Home() {
   };
 
   const resetAlgo = () => {
+    if (inProgress) {
+      setError(ERROR_MESSAGES.ALGO_IN_PROGRESS);
+      return;
+    }
     // set colors which are on the grid
     const updatedColors = [...hexColors];
     for (let i = 0; i < Columns * Rows; i++) {
