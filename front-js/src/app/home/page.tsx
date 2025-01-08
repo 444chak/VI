@@ -235,8 +235,9 @@ export default function Home() {
     setActiveColor(colors[index]);
   };
 
-  const mapGrid = (grid: number[][]) => {
-    const newGrid = Array(Columns).fill(Array(Rows).fill(2));
+  const mapGrid = (grid: number[]) => {
+    // row is x, column is y
+    const newGrid: number[][] = [];
     for (let i = 0; i < Columns; i++) {
       const row = [];
       for (let j = 0; j < Rows; j++) {
@@ -246,6 +247,8 @@ export default function Home() {
     }
     return newGrid;
   };
+
+  const [resultSize, setResultSize] = useState(0);
 
   const callAlgorithm = async (name: string) => {
     const gridParam = mapGrid(grid);
@@ -263,6 +266,7 @@ export default function Home() {
           const index = response[i][0] * Rows + response[i][1];
           updatedColors[index] = "red";
           setHexColors([...updatedColors]);
+          setResultSize(i + 1);
         }, i * 100);
       }
     }
@@ -279,6 +283,9 @@ export default function Home() {
       })}
       <Box display="flex" flexDirection={"column"} alignItems={"center"}>
         <Logo />
+        <Typography level="h1" sx={{ mb: 2 }}>
+          {resultSize}
+        </Typography>
       </Box>
       <Grid2 container spacing={2}>
         <Grid2 size={isMediumScreen ? 12 : 3}>
@@ -521,7 +528,7 @@ export default function Home() {
                 <div
                   key={colIndex}
                   style={
-                    colIndex % 2 !== 0
+                    colIndex % 2 !== 1
                       ? {
                           marginTop: `${size * 0.45}px`,
                           marginLeft: `${-size * 0.2}px`,
@@ -562,7 +569,7 @@ export default function Home() {
                 {
                   color: "neutral" as const,
                   label: "Dijkstra",
-                  onClick: () => callAlgorithm("dijkstra"),
+                  onClick: () => callAlgorithm("pep"),
                 },
                 {
                   color: "neutral" as const,
