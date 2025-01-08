@@ -2,10 +2,10 @@
 
 from heapq import heappop, heappush
 
-from classes.grid import Grid
+from classes.hexagon_grid import Hexagon, HexagonGrid, get_path
 
 
-def dijskstra(grid: Grid) -> list[tuple[int, int]]:
+def dijskstra(hexagon_grid: HexagonGrid) -> list[tuple[int, int]]:
     """Dijkstra algorithm for hexagonal grid.
 
     Args:
@@ -17,24 +17,36 @@ def dijskstra(grid: Grid) -> list[tuple[int, int]]:
         list[tuple[int, int]]: path from start to end
 
     """
-    queue = [(0, grid.start)]
-    visited = set()
-    came_from = {grid.start: None}
+    start = hexagon_grid.start
+    end = hexagon_grid.end
+    grid = hexagon_grid.grid
+    queue = [(0, start)]
+    visited = {start}
+    came_from = {start: None}
+    cost_so_far = {start: 0}
 
     while queue:
-        cost, pos = heappop(queue)
-        if pos in visited:
-            continue
-        visited.add(pos)
-        if pos == grid.end:
+        current_cost, current = heappop(queue)
+
+        if current == end:
             path = []
-            while pos:
-                path.append((pos.x, pos.y))
-                pos = came_from[pos]
-            return path[::-1]  # Return reversed path
-        for neighbor in pos.neighbors():
-            if grid.is_traversable(neighbor) and neighbor not in visited:
-                new_cost = cost + grid.get_cost(neighbor)
-                heappush(queue, (new_cost, neighbor))
-                came_from[neighbor] = pos
-    return []  # Return empty list if no path found
+            while current:
+                path.append(current)
+                current = came_from[current]
+            return get_path(path[::-1])
+
+        for next_pos in current.neighbors():
+            if (
+                (0 <= next_pos.x < len(grid))
+                and (0 <= next_pos.y < len(grid[0]))
+                and next_pos not in visited
+                and grid[next_pos.x][next_pos.y] != -1
+            ):
+                new_cost = current_cost + grid[next_pos.x][next_pos.y]
+                if next_pos not in cost_so_far or new_cost < cost_so_far[next_pos]:
+                    cost_so_far[next_pos] = new_cost
+                    heappush(queue, (new_cost, next_pos))
+                    came_from[next_pos] = current
+                    visited.add(next_pos)
+
+    return []  # No path found
