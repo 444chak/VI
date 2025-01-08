@@ -4,14 +4,14 @@ from classes.grid import Grid
 from classes.hexa import Hexa
 
 
-def dfs(grid: Grid) -> list[Hexa]:
+def dfs(grid: Grid) -> list[tuple[int, int]]:
     """Get Depth-First Search (DFS) path from start to end.
 
     Args:
         grid (Grid): grid object.
 
     Returns:
-        list[Hexa]: Return the path from start to end.
+        list[tuple[int, int]]: Return the path from start to end.
 
     """
     start = grid.start
@@ -30,7 +30,7 @@ def dfs(grid: Grid) -> list[Hexa]:
             # Reconstruire le chemin à partir de `came_from`
             path = []
             while current is not None:
-                path.append(current)
+                path.append((current.x, current.y))
                 current = came_from[current]
             path.reverse()
             return path
