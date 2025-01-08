@@ -1,47 +1,45 @@
-"""BFS algorithm."""
+"""Pathfinding algorithm on a hexagonal grid."""
 
 from collections import deque
 
-from classes.grid import Grid
-from classes.hexa import Hexa
+from classes.hexagon_grid import Hexagon, HexagonGrid, get_path
 
 
-def bfs(grid: Grid) -> list[tuple[int, int]]:
-    """Breadth-first search (BFS) on a grid.
+def explore_neighbours(
+    hexagon: Hexagon,
+    hexagon_grid: HexagonGrid,
+) -> list[tuple[int, int]]:
+    """Explore the neighbors of a hexagon within the grid."""
+    neighbors = hexagon.neighbors()
+    return [
+        (neighbor.x, neighbor.y)
+        for neighbor in neighbors
+        if hexagon_grid.in_bounds(neighbor)
+    ]
 
-    Args:
-        grid (Grid): grid object.
 
-    Returns:
-        list[tuple[int, int]]: Return the path from start to end.
-
-    """
-    start = grid.start
-    end = grid.end
-
-    # File pour le BFS
+def bfs(hexagon_grid: HexagonGrid) -> list[tuple[int, int]]:
+    """Breadth-first search on a hexagonal grid."""
+    start = hexagon_grid.start
+    end = hexagon_grid.end
     queue = deque([start])
-    # Dictionnaire pour conserver les prédécesseurs (pour reconstruire le chemin)
-    came_from = {start: None}
-
+    visited = {start}
+    parent = {start: None}
     while queue:
         current = queue.popleft()
-
-        # Si on atteint l'hexagone d'arrivée
         if current == end:
-            # Reconstruire le chemin à partir de `came_from`
-            path = []
-            while current is not None:
-                path.append((current.x, current.y))
-                current = came_from[current]
-            path.reverse()
-            return path
+            break
+        for neighbour_coords in explore_neighbours(current, hexagon_grid):
+            neighbour = Hexagon(*neighbour_coords)
+            if neighbour not in visited:
+                visited.add(neighbour)
+                parent[neighbour] = current
+                queue.append(neighbour)
 
-        # Explorer les voisins de l'hexagone courant
-        for neighbor in grid.get_neighbors(current):
-            if neighbor not in came_from:  # Si le voisin n'a pas encore été visité
-                queue.append(neighbor)
-                came_from[neighbor] = current
-
-    # Aucun chemin trouvé
-    return []
+    path = []
+    step = end
+    while step is not None:
+        path.append(step)
+        step = parent.get(step)
+    path.reverse()
+    return get_path(path)
