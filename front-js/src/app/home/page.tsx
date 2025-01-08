@@ -28,6 +28,7 @@ import WarningIcon from "../components/icons/Warning";
 import { getAlgorithm } from "../api/viApi";
 import {
   ALGORITHM_LABELS,
+  ALGORITHM_PATHS,
   COLOR_VALUES,
   COLORS,
   ERROR_MESSAGES,
@@ -636,25 +637,25 @@ export default function Home() {
                   color: "neutral" as const,
                   label: ALGORITHM_LABELS.DIJKSTRA,
                   tooltip: TOOLTIPS.DIJKSTRA,
-                  onClick: () => callAlgorithm("dijskstra"),
+                  onClick: () => callAlgorithm(ALGORITHM_PATHS.DIJKSTRA),
                 },
                 {
                   color: "neutral" as const,
                   label: ALGORITHM_LABELS.ASTAR,
                   tooltip: TOOLTIPS.ASTAR,
-                  onClick: () => callAlgorithm("a*"),
+                  onClick: () => callAlgorithm(ALGORITHM_PATHS.ASTAR),
                 },
                 {
                   color: "neutral" as const,
                   label: ALGORITHM_LABELS.DFS,
                   tooltip: TOOLTIPS.DFS,
-                  onClick: () => callAlgorithm("dfs"),
+                  onClick: () => callAlgorithm(ALGORITHM_PATHS.DFS),
                 },
                 {
                   color: "neutral" as const,
                   label: ALGORITHM_LABELS.BFS,
                   tooltip: TOOLTIPS.BFS,
-                  onClick: () => callAlgorithm("bfs"),
+                  onClick: () => callAlgorithm(ALGORITHM_PATHS.BFS),
                 },
                 {
                   color: "danger" as const,
