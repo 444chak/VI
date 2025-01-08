@@ -26,7 +26,12 @@ import Logo from "../components/Logo";
 import InfoIcon from "../components/icons/Info";
 import WarningIcon from "../components/icons/Warning";
 import { getAlgorithm } from "../api/viApi";
-import { ALGORITHM_LABELS, ERROR_MESSAGES, TOOLTIPS } from "../dict";
+import {
+  ALGORITHM_LABELS,
+  ERROR_MESSAGES,
+  TOOLTIPS,
+  VALUE_TO_COLOR,
+} from "../dict";
 
 export default function Home() {
   // const Columns = 20;
@@ -79,14 +84,6 @@ export default function Home() {
     end: 0,
   };
 
-  const valueToColor: { [key: number]: string } = {
-    "2": "lightgrey",
-    "-1": "black",
-    "5": "blue",
-    "3": "green",
-    "1": "lightblue",
-  };
-
   // Gestion de l'état des couleurs pour chaque hexagone
   const [hexColors, setHexColors] = useState(
     Array(Columns * Rows).fill("") // Init with empty colors
@@ -121,7 +118,7 @@ export default function Home() {
     const updatedColors = [...hexColors];
     for (let i = 0; i < Columns * Rows; i++) {
       if (updatedColors[i] === "red") {
-        updatedColors[i] = valueToColor[grid[i]];
+        updatedColors[i] = VALUE_TO_COLOR[grid[i]];
       }
     }
     setHexColors(updatedColors);
