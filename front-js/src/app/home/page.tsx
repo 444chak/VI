@@ -69,12 +69,21 @@ export default function Home() {
   const colorValues: { [key: string]: number } = {
     "": 2,
     undefined: 2,
+    lightgrey: 2,
     black: -1,
     blue: 5,
     green: 3,
     lightblue: 1,
     start: 0,
     end: 0,
+  };
+
+  const valueToColor: { [key: number]: string } = {
+    "2": "lightgrey",
+    "-1": "black",
+    "5": "blue",
+    "3": "green",
+    "1": "lightblue",
   };
 
   // Gestion de l'état des couleurs pour chaque hexagone
@@ -104,6 +113,21 @@ export default function Home() {
       newGrid[Columns * Rows - 1] = colorValues.end;
       return newGrid;
     });
+  };
+
+  const resetAlgo = () => {
+    // set colors which are on the grid
+    const updatedColors = [...hexColors];
+    for (let i = 0; i < Columns * Rows; i++) {
+      if (updatedColors[i] === "red") {
+        updatedColors[i] = valueToColor[grid[i]];
+      }
+    }
+    setHexColors(updatedColors);
+    setInProgress(false);
+    setError("");
+    setResultSize(0);
+    setAlgo(false);
   };
 
   const [startState, setStartState] = useState({ x: 0, y: 0 });
@@ -261,9 +285,19 @@ export default function Home() {
 
   const [inProgress, setInProgress] = useState(false);
 
-  const timeForAlgorithm = 10;
+  const timeForAlgorithm = 100;
+
+  const [algo, setAlgo] = useState(false);
 
   const callAlgorithm = async (name: string) => {
+    if (inProgress) {
+      setError("Veuillez attendre la fin de l'algorithme en cours");
+      return;
+    }
+    if (algo) {
+      setError("Veuillez d'abord réinitialiser l'algorithme en cours");
+      return;
+    }
     const gridParam = mapGrid(grid);
     const params = {
       grid: gridParam,
@@ -277,7 +311,6 @@ export default function Home() {
       setInProgress(true);
       setError("");
       const updatedColors = [...hexColors];
-      // result is [[x, y], [x, y], ...]
       let size = 0;
 
       for (let i = 0; i < response.length; i++) {
@@ -298,6 +331,7 @@ export default function Home() {
       }
       setTimeout(() => {
         setInProgress(false);
+        setAlgo(true);
       }, response.length * timeForAlgorithm);
     }
   };
@@ -547,14 +581,29 @@ export default function Home() {
             justifyContent={"center"}
           >
             {error && (
-              <Alert
-                color="danger"
-                size="sm"
-                startDecorator={<CrossIcon color="currentColor" />}
-                sx={{ marginBottom: "2rem" }}
+              <Box
+                display="flex"
+                flexDirection={"column"}
+                marginBottom={"2rem"}
+                alignItems={"center"}
+                justifyContent={"center"}
+                gap={"20px"}
               >
-                {error}
-              </Alert>
+                <Alert
+                  color="danger"
+                  size="sm"
+                  startDecorator={<CrossIcon color="currentColor" />}
+                >
+                  {error}
+                </Alert>
+                {error ==
+                  "Veuillez d'abord réinitialiser l'algorithme en cours" &&
+                  algo && (
+                    <Button onClick={resetAlgo} color="danger" variant="soft">
+                      Réinitialiser
+                    </Button>
+                  )}
+              </Box>
             )}
 
             <Box display="flex" flexDirection="row" className="no-select">
@@ -603,6 +652,7 @@ export default function Home() {
                 {
                   color: "neutral" as const,
                   label: "Dijkstra",
+                  tooltip: "Algorithme de Dijkstra",
                   onClick: () => callAlgorithm("dijskstra"),
                 },
                 {
@@ -622,6 +672,11 @@ export default function Home() {
                   label: "BFS",
                   tooltip: "Parcours en largeur",
                   onClick: () => callAlgorithm("bfs"),
+                },
+                {
+                  color: "danger" as const,
+                  label: "Réinitialiser",
+                  onClick: resetAlgo,
                 },
               ].map((buttonProps, index) => (
                 <Tooltip
