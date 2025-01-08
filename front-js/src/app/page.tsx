@@ -2,8 +2,6 @@
 
 import { Box, Button } from "@mui/joy";
 import { CssVarsProvider, extendTheme } from "@mui/joy/styles";
-import { useRouter } from "next/navigation";
-
 import { BlurGradientBg } from "./modules/BlurGradientBg.module";
 import { useEffect } from "react";
 import HexagonSvg from "./components/HexagonSvg/HexagonSvg";
@@ -19,17 +17,16 @@ const theme = extendTheme({
 });
 
 export default function Home() {
-  const router = useRouter();
   useEffect(() => {
     const handleResize = () => {
       new BlurGradientBg({
         dom: "box",
-        colors: ["#3d1414","#411b1b","#521919","#a30008"],
+        colors: ["#3d1414", "#411b1b", "#521919", "#a30008"],
         loop: true,
       });
     };
 
-  handleResize();
+    handleResize();
 
     window.addEventListener('resize', handleResize);
 
@@ -48,27 +45,36 @@ export default function Home() {
           height: "100vh",
           zIndex: -1,
         }}
-      ></div>
+      />
       <div>
-        <HexagonSvg/>
+        <HexagonSvg />
       </div>
       <div style={{ position: "relative", zIndex: 1 }}>
         <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
-          }}
+          display="flex"
+          justifyContent="center"
+          alignItems="flex-start"
+          height="10vh"
         >
-        <Logo/>
-        <Button
-          color="primary"
-          variant="plain"
-          onClick={() => router.push("/home")}
+          <div className="logo"
+            style={{
+              background: "#E0E0E0",
+              width: "100vw",
+              display: "flex",
+              justifyContent: "center",
+              borderBottom: "3px solid #000",
+            }}
+          >
+            <Logo />
+          </div>
+        </Box>
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          height="90vh"
         >
-          Débuter
-        </Button>
+          <Button color="danger" variant="solid" size="lg" component="a" href="/home">Débuter</Button>
         </Box>
       </div>
     </CssVarsProvider>
