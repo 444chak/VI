@@ -26,7 +26,7 @@ import Logo from "../components/Logo";
 import InfoIcon from "../components/icons/Info";
 import WarningIcon from "../components/icons/Warning";
 import { getAlgorithm } from "../api/viApi";
-import { ALGORITHM_LABELS, ERROR_MESSAGES } from "../dict";
+import { ALGORITHM_LABELS, ERROR_MESSAGES, TOOLTIPS } from "../dict";
 
 export default function Home() {
   // const Columns = 20;
@@ -653,30 +653,31 @@ export default function Home() {
                 {
                   color: "neutral" as const,
                   label: ALGORITHM_LABELS.DIJKSTRA,
-                  tooltip: "Algorithme de Dijkstra",
+                  tooltip: TOOLTIPS.DIJKSTRA,
                   onClick: () => callAlgorithm("dijskstra"),
                 },
                 {
                   color: "neutral" as const,
                   label: ALGORITHM_LABELS.ASTAR,
-                  tooltip: "Heuristique de Manhattan",
+                  tooltip: TOOLTIPS.ASTAR,
                   onClick: () => callAlgorithm("a*"),
                 },
                 {
                   color: "neutral" as const,
                   label: ALGORITHM_LABELS.DFS,
-                  tooltip: "Parcours en profondeur",
+                  tooltip: TOOLTIPS.DFS,
                   onClick: () => callAlgorithm("dfs"),
                 },
                 {
                   color: "neutral" as const,
                   label: ALGORITHM_LABELS.BFS,
-                  tooltip: "Parcours en largeur",
+                  tooltip: TOOLTIPS.BFS,
                   onClick: () => callAlgorithm("bfs"),
                 },
                 {
                   color: "danger" as const,
                   label: ALGORITHM_LABELS.RESET,
+                  tooltip: TOOLTIPS.RESET_ALGO,
                   onClick: resetAlgo,
                 },
               ].map((buttonProps, index) => (
