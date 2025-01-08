@@ -259,10 +259,12 @@ export default function Home() {
       const updatedColors = [...hexColors];
       // result is [[x, y], [x, y], ...]
       for (let i = 0; i < response.length; i++) {
-        const index = response[i][0] * Rows + response[i][1];
-        updatedColors[index] = "red";
+        setTimeout(() => {
+          const index = response[i][0] * Rows + response[i][1];
+          updatedColors[index] = "red";
+          setHexColors([...updatedColors]);
+        }, i * 100);
       }
-      setHexColors(updatedColors);
     }
   };
 
