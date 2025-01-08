@@ -28,6 +28,7 @@ import WarningIcon from "../components/icons/Warning";
 import { getAlgorithm } from "../api/viApi";
 import {
   ALGORITHM_LABELS,
+  COLOR_VALUES,
   ERROR_MESSAGES,
   TOOLTIPS,
   VALUE_TO_COLOR,
@@ -72,18 +73,6 @@ export default function Home() {
     7: "#9b1111",
   };
 
-  const colorValues: { [key: string]: number } = {
-    "": 2,
-    undefined: 2,
-    lightgrey: 2,
-    black: -1,
-    blue: 5,
-    green: 3,
-    lightblue: 1,
-    start: 0,
-    end: 0,
-  };
-
   // Gestion de l'état des couleurs pour chaque hexagone
   const [hexColors, setHexColors] = useState(
     Array(Columns * Rows).fill("") // Init with empty colors
@@ -107,8 +96,8 @@ export default function Home() {
     setHexColors(newColors);
     setGrid((prevGrid) => {
       const newGrid = [...prevGrid];
-      newGrid[0] = colorValues.start;
-      newGrid[Columns * Rows - 1] = colorValues.end;
+      newGrid[0] = COLOR_VALUES.start;
+      newGrid[Columns * Rows - 1] = COLOR_VALUES.end;
       return newGrid;
     });
   };
@@ -151,7 +140,7 @@ export default function Home() {
         setHexColors(newColors);
         setGrid((prevGrid) => {
           const newGrid = [...prevGrid];
-          newGrid[index] = colorValues[color];
+          newGrid[index] = COLOR_VALUES[color];
           return newGrid;
         });
       }
@@ -170,7 +159,7 @@ export default function Home() {
     setHexColors(updatedColors);
     setGrid((prevGrid) => {
       const newGrid = [...prevGrid];
-      newGrid[index] = colorValues.start;
+      newGrid[index] = COLOR_VALUES.start;
       return newGrid;
     });
 
@@ -181,7 +170,7 @@ export default function Home() {
       setHexColors(updatedColors);
       setGrid((prevGrid) => {
         const newGrid = [...prevGrid];
-        newGrid[old_start_index] = colorValues[""];
+        newGrid[old_start_index] = COLOR_VALUES[""];
         return newGrid;
       });
     }
@@ -200,7 +189,7 @@ export default function Home() {
     setHexColors(updatedColors);
     setGrid((prevGrid) => {
       const newGrid = [...prevGrid];
-      newGrid[index] = colorValues.end;
+      newGrid[index] = COLOR_VALUES.end;
       return newGrid;
     });
 
@@ -211,7 +200,7 @@ export default function Home() {
       setHexColors(updatedColors);
       setGrid((prevGrid) => {
         const newGrid = [...prevGrid];
-        newGrid[old_end_index] = colorValues[""];
+        newGrid[old_end_index] = COLOR_VALUES[""];
         return newGrid;
       });
     }
@@ -323,7 +312,7 @@ export default function Home() {
             index !== endState.x * Rows + endState.y
           ) {
             const color = updatedColors[index];
-            size += colorValues[color];
+            size += COLOR_VALUES[color];
             updatedColors[index] = "red";
             setResultSize(size);
 
