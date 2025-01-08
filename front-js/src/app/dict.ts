@@ -3,6 +3,10 @@ interface ColorMapping {
   [key: string | number]: string | number;
 }
 
+interface ColorValueMapping {
+  [key: string]: number;
+}
+
 // Constantes des couleurs
 export const COLORS: ColorMapping = {
   EMPTY: "",
@@ -16,7 +20,7 @@ export const COLORS: ColorMapping = {
 };
 
 // Valeurs associées aux couleurs
-export const COLOR_VALUES: ColorMapping = {
+export const COLOR_VALUES: ColorValueMapping = {
   "": 2,
   undefined: 2,
   lightgrey: 2,
