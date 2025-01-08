@@ -71,14 +71,3 @@ export const TOOLTIPS = {
   BFS: "Parcours en largeur",
   RESET_ALGO: "Réinitialiser l'algorithme en cours",
 };
-
-// États des cases
-export const CELL_STATES = {
-  EMPTY: 2,
-  WALL: -1,
-  WATER: 5,
-  GRASS: 3,
-  ICE: 1,
-  START: 0,
-  END: 0,
-};
