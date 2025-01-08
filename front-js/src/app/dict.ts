@@ -78,6 +78,8 @@ export const TOOLTIPS = {
   DFS: "Parcours en profondeur",
   BFS: "Parcours en largeur",
   RESET_ALGO: "Réinitialiser l'algorithme en cours",
+  NO_ALGORITHM_CHANGE_SIZE:
+    "Impossible de changer la taille de la grille pendant un algorithme",
 };
 
 // Alerts

@@ -517,7 +517,7 @@ export default function Home() {
             gap={"20px"}
           >
             <Tooltip
-              title="Aucun algorithme doit être en cours pour changer la taille"
+              title={TOOLTIPS.NO_ALGORITHM_CHANGE_SIZE}
               arrow
               placement="top"
               variant="outlined"
@@ -526,7 +526,7 @@ export default function Home() {
               <Typography level="h3">Lignes</Typography>
             </Tooltip>
             <Tooltip
-              title="Aucun algorithme doit être en cours pour changer la taille"
+              title={TOOLTIPS.NO_ALGORITHM_CHANGE_SIZE}
               arrow
               placement="top"
               variant="outlined"
