@@ -40,6 +40,7 @@ export const VALUE_TO_COLOR: ColorMapping = {
 // Messages d'erreur
 export const ERROR_MESSAGES = {
   ALGO_IN_PROGRESS: "Veuillez attendre la fin de l'algorithme en cours",
+  RESET_ALGO: "Veuillez d'abord réinitialiser l'algorithme en cours",
   GENERIC_ERROR: "Une erreur est survenue",
   NO_PATH: "Aucun chemin trouvé",
   INVALID_START: "Position de départ invalide",
