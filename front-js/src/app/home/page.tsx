@@ -515,8 +515,24 @@ export default function Home() {
             justifyContent={"space-evenly"}
             gap={"20px"}
           >
-            <Typography level="h3">Lignes</Typography>
-            <Typography level="h3">Colonnes</Typography>
+            <Tooltip
+              title="Aucun algorithme doit être en cours pour changer la taille"
+              arrow
+              placement="top"
+              variant="outlined"
+              disableHoverListener={!(inProgress || algo)}
+            >
+              <Typography level="h3">Lignes</Typography>
+            </Tooltip>
+            <Tooltip
+              title="Aucun algorithme doit être en cours pour changer la taille"
+              arrow
+              placement="top"
+              variant="outlined"
+              disableHoverListener={!(inProgress || algo)}
+            >
+              <Typography level="h3">Colonnes</Typography>
+            </Tooltip>
           </Box>
 
           <Box
@@ -530,7 +546,7 @@ export default function Home() {
             paddingRight={"5rem"}
           >
             <Slider
-              aria-label="Custom marks"
+              disabled={inProgress || algo}
               defaultValue={20}
               step={1}
               min={2}
@@ -544,7 +560,7 @@ export default function Home() {
               }}
             />
             <Slider
-              aria-label="Custom marks"
+              disabled={inProgress || algo}
               defaultValue={20}
               step={1}
               valueLabelDisplay="auto"
