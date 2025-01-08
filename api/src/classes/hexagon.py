@@ -45,6 +45,18 @@ class Hexagon:
         """
         return hash((self.x, self.y))
 
+    def __lt__(self, other: "Hexagon") -> bool:
+        """Compare two hexagons.
+
+        Args:
+            other (Hexagon): other hexagon
+
+        Returns:
+            bool: True if self is less than other, False otherwise
+
+        """
+        return self.value < other.value
+
     def neighbor(self, direction: int) -> "Hexagon":
         """Get a neighbor of the hexagon.
 

@@ -47,12 +47,12 @@ export default function Home() {
   const size = isSmallScreen
     ? sizes.small
     : isMediumScreen
-    ? sizes.medium
-    : isMediumLargeScreen
-    ? sizes.mediumLarge
-    : isLargeScreen
-    ? sizes.large
-    : sizes.ultraLarge;
+      ? sizes.medium
+      : isMediumLargeScreen
+        ? sizes.mediumLarge
+        : isLargeScreen
+          ? sizes.large
+          : sizes.ultraLarge;
 
   const [grid, setGrid] = useState(Array(Columns * Rows).fill(2));
 
@@ -278,8 +278,8 @@ export default function Home() {
         return index % Rows === 0
           ? `[${value},`
           : index % Rows === Rows - 1
-          ? `${value}],`
-          : `${value},`;
+            ? `${value}],`
+            : `${value},`;
       })}
       <Box display="flex" flexDirection={"column"} alignItems={"center"}>
         <Logo />
@@ -332,8 +332,8 @@ export default function Home() {
                   isSmallScreen
                     ? "sm"
                     : isMediumScreen || isMediumLargeScreen
-                    ? "md"
-                    : "lg"
+                      ? "md"
+                      : "lg"
                 }
               >
                 {[
@@ -406,8 +406,8 @@ export default function Home() {
                   isSmallScreen
                     ? "sm"
                     : isMediumScreen || isMediumLargeScreen
-                    ? "md"
-                    : "lg"
+                      ? "md"
+                      : "lg"
                 }
               >
                 {[
@@ -530,10 +530,10 @@ export default function Home() {
                   style={
                     colIndex % 2 !== 1
                       ? {
-                          marginTop: `${size * 0.45}px`,
-                          marginLeft: `${-size * 0.2}px`,
-                          marginRight: `${-size * 0.2}px`,
-                        }
+                        marginTop: `${size * 0.45}px`,
+                        marginLeft: `${-size * 0.2}px`,
+                        marginRight: `${-size * 0.2}px`,
+                      }
                       : {}
                   }
                 >
@@ -569,7 +569,7 @@ export default function Home() {
                 {
                   color: "neutral" as const,
                   label: "Dijkstra",
-                  onClick: () => callAlgorithm("pep"),
+                  onClick: () => callAlgorithm("dijskstra"),
                 },
                 {
                   color: "neutral" as const,
