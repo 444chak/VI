@@ -25,6 +25,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import Logo from "../components/Logo";
 import InfoIcon from "../components/icons/Info";
 import WarningIcon from "../components/icons/Warning";
+import { getAlgorithm } from "../api/viApi";
 
 export default function Home() {
   // const Columns = 20;
@@ -234,8 +235,8 @@ export default function Home() {
     setActiveColor(colors[index]);
   };
 
-  const mapGrid = (grid: string | number[]) => {
-    const newGrid = [];
+  const mapGrid = (grid: number[][]) => {
+    const newGrid = Array(Columns).fill(Array(Rows).fill(2));
     for (let i = 0; i < Columns; i++) {
       const row = [];
       for (let j = 0; j < Rows; j++) {
@@ -245,6 +246,26 @@ export default function Home() {
     }
     return newGrid;
   };
+
+  const callAlgorithm = async (name: string) => {
+    const gridParam = mapGrid(grid);
+    const params = {
+      grid: gridParam,
+      start: [startState.x, startState.y],
+      end: [endState.x, endState.y],
+    };
+    const response = await getAlgorithm(name, params);
+    if (response) {
+      const updatedColors = [...hexColors];
+      // result is [[x, y], [x, y], ...]
+      for (let i = 0; i < response.length; i++) {
+        const index = response[i][0] * Rows + response[i][1];
+        updatedColors[index] = "red";
+      }
+      setHexColors(updatedColors);
+    }
+  };
+
   return (
     <>
       {grid.map((value, index) => {
@@ -539,25 +560,25 @@ export default function Home() {
                 {
                   color: "neutral" as const,
                   label: "Dijkstra",
-                  onClick: () => {},
+                  onClick: () => callAlgorithm("dijkstra"),
                 },
                 {
                   color: "neutral" as const,
                   label: "A*",
                   tooltip: "Heuristique de Manhattan",
-                  onClick: () => {},
+                  onClick: () => callAlgorithm("a*"),
                 },
                 {
                   color: "neutral" as const,
                   label: "DFS",
                   tooltip: "Parcours en profondeur",
-                  onClick: () => {},
+                  onClick: () => callAlgorithm("dfs"),
                 },
                 {
                   color: "neutral" as const,
                   label: "BFS",
                   tooltip: "Parcours en largeur",
-                  onClick: () => {},
+                  onClick: () => callAlgorithm("bfs"),
                 },
               ].map((buttonProps, index) => (
                 <Tooltip
