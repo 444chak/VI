@@ -63,6 +63,14 @@ export const ALGORITHM_LABELS = {
   RESET: "Réinitialiser",
 };
 
+// Chemins des algorithmes
+export const ALGORITHM_PATHS = {
+  DIJKSTRA: "dijkstra",
+  ASTAR: "astar",
+  DFS: "dfs",
+  BFS: "bfs",
+};
+
 // Tooltips
 export const TOOLTIPS = {
   DIJKSTRA: "Algorithme de Dijkstra",
