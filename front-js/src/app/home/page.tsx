@@ -68,6 +68,7 @@ export default function Home() {
 
   const colorValues: { [key: string]: number } = {
     "": 2,
+    undefined: 2,
     black: -1,
     blue: 5,
     green: 3,
@@ -88,6 +89,7 @@ export default function Home() {
       return;
     }
     setError("");
+    setResultSize(0);
     setHexColors(Array(Columns * Rows).fill(""));
     setGrid(Array(Columns * Rows).fill(2));
     setStartState({ x: 0, y: 0 });
@@ -259,6 +261,8 @@ export default function Home() {
 
   const [inProgress, setInProgress] = useState(false);
 
+  const timeForAlgorithm = 10;
+
   const callAlgorithm = async (name: string) => {
     const gridParam = mapGrid(grid);
     const params = {
@@ -274,6 +278,8 @@ export default function Home() {
       setError("");
       const updatedColors = [...hexColors];
       // result is [[x, y], [x, y], ...]
+      let size = 0;
+
       for (let i = 0; i < response.length; i++) {
         setTimeout(() => {
           const index = response[i][0] * Rows + response[i][1];
@@ -281,15 +287,18 @@ export default function Home() {
             index !== startState.x * Rows + startState.y &&
             index !== endState.x * Rows + endState.y
           ) {
+            const color = updatedColors[index];
+            size += colorValues[color];
             updatedColors[index] = "red";
+            setResultSize(size);
+
             setHexColors([...updatedColors]);
-            setResultSize(i + 1);
           }
-        }, i * 100);
+        }, i * timeForAlgorithm);
       }
       setTimeout(() => {
         setInProgress(false);
-      }, response.length * 100);
+      }, response.length * timeForAlgorithm);
     }
   };
 
