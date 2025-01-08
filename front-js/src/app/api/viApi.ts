@@ -4,5 +4,8 @@ export async function getAlgorithm(
   name: string,
   params: { grid: number[][]; start: number[]; end: number[] }
 ) {
-  return apiClient.post(`/api/algorithms/${name}`, params);
+  const response = await apiClient.post(`/${name}/`, params);
+  const data = response.data as { result: number[][] };
+  console.log(data.result);
+  return data.result;
 }
