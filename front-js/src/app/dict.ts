@@ -79,3 +79,9 @@ export const TOOLTIPS = {
   BFS: "Parcours en largeur",
   RESET_ALGO: "Réinitialiser l'algorithme en cours",
 };
+
+// Alerts
+export const ALERTS = {
+  HEXA_DEFAULT_VALUE: "Les hexagones ont un poids par défaut de 2",
+  CHANGE_SIZE_ALERT: "Changer la taille réinitialise la grille.",
+};
