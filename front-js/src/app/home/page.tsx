@@ -29,6 +29,7 @@ import { getAlgorithm } from "../api/viApi";
 import {
   ALGORITHM_LABELS,
   COLOR_VALUES,
+  COLORS,
   ERROR_MESSAGES,
   TOOLTIPS,
   VALUE_TO_COLOR,
@@ -62,16 +63,6 @@ export default function Home() {
     : sizes.ultraLarge;
 
   const [grid, setGrid] = useState(Array(Columns * Rows).fill(2));
-
-  const colors: { [key: number]: string } = {
-    1: "",
-    2: "black",
-    3: "blue",
-    4: "green",
-    5: "lightblue",
-    6: "#afafaf",
-    7: "#9b1111",
-  };
 
   // Gestion de l'état des couleurs pour chaque hexagone
   const [hexColors, setHexColors] = useState(
@@ -134,7 +125,7 @@ export default function Home() {
     } else if (activeButton === 7) {
       setEnd(index);
     } else if (activeButton !== 0) {
-      if (hexColors[index] !== colors[6] && hexColors[index] !== colors[7]) {
+      if (hexColors[index] !== COLORS[6] && hexColors[index] !== COLORS[7]) {
         const newColors = [...hexColors];
         newColors[index] = color;
         setHexColors(newColors);
@@ -254,7 +245,7 @@ export default function Home() {
 
   const handleOnActionButtons = (index: number) => {
     setActiveButton(activeButton === index ? 0 : index);
-    setActiveColor(colors[index]);
+    setActiveColor(COLORS[index]);
   };
 
   const mapGrid = (grid: number[]) => {
