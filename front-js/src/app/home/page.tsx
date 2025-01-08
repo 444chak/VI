@@ -234,6 +234,17 @@ export default function Home() {
     setActiveColor(colors[index]);
   };
 
+  const mapGrid = (grid: string | number[]) => {
+    const newGrid = [];
+    for (let i = 0; i < Columns; i++) {
+      const row = [];
+      for (let j = 0; j < Rows; j++) {
+        row.push(grid[i * Rows + j]);
+      }
+      newGrid.push(row);
+    }
+    return newGrid;
+  };
   return (
     <>
       {grid.map((value, index) => {
