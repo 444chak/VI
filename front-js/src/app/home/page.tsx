@@ -47,12 +47,12 @@ export default function Home() {
   const size = isSmallScreen
     ? sizes.small
     : isMediumScreen
-      ? sizes.medium
-      : isMediumLargeScreen
-        ? sizes.mediumLarge
-        : isLargeScreen
-          ? sizes.large
-          : sizes.ultraLarge;
+    ? sizes.medium
+    : isMediumLargeScreen
+    ? sizes.mediumLarge
+    : isLargeScreen
+    ? sizes.large
+    : sizes.ultraLarge;
 
   const [grid, setGrid] = useState(Array(Columns * Rows).fill(2));
 
@@ -83,6 +83,11 @@ export default function Home() {
 
   // Réinitialise toutes les couleurs
   const resetColors = () => {
+    if (inProgress) {
+      setError("Veuillez attendre la fin de l'algorithme en cours");
+      return;
+    }
+    setError("");
     setHexColors(Array(Columns * Rows).fill(""));
     setGrid(Array(Columns * Rows).fill(2));
     setStartState({ x: 0, y: 0 });
@@ -250,6 +255,10 @@ export default function Home() {
 
   const [resultSize, setResultSize] = useState(0);
 
+  const [error, setError] = useState("");
+
+  const [inProgress, setInProgress] = useState(false);
+
   const callAlgorithm = async (name: string) => {
     const gridParam = mapGrid(grid);
     const params = {
@@ -258,7 +267,11 @@ export default function Home() {
       end: [endState.x, endState.y],
     };
     const response = await getAlgorithm(name, params);
-    if (response) {
+    if (response.length === 0) {
+      setError("Aucun chemin trouvé");
+    } else if (response) {
+      setInProgress(true);
+      setError("");
       const updatedColors = [...hexColors];
       // result is [[x, y], [x, y], ...]
       for (let i = 0; i < response.length; i++) {
@@ -269,6 +282,9 @@ export default function Home() {
           setResultSize(i + 1);
         }, i * 100);
       }
+      setTimeout(() => {
+        setInProgress(false);
+      }, response.length * 100);
     }
   };
 
@@ -278,8 +294,8 @@ export default function Home() {
         return index % Rows === 0
           ? `[${value},`
           : index % Rows === Rows - 1
-            ? `${value}],`
-            : `${value},`;
+          ? `${value}],`
+          : `${value},`;
       })}
       <Box display="flex" flexDirection={"column"} alignItems={"center"}>
         <Logo />
@@ -332,8 +348,8 @@ export default function Home() {
                   isSmallScreen
                     ? "sm"
                     : isMediumScreen || isMediumLargeScreen
-                      ? "md"
-                      : "lg"
+                    ? "md"
+                    : "lg"
                 }
               >
                 {[
@@ -406,8 +422,8 @@ export default function Home() {
                   isSmallScreen
                     ? "sm"
                     : isMediumScreen || isMediumLargeScreen
-                      ? "md"
-                      : "lg"
+                    ? "md"
+                    : "lg"
                 }
               >
                 {[
@@ -523,6 +539,17 @@ export default function Home() {
             alignItems={"center"}
             justifyContent={"center"}
           >
+            {error && (
+              <Alert
+                color="danger"
+                size="sm"
+                startDecorator={<CrossIcon color="currentColor" />}
+                sx={{ marginBottom: "2rem" }}
+              >
+                {error}
+              </Alert>
+            )}
+
             <Box display="flex" flexDirection="row" className="no-select">
               {[...Array(Columns)].map((_, colIndex) => (
                 <div
@@ -530,10 +557,10 @@ export default function Home() {
                   style={
                     colIndex % 2 !== 1
                       ? {
-                        marginTop: `${size * 0.45}px`,
-                        marginLeft: `${-size * 0.2}px`,
-                        marginRight: `${-size * 0.2}px`,
-                      }
+                          marginTop: `${size * 0.45}px`,
+                          marginLeft: `${-size * 0.2}px`,
+                          marginRight: `${-size * 0.2}px`,
+                        }
                       : {}
                   }
                 >
