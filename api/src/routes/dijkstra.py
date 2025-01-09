@@ -1,8 +1,8 @@
-"""Dijskstra route."""
+"""Dijkstra route."""
 
 from fastapi import APIRouter, HTTPException
 
-from algorithmes.dijskstra import dijskstra
+from algorithmes.dijkstra import dijkstra
 from classes.hexagon import Hexagon
 from classes.hexagon_grid import HexagonGrid
 from models.grid import GridModel
@@ -10,9 +10,9 @@ from models.grid import GridModel
 router = APIRouter()
 
 
-@router.post("/", summary="Dijskstra algorithm")
-async def dijskstra_route(grid: GridModel) -> dict:
-    """Dijskstra algorithm."""
+@router.post("/", summary="Dijkstra algorithm")
+async def dijkstra_route(grid: GridModel) -> dict:
+    """Dijkstra algorithm."""
     start = Hexagon(*grid.start)
     end = Hexagon(*grid.end)
     grid_model = HexagonGrid(
@@ -22,7 +22,7 @@ async def dijskstra_route(grid: GridModel) -> dict:
     )
     grid_model.set_start(start)
     grid_model.set_end(end)
-    result = dijskstra(grid_model)
+    result = dijkstra(grid_model)
     if len(result) == 0:
         raise HTTPException(status_code=400, detail="No path found.")
     return {"result": result}

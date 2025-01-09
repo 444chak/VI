@@ -26,6 +26,16 @@ import Logo from "../components/Logo";
 import InfoIcon from "../components/icons/Info";
 import WarningIcon from "../components/icons/Warning";
 import { getAlgorithm } from "../api/viApi";
+import {
+  ALERTS,
+  ALGORITHM_LABELS,
+  ALGORITHM_PATHS,
+  COLOR_VALUES,
+  COLORS,
+  ERROR_MESSAGES,
+  TOOLTIPS,
+  VALUE_TO_COLOR,
+} from "../dict";
 
 export default function Home() {
   // const Columns = 20;
@@ -47,34 +57,14 @@ export default function Home() {
   const size = isSmallScreen
     ? sizes.small
     : isMediumScreen
-      ? sizes.medium
-      : isMediumLargeScreen
-        ? sizes.mediumLarge
-        : isLargeScreen
-          ? sizes.large
-          : sizes.ultraLarge;
+    ? sizes.medium
+    : isMediumLargeScreen
+    ? sizes.mediumLarge
+    : isLargeScreen
+    ? sizes.large
+    : sizes.ultraLarge;
 
   const [grid, setGrid] = useState(Array(Columns * Rows).fill(2));
-
-  const colors: { [key: number]: string } = {
-    1: "",
-    2: "black",
-    3: "blue",
-    4: "green",
-    5: "lightblue",
-    6: "#afafaf",
-    7: "#9b1111",
-  };
-
-  const colorValues: { [key: string]: number } = {
-    "": 2,
-    black: -1,
-    blue: 5,
-    green: 3,
-    lightblue: 1,
-    start: 0,
-    end: 0,
-  };
 
   // Gestion de l'état des couleurs pour chaque hexagone
   const [hexColors, setHexColors] = useState(
@@ -83,20 +73,45 @@ export default function Home() {
 
   // Réinitialise toutes les couleurs
   const resetColors = () => {
+    if (inProgress) {
+      setError(ERROR_MESSAGES.ALGO_IN_PROGRESS);
+      return;
+    }
+    setError("");
+    setResultSize(0);
     setHexColors(Array(Columns * Rows).fill(""));
     setGrid(Array(Columns * Rows).fill(2));
     setStartState({ x: 0, y: 0 });
     setEndState({ x: Columns - 1, y: Rows - 1 });
     const newColors = [];
-    newColors[0] = "#afafaf";
-    newColors[Columns * Rows - 1] = "#9b1111";
+    newColors[0] = COLORS[6];
+    newColors[Columns * Rows - 1] = COLORS[7];
     setHexColors(newColors);
     setGrid((prevGrid) => {
       const newGrid = [...prevGrid];
-      newGrid[0] = colorValues.start;
-      newGrid[Columns * Rows - 1] = colorValues.end;
+      newGrid[0] = COLOR_VALUES.start;
+      newGrid[Columns * Rows - 1] = COLOR_VALUES.end;
       return newGrid;
     });
+  };
+
+  const resetAlgo = () => {
+    if (inProgress) {
+      setError(ERROR_MESSAGES.ALGO_IN_PROGRESS);
+      return;
+    }
+    // set colors which are on the grid
+    const updatedColors = [...hexColors];
+    for (let i = 0; i < Columns * Rows; i++) {
+      if (updatedColors[i] === "red") {
+        updatedColors[i] = VALUE_TO_COLOR[grid[i]];
+      }
+    }
+    setHexColors(updatedColors);
+    setInProgress(false);
+    setError("");
+    setResultSize(0);
+    setAlgo(false);
   };
 
   const [startState, setStartState] = useState({ x: 0, y: 0 });
@@ -112,13 +127,13 @@ export default function Home() {
     } else if (activeButton === 7) {
       setEnd(index);
     } else if (activeButton !== 0) {
-      if (hexColors[index] !== colors[6] && hexColors[index] !== colors[7]) {
+      if (hexColors[index] !== COLORS[6] && hexColors[index] !== COLORS[7]) {
         const newColors = [...hexColors];
         newColors[index] = color;
         setHexColors(newColors);
         setGrid((prevGrid) => {
           const newGrid = [...prevGrid];
-          newGrid[index] = colorValues[color];
+          newGrid[index] = COLOR_VALUES[color];
           return newGrid;
         });
       }
@@ -133,11 +148,11 @@ export default function Home() {
     // set new start
     setStartState({ x: Math.floor(index / Rows), y: index % Rows });
     const updatedColors = [...hexColors];
-    updatedColors[index] = "#afafaf";
+    updatedColors[index] = COLORS[6];
     setHexColors(updatedColors);
     setGrid((prevGrid) => {
       const newGrid = [...prevGrid];
-      newGrid[index] = colorValues.start;
+      newGrid[index] = COLOR_VALUES.start;
       return newGrid;
     });
 
@@ -148,7 +163,7 @@ export default function Home() {
       setHexColors(updatedColors);
       setGrid((prevGrid) => {
         const newGrid = [...prevGrid];
-        newGrid[old_start_index] = colorValues[""];
+        newGrid[old_start_index] = COLOR_VALUES[""];
         return newGrid;
       });
     }
@@ -163,11 +178,11 @@ export default function Home() {
     setEndState({ x: Math.floor(index / Rows), y: index % Rows });
     const updatedColors = [...hexColors];
 
-    updatedColors[index] = "#9b1111";
+    updatedColors[index] = COLORS[7];
     setHexColors(updatedColors);
     setGrid((prevGrid) => {
       const newGrid = [...prevGrid];
-      newGrid[index] = colorValues.end;
+      newGrid[index] = COLOR_VALUES.end;
       return newGrid;
     });
 
@@ -178,7 +193,7 @@ export default function Home() {
       setHexColors(updatedColors);
       setGrid((prevGrid) => {
         const newGrid = [...prevGrid];
-        newGrid[old_end_index] = colorValues[""];
+        newGrid[old_end_index] = COLOR_VALUES[""];
         return newGrid;
       });
     }
@@ -232,7 +247,7 @@ export default function Home() {
 
   const handleOnActionButtons = (index: number) => {
     setActiveButton(activeButton === index ? 0 : index);
-    setActiveColor(colors[index]);
+    setActiveColor(COLORS[index]);
   };
 
   const mapGrid = (grid: number[]) => {
@@ -250,7 +265,23 @@ export default function Home() {
 
   const [resultSize, setResultSize] = useState(0);
 
+  const [error, setError] = useState("");
+
+  const [inProgress, setInProgress] = useState(false);
+
+  const timeForAlgorithm = 100;
+
+  const [algo, setAlgo] = useState(false);
+
   const callAlgorithm = async (name: string) => {
+    if (inProgress) {
+      setError(ERROR_MESSAGES.ALGO_IN_PROGRESS);
+      return;
+    }
+    if (algo) {
+      setError(ERROR_MESSAGES.RESET_ALGO);
+      return;
+    }
     const gridParam = mapGrid(grid);
     const params = {
       grid: gridParam,
@@ -258,31 +289,42 @@ export default function Home() {
       end: [endState.x, endState.y],
     };
     const response = await getAlgorithm(name, params);
-    if (response) {
+    if (response.length === 0) {
+      setError(ERROR_MESSAGES.NO_PATH);
+    } else if (response) {
+      setInProgress(true);
+      setError("");
       const updatedColors = [...hexColors];
-      // result is [[x, y], [x, y], ...]
+      let size = 0;
+
       for (let i = 0; i < response.length; i++) {
         setTimeout(() => {
           const index = response[i][0] * Rows + response[i][1];
-          updatedColors[index] = "red";
-          setHexColors([...updatedColors]);
-          setResultSize(i + 1);
-        }, i * 100);
+          if (
+            index !== startState.x * Rows + startState.y &&
+            index !== endState.x * Rows + endState.y
+          ) {
+            const color = updatedColors[index];
+            size += COLOR_VALUES[color];
+            updatedColors[index] = "red";
+            setResultSize(size);
+
+            setHexColors([...updatedColors]);
+          }
+        }, i * timeForAlgorithm);
       }
+      setTimeout(() => {
+        setInProgress(false);
+        setAlgo(true);
+      }, response.length * timeForAlgorithm);
     }
   };
 
   return (
     <>
-      {grid.map((value, index) => {
-        return index % Rows === 0
-          ? `[${value},`
-          : index % Rows === Rows - 1
-            ? `${value}],`
-            : `${value},`;
-      })}
       <Box display="flex" flexDirection={"column"} alignItems={"center"}>
         <Logo />
+        {/* TODO: Changer l'affichage de la taille du chemin */}
         <Typography level="h1" sx={{ mb: 2 }}>
           {resultSize}
         </Typography>
@@ -307,7 +349,7 @@ export default function Home() {
                 startDecorator={<InfoIcon color="currentColor" />}
                 size="sm"
               >
-                Les hexagones ont un poids de 2 par défaut.
+                {ALERTS.HEXA_DEFAULT_VALUE}
               </Alert>
             </Box>
             <Box display="flex" flexDirection={"column"} alignItems={"center"}>
@@ -332,8 +374,8 @@ export default function Home() {
                   isSmallScreen
                     ? "sm"
                     : isMediumScreen || isMediumLargeScreen
-                      ? "md"
-                      : "lg"
+                    ? "md"
+                    : "lg"
                 }
               >
                 {[
@@ -406,8 +448,8 @@ export default function Home() {
                   isSmallScreen
                     ? "sm"
                     : isMediumScreen || isMediumLargeScreen
-                      ? "md"
-                      : "lg"
+                    ? "md"
+                    : "lg"
                 }
               >
                 {[
@@ -465,7 +507,7 @@ export default function Home() {
               size="sm"
               sx={{ margin: "1rem" }}
             >
-              Changer la taille réinitialise la grille.
+              {ALERTS.CHANGE_SIZE_ALERT}
             </Alert>
           </Box>
           <Box
@@ -474,8 +516,24 @@ export default function Home() {
             justifyContent={"space-evenly"}
             gap={"20px"}
           >
-            <Typography level="h3">Lignes</Typography>
-            <Typography level="h3">Colonnes</Typography>
+            <Tooltip
+              title={TOOLTIPS.NO_ALGORITHM_CHANGE_SIZE}
+              arrow
+              placement="top"
+              variant="outlined"
+              disableHoverListener={!(inProgress || algo)}
+            >
+              <Typography level="h3">Lignes</Typography>
+            </Tooltip>
+            <Tooltip
+              title={TOOLTIPS.NO_ALGORITHM_CHANGE_SIZE}
+              arrow
+              placement="top"
+              variant="outlined"
+              disableHoverListener={!(inProgress || algo)}
+            >
+              <Typography level="h3">Colonnes</Typography>
+            </Tooltip>
           </Box>
 
           <Box
@@ -489,7 +547,7 @@ export default function Home() {
             paddingRight={"5rem"}
           >
             <Slider
-              aria-label="Custom marks"
+              disabled={inProgress || algo}
               defaultValue={20}
               step={1}
               min={2}
@@ -503,7 +561,7 @@ export default function Home() {
               }}
             />
             <Slider
-              aria-label="Custom marks"
+              disabled={inProgress || algo}
               defaultValue={20}
               step={1}
               valueLabelDisplay="auto"
@@ -523,6 +581,30 @@ export default function Home() {
             alignItems={"center"}
             justifyContent={"center"}
           >
+            {error && (
+              <Box
+                display="flex"
+                flexDirection={"column"}
+                marginBottom={"2rem"}
+                alignItems={"center"}
+                justifyContent={"center"}
+                gap={"20px"}
+              >
+                <Alert
+                  color="danger"
+                  size="sm"
+                  startDecorator={<CrossIcon color="currentColor" />}
+                >
+                  {error}
+                </Alert>
+                {error == ERROR_MESSAGES.RESET_ALGO && algo && (
+                  <Button onClick={resetAlgo} color="danger" variant="soft">
+                    Réinitialiser
+                  </Button>
+                )}
+              </Box>
+            )}
+
             <Box display="flex" flexDirection="row" className="no-select">
               {[...Array(Columns)].map((_, colIndex) => (
                 <div
@@ -530,10 +612,10 @@ export default function Home() {
                   style={
                     colIndex % 2 !== 1
                       ? {
-                        marginTop: `${size * 0.45}px`,
-                        marginLeft: `${-size * 0.2}px`,
-                        marginRight: `${-size * 0.2}px`,
-                      }
+                          marginTop: `${size * 0.45}px`,
+                          marginLeft: `${-size * 0.2}px`,
+                          marginRight: `${-size * 0.2}px`,
+                        }
                       : {}
                   }
                 >
@@ -568,26 +650,33 @@ export default function Home() {
               {[
                 {
                   color: "neutral" as const,
-                  label: "Dijkstra",
-                  onClick: () => callAlgorithm("dijskstra"),
+                  label: ALGORITHM_LABELS.DIJKSTRA,
+                  tooltip: TOOLTIPS.DIJKSTRA,
+                  onClick: () => callAlgorithm(ALGORITHM_PATHS.DIJKSTRA),
                 },
                 {
                   color: "neutral" as const,
-                  label: "A*",
-                  tooltip: "Heuristique de Manhattan",
-                  onClick: () => callAlgorithm("a*"),
+                  label: ALGORITHM_LABELS.ASTAR,
+                  tooltip: TOOLTIPS.ASTAR,
+                  onClick: () => callAlgorithm(ALGORITHM_PATHS.ASTAR),
                 },
                 {
                   color: "neutral" as const,
-                  label: "DFS",
-                  tooltip: "Parcours en profondeur",
-                  onClick: () => callAlgorithm("dfs"),
+                  label: ALGORITHM_LABELS.DFS,
+                  tooltip: TOOLTIPS.DFS,
+                  onClick: () => callAlgorithm(ALGORITHM_PATHS.DFS),
                 },
                 {
                   color: "neutral" as const,
-                  label: "BFS",
-                  tooltip: "Parcours en largeur",
-                  onClick: () => callAlgorithm("bfs"),
+                  label: ALGORITHM_LABELS.BFS,
+                  tooltip: TOOLTIPS.BFS,
+                  onClick: () => callAlgorithm(ALGORITHM_PATHS.BFS),
+                },
+                {
+                  color: "danger" as const,
+                  label: ALGORITHM_LABELS.RESET,
+                  tooltip: TOOLTIPS.RESET_ALGO,
+                  onClick: resetAlgo,
                 },
               ].map((buttonProps, index) => (
                 <Tooltip
