@@ -58,6 +58,7 @@ export const ERROR_MESSAGES = {
 // Labels des algorithmes
 export const ALGORITHM_LABELS = {
   DIJKSTRA: "Dijkstra",
+  BELLMAN_FORD: "Bellman-Ford",
   ASTAR: "A*",
   DFS: "DFS",
   BFS: "BFS",
@@ -67,6 +68,7 @@ export const ALGORITHM_LABELS = {
 // Chemins des algorithmes
 export const ALGORITHM_PATHS = {
   DIJKSTRA: "dijkstra",
+  BELLMAN_FORD: "bellman_ford",
   ASTAR: "astar",
   DFS: "dfs",
   BFS: "bfs",
@@ -75,6 +77,7 @@ export const ALGORITHM_PATHS = {
 // Tooltips
 export const TOOLTIPS = {
   DIJKSTRA: "Algorithme de Dijkstra",
+  BELLMAN_FORD : "Algorithme de Bellman-Ford",
   ASTAR: "Heuristique de Manhattan",
   DFS: "Parcours en profondeur",
   BFS: "Parcours en largeur",
