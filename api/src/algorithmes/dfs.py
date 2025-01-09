@@ -32,6 +32,7 @@ def dfs(
     stack = [(start, [start])]
     visited = {start}
     exploration_steps = []  # Will store (point_coords, point_weight)
+    cost = {start: 0}
 
     while stack:
         current, current_path = stack.pop()
@@ -50,7 +51,9 @@ def dfs(
 
         for neighbour_coords in explore_neighbours(current, hexagon_grid):
             neighbour = Hexagon(*neighbour_coords)
-            if neighbour not in visited:
+            new_cost = cost[current] + hexagon_grid.get_value(neighbour)
+            if neighbour not in visited or new_cost < cost[neighbour]:
+                cost[neighbour] = new_cost
                 visited.add(neighbour)
                 new_path = [*current_path, neighbour]
                 stack.append((neighbour, new_path))
