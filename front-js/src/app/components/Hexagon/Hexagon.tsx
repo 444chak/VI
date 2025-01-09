@@ -1,21 +1,12 @@
 import "./style.scss";
 
-type BORDERS = [
-  "top-left",
-  "top-right",
-  "bottom-left",
-  "bottom-right",
-  "top",
-  "bottom"
-];
-
 interface HexaProps {
   size?: number;
   color?: string; // Couleur actuelle
   onMouseEnter?: () => void; // Fonction appelée au survol
   onMouseDown?: () => void; // Fonction appelée au clic
   className?: string;
-  borders?: BORDERS[number]; // Liste des bordures
+  borders?: string[];
 }
 
 const defaultSize = 64;
@@ -51,55 +42,33 @@ export default function Hexa({
         onMouseEnter={onMouseEnter}
         onMouseDown={onMouseDown} // Déclenchement de la fonction au clic
       >
+        <path d="M0 86.60254037844386L50 0L150 0L200 86.60254037844386L150 173.20508075688772L50 173.20508075688772Z"></path>
+        {borders?.includes("top") && (
+          <path d="M100 20 L90 40 L110 40 Z" fill="darkgreen"></path>
+        )}
+        {borders?.includes("bottom") && (
+          <path d="M100 180 L90 160 L110 160 Z" fill="darkgreen"></path>
+        )}
         {borders?.includes("top-left") && (
           <path
-            d="M50 0L0 86.60254037844386L50 43.30127018922193L50 0Z"
-            fill="none"
-            stroke="black"
-            strokeWidth="10"
+            d="M30 30 L20 50 L40 50 Z"
+            fill="darkgreen"
+            transform="rotate(-30 30 30)"
           ></path>
         )}
         {borders?.includes("top-right") && (
           <path
-            d="M150 0L200 86.60254037844386L150 43.30127018922193L150 0Z"
-            fill="none"
-            stroke="black"
-            strokeWidth="10"
-          ></path>
-        )}
-        {borders?.includes("bottom-left") && (
-          <path
-            d="M50 173.20508075688772L0 86.60254037844386L50 129.9038105676658L50 173.20508075688772Z"
-            fill="none"
-            stroke="black"
-            strokeWidth="10"
+            d="M170 30 L160 50 L180 50 Z"
+            fill="darkgreen"
+            transform="rotate(30 170 30)"
           ></path>
         )}
         {borders?.includes("bottom-right") && (
-          <path
-            d="M150 173.20508075688772L200 86.60254037844386L150 129.9038105676658L150 173.20508075688772Z"
-            fill="none"
-            stroke="black"
-            strokeWidth="10"
-          ></path>
+          <path d="M150 130 L140 150 L160 150 Z" fill="darkgreen"></path>
         )}
-        {borders?.includes("top") && (
-          <path
-            d="M50 0L150 0"
-            fill="none"
-            stroke="black"
-            strokeWidth="10"
-          ></path>
+        {borders?.includes("bottom-left") && (
+          <path d="M50 130 L40 150 L60 150 Z" fill="darkgreen"></path>
         )}
-        {borders?.includes("bottom") && (
-          <path
-            d="M50 173.20508075688772L150 173.20508075688772"
-            fill="none"
-            stroke="black"
-            strokeWidth="10"
-          ></path>
-        )}
-        <path d="M0 86.60254037844386L50 0L150 0L200 86.60254037844386L150 173.20508075688772L50 173.20508075688772Z"></path>
       </svg>
     </>
   );
