@@ -1,45 +1,51 @@
-"""DFS (Depth-First Search) algorithm."""
+"""Depth-first search on a hexagonal grid."""
 
-from classes.grid import Grid
-from classes.hexa import Hexa
+from classes.hexagon_grid import Hexagon, HexagonGrid, get_path
 
 
-def dfs(grid: Grid) -> list[tuple[int, int]]:
-    """Get Depth-First Search (DFS) path from start to end.
+def explore_neighbours(
+    hexagon: Hexagon,
+    hexagon_grid: HexagonGrid,
+) -> list[tuple[int, int]]:
+    """Explore the neighbors of a hexagon within the grid."""
+    neighbors = hexagon.neighbors()
+    return [
+        (neighbor.x, neighbor.y)
+        for neighbor in neighbors
+        if hexagon_grid.in_bounds(neighbor) and hexagon_grid.get_value(neighbor) != -1
+    ]
 
-    Args:
-        grid (Grid): grid object.
 
-    Returns:
-        list[tuple[int, int]]: Return the path from start to end.
-
-    """
-    start = grid.start
-    end = grid.end
-
-    # Pile pour le DFS
-    stack = [start]
-    # Dictionnaire pour conserver les prédécesseurs (pour reconstruire le chemin)
-    came_from = {start: None}
+def dfs(hexagon_grid: HexagonGrid) -> list[tuple[int, int]]:
+    """Depth-first search on a hexagonal grid with shortest path tracking."""
+    start = hexagon_grid.start
+    end = hexagon_grid.end
+    stack = [(start, [start])]  # Track path with each node
+    visited = {start}
+    best_path = None
+    best_cost = float("inf")
+    cost = {start: 0}
 
     while stack:
-        current = stack.pop()
+        current, current_path = stack.pop()
+        current_cost = cost[current]
 
-        # Si on atteint l'hexagone d'arrivée
         if current == end:
-            # Reconstruire le chemin à partir de `came_from`
-            path = []
-            while current is not None:
-                path.append((current.x, current.y))
-                current = came_from[current]
-            path.reverse()
-            return path
+            if current_cost < best_cost:
+                best_cost = current_cost
+                best_path = current_path
+            continue
 
-        # Explorer les voisins de l'hexagone courant
-        for neighbor in grid.get_neighbors(current):
-            if neighbor not in came_from:  # Si le voisin n'a pas encore été visité
-                stack.append(neighbor)
-                came_from[neighbor] = current
+        for neighbour_coords in explore_neighbours(current, hexagon_grid):
+            neighbour = Hexagon(*neighbour_coords)
+            new_cost = cost[current] + hexagon_grid.get_value(neighbour)
 
-    # Aucun chemin trouvé
-    return []
+            if (
+                neighbour not in visited or new_cost < cost.get(neighbour, float("inf"))
+            ) and new_cost < best_cost:
+                visited.add(neighbour)
+                cost[neighbour] = new_cost
+                new_path = [*current_path, neighbour]
+                stack.append((neighbour, new_path))
+
+    return get_path(best_path) if best_path else []
