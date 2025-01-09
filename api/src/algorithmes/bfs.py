@@ -35,6 +35,7 @@ def bfs(
     visited = {start}
     parent = {start: None}
     exploration_steps = []  # Will store (point_coords, point_weight)
+    cost = {start: 0}
 
     while queue:
         current, current_path = queue.popleft()
@@ -53,9 +54,11 @@ def bfs(
 
         for neighbour_coords in explore_neighbours(current, hexagon_grid):
             neighbour = Hexagon(*neighbour_coords)
-            if neighbour not in visited:
+            new_cost = cost[current] + hexagon_grid.get_value(neighbour)
+            if neighbour not in visited or new_cost < cost[neighbour]:
                 visited.add(neighbour)
                 parent[neighbour] = current
+                cost[neighbour] = new_cost
                 new_path = [*current_path, neighbour]
                 queue.append((neighbour, new_path))
 
