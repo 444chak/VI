@@ -79,6 +79,7 @@ export default function Home() {
     }
     setError("");
     setResultSize(0);
+    setAlgo(false);
     setHexColors(Array(Columns * Rows).fill(""));
     setGrid(Array(Columns * Rows).fill(2));
     setStartState({ x: 0, y: 0 });
