@@ -30,4 +30,5 @@ async def get_info() -> dict:
 
 app.include_router(dijkstra.router, prefix="/dijkstra", tags=["dijkstra"])
 app.include_router(bfs.router, prefix="/bfs", tags=["bfs"])
+app.include_router(bfs.router, prefix="/bellman_ford", tags=["belman-ford"])
 # app.include_router(dfs.router, prefix="/dfs", tags=["dfs"])
