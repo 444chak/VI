@@ -30,8 +30,11 @@ def dijkstra(
         # Add current point and its weight to exploration steps
         point_coords = (current.x, current.y)
         point_weight = hexagon_grid.get_value(current)
-        if (point_coords, point_weight) not in exploration_steps:
-            exploration_steps.append((point_coords, point_weight))
+        weight = point_weight
+        if len(exploration_steps) > 0:
+            weight += exploration_steps[-1][1]
+        if (point_coords, weight) not in exploration_steps:
+            exploration_steps.append((point_coords, weight))
 
         if current == end:
             path = []
