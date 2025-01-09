@@ -16,19 +16,39 @@ def explore_neighbours(
     ]
 
 
-def dfs(hexagon_grid: HexagonGrid) -> list[tuple[int, int]]:
-    """Depth-first search on a hexagonal grid with shortest path tracking."""
+def dfs(
+    hexagon_grid: HexagonGrid,
+) -> tuple[list[tuple[int, int]], list[tuple[list[tuple[int, int]], int]]]:
+    """Depth-first search on a hexagonal grid with exploration tracking.
+
+    Returns:
+        tuple[list[tuple[int, int]], list[tuple[list[tuple[int, int]], int]]]:
+            - Shortest path
+            - List of (path, cost) for each exploration step
+
+    """
     start = hexagon_grid.start
     end = hexagon_grid.end
-    stack = [(start, [start])]  # Track path with each node
+    stack = [(start, [start])]
     visited = {start}
     best_path = None
     best_cost = float("inf")
     cost = {start: 0}
 
+    # Track all explored paths and their costs
+    exploration_steps = []
+
     while stack:
         current, current_path = stack.pop()
         current_cost = cost[current]
+
+        # Add current exploration step
+        exploration_steps.append(
+            (
+                get_path([Hexagon(pos.x, pos.y, pos.value) for pos in current_path]),
+                current_cost,
+            ),
+        )
 
         if current == end:
             if current_cost < best_cost:
@@ -48,4 +68,4 @@ def dfs(hexagon_grid: HexagonGrid) -> list[tuple[int, int]]:
                 new_path = [*current_path, neighbour]
                 stack.append((neighbour, new_path))
 
-    return get_path(best_path) if best_path else []
+    return (get_path(best_path) if best_path else [], exploration_steps)

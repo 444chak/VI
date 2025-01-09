@@ -22,7 +22,7 @@ async def dfs_route(grid: GridModel) -> dict:
     )
     grid_model.set_start(start)
     grid_model.set_end(end)
-    result = dfs(grid_model)
+    result, paths = dfs(grid_model)
     if len(result) == 0:
         raise HTTPException(status_code=400, detail="No path found.")
-    return {"result": result}
+    return {"result": result, "paths": paths}
