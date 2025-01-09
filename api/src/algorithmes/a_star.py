@@ -46,7 +46,7 @@ def a_star(
         if current == end:
             # Return current path instead of reconstructing from came_from
             return get_path(
-                [Hexagon(pos.x, pos.y, pos.value) for pos in current_path]
+                [Hexagon(pos.x, pos.y, pos.value) for pos in current_path],
             ), exploration_steps
 
         for neighbor in current.neighbors():
@@ -60,7 +60,7 @@ def a_star(
                 if neighbor not in g_score or tentative_g < g_score[neighbor]:
                     g_score[neighbor] = tentative_g
                     f_score[neighbor] = tentative_g + manhattan_distance(neighbor, end)
-                    new_path = current_path + [neighbor]
+                    new_path = [*current_path, neighbor]
                     heappush(queue, (f_score[neighbor], neighbor, new_path))
                     visited.add(neighbor)
 
