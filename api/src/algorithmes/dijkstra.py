@@ -35,12 +35,11 @@ def dijkstra(hexagon_grid: HexagonGrid) -> list[tuple[int, int]]:
 
         for next_pos in current.neighbors():
             if (
-                (0 <= next_pos.x < len(grid))
-                and (0 <= next_pos.y < len(grid[0]))
+                hexagon_grid.in_bounds(next_pos)
                 and next_pos not in visited
-                and grid[next_pos.x][next_pos.y] != -1
+                and hexagon_grid.get_value(next_pos) != -1
             ):
-                new_cost = current_cost + grid[next_pos.x][next_pos.y]
+                new_cost = current_cost + hexagon_grid.get_value(next_pos)
                 if next_pos not in cost_so_far or new_cost < cost_so_far[next_pos]:
                     cost_so_far[next_pos] = new_cost
                     heappush(queue, (new_cost, next_pos))
