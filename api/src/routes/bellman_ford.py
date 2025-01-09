@@ -1,4 +1,4 @@
-"""Dijkstra route."""
+"""Bellman ford route."""
 
 from fastapi import APIRouter, HTTPException
 
