@@ -19,7 +19,7 @@ const HexagonSvg: React.FC<HexagonSvgProps> = () => {
 
   useEffect(() => {
     const animateLines = () => {
-      linesRef.current.forEach((line, index) => {
+      linesRef.current.forEach((line) => {
         if (line) {
           const pathLength = line.getTotalLength();
 
@@ -29,7 +29,7 @@ const HexagonSvg: React.FC<HexagonSvgProps> = () => {
             {
               strokeDasharray: pathLength,
               strokeDashoffset: pathLength,
-              attr: { stroke: `hsl(${Math.random() * 360}, 80%, 60%)` }, // Couleur initiale
+              attr: { stroke: "#00FF00" }, // Couleur initiale
             },
             {
               strokeDasharray: pathLength,
@@ -38,7 +38,7 @@ const HexagonSvg: React.FC<HexagonSvgProps> = () => {
               delay: Math.random() * 30, // Délai de départ aléatoire
               ease: "linear",
               repeat: -1, // Répétition infinie
-              attr: { stroke: `hsl(${Math.random() * 360}, 80%, 60%)` }, // Nouvelle couleur à chaque cycle
+              attr: { stroke: "#FF0000" }, // Nouvelle couleur à chaque cycle
               onRepeat: () => {
                 // Recalculer la couleur
                 line.setAttribute("d", generateHexagonPath());
@@ -96,7 +96,8 @@ const HexagonSvg: React.FC<HexagonSvgProps> = () => {
         position: "absolute",
         top: 0,
         left: 0,
-        filter: "blur(10px)", // Laisser le flou
+        filter: "blur(8px)", // Laisser le flou
+        zIndex: 1,
       }}
     >
       <defs>

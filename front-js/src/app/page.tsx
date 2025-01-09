@@ -48,8 +48,7 @@ export default function Home() {
           height: "100vh",
           zIndex: -1,
         }}
-      />
-      <div>
+      >
         <HexagonSvg />
       </div>
       <div style={{ position: "relative", zIndex: 1 }}>
@@ -59,9 +58,10 @@ export default function Home() {
           alignItems="flex-start"
           height="10vh"
         >
-          <div className="logo"
+          <div
+            className="logo"
             style={{
-              background: "#000000CC",
+              background: "#000000",
               width: "100vw",
               display: "flex",
               justifyContent: "center",
@@ -71,6 +71,23 @@ export default function Home() {
           >
             <WhiteLogo />
           </div>
+          <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              width="100%"
+              style={{
+                position: "absolute",
+                transform: "translateY(7.5vh)", // Place les hexagones à moitié sur la boîte
+              }}
+            >
+              {Array.from({ length: 30 }).map((_, index) => (
+                <Hexagon
+                  key={index}
+                  color="#000000"
+                />
+              ))}
+            </Box>
         </Box>
         <Box
           display="flex"
@@ -94,7 +111,7 @@ export default function Home() {
               href="/home"
               style={{ fontSize: "2rem" }}
             >
-             Commencer
+              Commencer
             </Button>
           </Box>
           <Box
@@ -104,12 +121,43 @@ export default function Home() {
             alignItems="center"
             height="35vh"
             width="100vw"
-            style={{ background: "#000000CD" }}
+            style={{ background: "#000000", position: "relative" }}
           >
-            <Typography style={{ color: "white", fontSize: "1.5rem", padding: "2vw 10vw", textAlign: "justify" }}>
+            {/* Ligne d'hexagones noirs */}
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              width="100%"
+              style={{
+                position: "absolute",
+                top: 0,
+                transform: "translateY(-50%)", // Place les hexagones à moitié sur la boîte
+              }}
+            >
+              {Array.from({ length: 30 }).map((_, index) => (
+                <Hexagon
+                  key={index}
+                  color="#000000"
+                />
+              ))}
+            </Box>
+
+            {/* Contenu existant */}
+            <Typography
+              style={{
+                color: "white",
+                fontSize: "1.5rem",
+                padding: "2vw 10vw",
+                textAlign: "justify",
+              }}
+            >
               Découvrez notre application web éducative dédiée à la théorie des graphes ! Grâce à une grille hexagonale interactive, vous pouvez placer un point de départ, une destination, ainsi que des obstacles ou des murs pour explorer le fonctionnement des algorithmes comme A*, Dijkstra, ou BFS. Visualisez en temps réel leurs calculs et comprenez comment les chemins sont trouvés selon vos configurations. Ludique, intuitive et pédagogique, cette plateforme est idéale pour apprendre, enseigner ou simplement expérimenter avec les concepts fondamentaux des graphes.
             </Typography>
-            <Typography level="h4" style={{ color: "white", fontSize: "1.5rem" }}>
+            <Typography
+              level="h4"
+              style={{ color: "white", fontSize: "1.5rem" }}
+            >
               Essayez-la et transformez l’abstrait en concret !
             </Typography>
           </Box>
@@ -119,9 +167,11 @@ export default function Home() {
             alignItems="center"
             height="10vh"
             width="100vw"
-            style={{ background: "#000000CD" }}
+            style={{ background: "#000000" }}
           >
-            <Typography style={{ color: "white", fontSize: "1rem" }}>© Tous droits réservés : BARKER, OUALI, OUVRARD, RUBIO, GRAVIER </Typography>
+            <Typography style={{ color: "white", fontSize: "1rem" }}>
+              © Tous droits réservés : BARKER, OUALI, OUVRARD, RUBIO, GRAVIER
+            </Typography>
           </Box>
         </Box>
       </div>
