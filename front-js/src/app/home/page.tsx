@@ -288,7 +288,9 @@ export default function Home() {
       start: [startState.x, startState.y],
       end: [endState.x, endState.y],
     };
-    const response = await getAlgorithm(name, params);
+    const data = await getAlgorithm(name, params);
+    const response = data[0];
+    const paths = data[1];
     if (response.length === 0) {
       setError(ERROR_MESSAGES.NO_PATH);
     } else if (response) {
