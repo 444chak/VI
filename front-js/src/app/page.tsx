@@ -3,9 +3,12 @@
 import { Box, Button } from "@mui/joy";
 import { CssVarsProvider, extendTheme } from "@mui/joy/styles";
 import { BlurGradientBg } from "./modules/BlurGradientBg.module";
+import Typography from '@mui/joy/Typography';
 import { useEffect } from "react";
 import HexagonSvg from "./components/HexagonSvg/HexagonSvg";
-import Logo from "./components/Logo/Logo";
+import WhiteLogo from "./components/Logo/WhiteLogo";
+import Hexagon from "./components/Hexagon/Hexagon";
+
 const theme = extendTheme({
   colorSchemes: {
     light: {
@@ -58,23 +61,68 @@ export default function Home() {
         >
           <div className="logo"
             style={{
-              background: "#E0E0E0",
+              background: "#000000CC",
               width: "100vw",
               display: "flex",
               justifyContent: "center",
-              borderBottom: "3px solid #000",
+              alignItems: "center",
+              height: "10vh",
             }}
           >
-            <Logo />
+            <WhiteLogo />
           </div>
         </Box>
         <Box
           display="flex"
-          justifyContent="center"
+          flexDirection={"column"}
           alignItems="center"
-          height="90vh"
+          justifyContent="center"
+          width="100vw"
         >
-          <Button color="danger" variant="solid" size="lg" component="a" href="/home">Débuter</Button>
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            height="45vh"
+            width="100vw"
+          >
+            <Button
+              color="danger"
+              variant="soft"
+              size="lg"
+              component="a"
+              href="/home"
+              style={{ fontSize: "2rem" }}
+            >
+             Commencer
+            </Button>
+          </Box>
+          <Box
+            display="flex"
+            flexDirection={"column"}
+            justifyContent="center"
+            alignItems="center"
+            height="35vh"
+            width="100vw"
+            style={{ background: "#000000CD" }}
+          >
+            <Typography style={{ color: "white", fontSize: "1.5rem", padding: "2vw 10vw", textAlign: "justify" }}>
+              Découvrez notre application web éducative dédiée à la théorie des graphes ! Grâce à une grille hexagonale interactive, vous pouvez placer un point de départ, une destination, ainsi que des obstacles ou des murs pour explorer le fonctionnement des algorithmes comme A*, Dijkstra, ou BFS. Visualisez en temps réel leurs calculs et comprenez comment les chemins sont trouvés selon vos configurations. Ludique, intuitive et pédagogique, cette plateforme est idéale pour apprendre, enseigner ou simplement expérimenter avec les concepts fondamentaux des graphes.
+            </Typography>
+            <Typography level="h4" style={{ color: "white", fontSize: "1.5rem" }}>
+              Essayez-la et transformez l’abstrait en concret !
+            </Typography>
+          </Box>
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            height="10vh"
+            width="100vw"
+            style={{ background: "#000000CD" }}
+          >
+            <Typography style={{ color: "white", fontSize: "1rem" }}>© Tous droits réservés : BARKER, OUALI, OUVRARD, RUBIO, GRAVIER </Typography>
+          </Box>
         </Box>
       </div>
     </CssVarsProvider>
