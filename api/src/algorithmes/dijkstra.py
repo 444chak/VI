@@ -17,7 +17,6 @@ def dijkstra(hexagon_grid: HexagonGrid) -> list[tuple[int, int]]:
     """
     start = hexagon_grid.start
     end = hexagon_grid.end
-    grid = hexagon_grid.grid
     queue = [(0, start)]
     visited = {start}
     came_from = {start: None}
