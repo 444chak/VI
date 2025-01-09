@@ -14,6 +14,7 @@ def dijkstra(
         tuple[list[tuple[int, int]], list[tuple[tuple[int, int], int]]]:
             - Shortest path
             - List of (point_coordinates, point_weight) for each visited point
+
     """
     start = hexagon_grid.start
     end = hexagon_grid.end

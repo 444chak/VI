@@ -29,6 +29,7 @@ def a_star(
         tuple[list[tuple[int, int]], list[tuple[tuple[int, int], int]]]:
             - Shortest path found
             - List of (point_coordinates, point_weight) for each visited point
+
     """
     start = hexagon_grid.start
     end = hexagon_grid.end
@@ -50,7 +51,7 @@ def a_star(
 
         if current == end:
             return get_path(
-                [Hexagon(pos.x, pos.y, pos.value) for pos in current_path]
+                [Hexagon(pos.x, pos.y, pos.value) for pos in current_path],
             ), exploration_steps
 
         for neighbor in current.neighbors():
