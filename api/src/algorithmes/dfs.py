@@ -1,45 +1,58 @@
-"""DFS (Depth-First Search) algorithm."""
+"""Depth-first search on a hexagonal grid."""
 
-from classes.grid import Grid
-from classes.hexa import Hexa
+from classes.hexagon_grid import Hexagon, HexagonGrid, get_path
 
 
-def dfs(grid: Grid) -> list[tuple[int, int]]:
-    """Get Depth-First Search (DFS) path from start to end.
+def explore_neighbours(
+    hexagon: Hexagon,
+    hexagon_grid: HexagonGrid,
+) -> list[tuple[int, int]]:
+    """Explore the neighbors of a hexagon within the grid."""
+    neighbors = hexagon.neighbors()
+    return [
+        (neighbor.x, neighbor.y)
+        for neighbor in neighbors
+        if hexagon_grid.in_bounds(neighbor) and hexagon_grid.get_value(neighbor) != -1
+    ]
 
-    Args:
-        grid (Grid): grid object.
+
+def dfs(
+    hexagon_grid: HexagonGrid,
+) -> tuple[list[tuple[int, int]], list[tuple[list[tuple[int, int]], int]]]:
+    """Depth-first search on a hexagonal grid with exploration tracking.
 
     Returns:
-        list[tuple[int, int]]: Return the path from start to end.
-
+        tuple[list[tuple[int, int]], list[tuple[list[tuple[int, int]], int]]]:
+            - First path found
+            - List of (path, cost) for each exploration step
     """
-    start = grid.start
-    end = grid.end
-
-    # Pile pour le DFS
-    stack = [start]
-    # Dictionnaire pour conserver les prédécesseurs (pour reconstruire le chemin)
-    came_from = {start: None}
+    start = hexagon_grid.start
+    end = hexagon_grid.end
+    stack = [(start, [start])]
+    visited = {start}
+    cost = {start: 0}
+    exploration_steps = []
 
     while stack:
-        current = stack.pop()
+        current, current_path = stack.pop()
+        current_cost = cost[current]
 
-        # Si on atteint l'hexagone d'arrivée
+        exploration_steps.append(
+            (
+                get_path([Hexagon(pos.x, pos.y, pos.value) for pos in current_path]),
+                current_cost,
+            ),
+        )
+
         if current == end:
-            # Reconstruire le chemin à partir de `came_from`
-            path = []
-            while current is not None:
-                path.append((current.x, current.y))
-                current = came_from[current]
-            path.reverse()
-            return path
+            return get_path(current_path), exploration_steps
 
-        # Explorer les voisins de l'hexagone courant
-        for neighbor in grid.get_neighbors(current):
-            if neighbor not in came_from:  # Si le voisin n'a pas encore été visité
-                stack.append(neighbor)
-                came_from[neighbor] = current
+        for neighbour_coords in explore_neighbours(current, hexagon_grid):
+            neighbour = Hexagon(*neighbour_coords)
+            if neighbour not in visited:
+                visited.add(neighbour)
+                cost[neighbour] = current_cost + hexagon_grid.get_value(neighbour)
+                new_path = [*current_path, neighbour]
+                stack.append((neighbour, new_path))
 
-    # Aucun chemin trouvé
-    return []
+    return [], exploration_steps
