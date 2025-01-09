@@ -18,18 +18,40 @@ def explore_neighbours(
     ]
 
 
-def bfs(hexagon_grid: HexagonGrid) -> list[tuple[int, int]]:
-    """Breadth-first search on a hexagonal grid."""
+def bfs(
+    hexagon_grid: HexagonGrid,
+) -> tuple[list[tuple[int, int]], list[tuple[list[tuple[int, int]], int]]]:
+    """Breadth-first search on a hexagonal grid with exploration tracking.
+
+    Returns:
+        tuple[list[tuple[int, int]], list[tuple[list[tuple[int, int]], int]]]:
+            - Shortest path
+            - List of (path, cost) for each exploration step
+    """
     start = hexagon_grid.start
     end = hexagon_grid.end
-    queue = deque([start])
+    queue = deque([(start, [start])])  # Track full path with each node
     visited = {start}
     parent = {start: None}
     cost = {start: 0}
+
+    # Track exploration steps
+    exploration_steps = []
+
     while queue:
-        current = queue.popleft()
+        current, current_path = queue.popleft()
+
+        # Add current exploration step
+        exploration_steps.append(
+            (
+                get_path([Hexagon(pos.x, pos.y, pos.value) for pos in current_path]),
+                cost[current],
+            )
+        )
+
         if current == end:
             break
+
         for neighbour_coords in explore_neighbours(current, hexagon_grid):
             neighbour = Hexagon(*neighbour_coords)
             new_cost = cost[current] + hexagon_grid.get_value(neighbour)
@@ -37,14 +59,18 @@ def bfs(hexagon_grid: HexagonGrid) -> list[tuple[int, int]]:
                 visited.add(neighbour)
                 parent[neighbour] = current
                 cost[neighbour] = new_cost
-                queue.append(neighbour)
+                new_path = [*current_path, neighbour]
+                queue.append((neighbour, new_path))
 
+    # Reconstruct final path
     path = []
     step = end
     while step is not None:
         path.append(step)
         step = parent.get(step)
     path.reverse()
+
     if path == [end]:
-        return []
-    return get_path(path)
+        return [], exploration_steps
+
+    return get_path(path), exploration_steps
