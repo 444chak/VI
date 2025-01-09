@@ -20,46 +20,38 @@ def explore_neighbours(
 
 def bfs(
     hexagon_grid: HexagonGrid,
-) -> tuple[list[tuple[int, int]], list[tuple[list[tuple[int, int]], int]]]:
+) -> tuple[list[tuple[int, int]], list[tuple[tuple[int, int], int]]]:
     """Breadth-first search on a hexagonal grid with exploration tracking.
 
     Returns:
-        tuple[list[tuple[int, int]], list[tuple[list[tuple[int, int]], int]]]:
-            - Shortest path
-            - List of (path, cost) for each exploration step
-
+        tuple[list[tuple[int, int]], list[tuple[tuple[int, int], int]]]:
+            - First path found
+            - List of (point_coordinates, point_weight) for each visited point
     """
     start = hexagon_grid.start
     end = hexagon_grid.end
-    queue = deque([(start, [start])])  # Track full path with each node
+    queue = deque([(start, [start])])
     visited = {start}
     parent = {start: None}
-    cost = {start: 0}
-
-    # Track exploration steps
-    exploration_steps = []
+    exploration_steps = []  # Will store (point_coords, point_weight)
 
     while queue:
         current, current_path = queue.popleft()
 
-        # Add current exploration step
-        exploration_steps.append(
-            (
-                get_path([Hexagon(pos.x, pos.y, pos.value) for pos in current_path]),
-                cost[current],
-            ),
-        )
+        # Add current point and its weight to exploration steps
+        point_coords = (current.x, current.y)
+        point_weight = hexagon_grid.get_value(current)
+        if (point_coords, point_weight) not in exploration_steps:
+            exploration_steps.append((point_coords, point_weight))
 
         if current == end:
             break
 
         for neighbour_coords in explore_neighbours(current, hexagon_grid):
             neighbour = Hexagon(*neighbour_coords)
-            new_cost = cost[current] + hexagon_grid.get_value(neighbour)
-            if neighbour not in visited or new_cost < cost[neighbour]:
+            if neighbour not in visited:
                 visited.add(neighbour)
                 parent[neighbour] = current
-                cost[neighbour] = new_cost
                 new_path = [*current_path, neighbour]
                 queue.append((neighbour, new_path))
 

@@ -18,31 +18,28 @@ def explore_neighbours(
 
 def dfs(
     hexagon_grid: HexagonGrid,
-) -> tuple[list[tuple[int, int]], list[tuple[list[tuple[int, int]], int]]]:
+) -> tuple[list[tuple[int, int]], list[tuple[tuple[int, int], int]]]:
     """Depth-first search on a hexagonal grid with exploration tracking.
 
     Returns:
-        tuple[list[tuple[int, int]], list[tuple[list[tuple[int, int]], int]]]:
+        tuple[list[tuple[int, int]], list[tuple[tuple[int, int], int]]]:
             - First path found
-            - List of (path, cost) for each exploration step
+            - List of (point_coordinates, point_weight) for each visited point
     """
     start = hexagon_grid.start
     end = hexagon_grid.end
     stack = [(start, [start])]
     visited = {start}
-    cost = {start: 0}
-    exploration_steps = []
+    exploration_steps = []  # Will store (point_coords, point_weight)
 
     while stack:
         current, current_path = stack.pop()
-        current_cost = cost[current]
 
-        exploration_steps.append(
-            (
-                get_path([Hexagon(pos.x, pos.y, pos.value) for pos in current_path]),
-                current_cost,
-            ),
-        )
+        # Add current point and its weight to exploration steps
+        point_coords = (current.x, current.y)
+        point_weight = hexagon_grid.get_value(current)
+        if (point_coords, point_weight) not in exploration_steps:
+            exploration_steps.append((point_coords, point_weight))
 
         if current == end:
             return get_path(current_path), exploration_steps
@@ -51,7 +48,6 @@ def dfs(
             neighbour = Hexagon(*neighbour_coords)
             if neighbour not in visited:
                 visited.add(neighbour)
-                cost[neighbour] = current_cost + hexagon_grid.get_value(neighbour)
                 new_path = [*current_path, neighbour]
                 stack.append((neighbour, new_path))
 
