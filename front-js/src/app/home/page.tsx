@@ -36,6 +36,8 @@ import {
   TOOLTIPS,
   VALUE_TO_COLOR,
 } from "../dict";
+import ArrowIcon from "../components/icons/Arrow";
+import { get } from "http";
 
 export default function Home() {
   // const Columns = 20;
@@ -274,6 +276,8 @@ export default function Home() {
 
   const [algo, setAlgo] = useState(false);
 
+  const [pathsState, setPathsState] = useState([] as number[][][]);
+
   const callAlgorithm = async (name: string) => {
     if (inProgress) {
       setError(ERROR_MESSAGES.ALGO_IN_PROGRESS);
@@ -292,6 +296,7 @@ export default function Home() {
     const data = await getAlgorithm(name, params);
     const response = data[0] as number[][];
     const paths = data[1] as number[][][];
+    setPathsState(paths);
     if (response.length === 0) {
       setError(ERROR_MESSAGES.NO_PATH);
     } else if (response) {
@@ -323,11 +328,60 @@ export default function Home() {
     }
   };
 
+  const getBorder = (
+    coords_1: { x: number; y: number },
+    coords_2: { x: number; y: number }
+  ) => {
+    const borders = [];
+
+    if (coords_1.x === coords_2.x - 1 && coords_1.y === coords_2.y) {
+      borders.push("bottom");
+    } else if (coords_1.x === coords_2.x + 1 && coords_1.y === coords_2.y) {
+      borders.push("top");
+    } else if (coords_1.x === coords_2.x && coords_1.y === coords_2.y - 1) {
+      borders.push("top-right");
+    } else if (coords_1.x === coords_2.x && coords_1.y === coords_2.y + 1) {
+      borders.push("bottom-left");
+    } else if (coords_1.x === coords_2.x - 1 && coords_1.y === coords_2.y + 1) {
+      borders.push("bottom-right");
+    } else if (coords_1.x === coords_2.x + 1 && coords_1.y === coords_2.y - 1) {
+      borders.push("top-left");
+    }
+    return borders;
+  };
+
+  const searchSuivants = (coords, paths) => {
+    // paths est consitué de couples (départ, arrivée), chercher toutes les arrivées qui partent de coords
+    const suivants: number[][] = [];
+    (paths as number[][][]).forEach((element: number[][]) => {
+      // console.log(element[0][0], coords.x, element[0][1], coords.y, element[1]);
+      if (element[0][0] === coords.x && element[0][1] === coords.y) {
+        suivants.push(element[1]);
+      }
+    });
+    console.log(suivants);
+    return suivants;
+  };
+
+  const [borders, setBorders] = useState([] as string[][]);
+
+  const setBordersS = () => {
+    console.log(borders);
+  };
+
   return (
     <>
       <Box display="flex" flexDirection={"column"} alignItems={"center"}>
         <Logo />
         {/* TODO: Changer l'affichage de la taille du chemin */}
+        <Button
+          onClick={setBordersS}
+          color="primary"
+          variant="outlined"
+          startDecorator={<ArrowIcon color="currentColor" direction="down" />}
+        >
+          Afficher les chemins
+        </Button>
         <Typography level="h1" sx={{ mb: 2 }}>
           {resultSize}
         </Typography>
@@ -634,8 +688,18 @@ export default function Home() {
                             () => handleMouseEnter(index, activeColor) // Gestion du survol
                           }
                           className="no-select"
+                          borders={borders[index]}
+                          // border={}
+                          // border="top-left"
+                          // borders={searchSuivants(
+                          //   { x: colIndex, y: rowIndex },
+                          //   pathsState
+                          // )
+                          //   .map((coords) =>
+                          //     getBorder(coords, { x: colIndex, y: rowIndex })
+                          //   )
+                          //   .flat()}
                         />
-                        <br />
                       </React.Fragment>
                     );
                   })}

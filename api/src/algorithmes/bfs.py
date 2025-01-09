@@ -34,20 +34,11 @@ def bfs(
     queue = deque([(start, [start])])
     visited = {start}
     parent = {start: None}
-    exploration_steps = []  # Will store (point_coords, point_weight)
+    exploration_steps = []  # Will store (parent_coords, child_coords)
     cost = {start: 0}
 
     while queue:
         current, current_path = queue.popleft()
-
-        # Add current point and its weight to exploration steps
-        point_coords = (current.x, current.y)
-        point_weight = hexagon_grid.get_value(current)
-        weight = point_weight
-        if len(exploration_steps) > 0:
-            weight += exploration_steps[-1][1]
-        if (point_coords, weight) not in exploration_steps:
-            exploration_steps.append((point_coords, weight))
 
         if current == end:
             break
@@ -61,6 +52,11 @@ def bfs(
                 cost[neighbour] = new_cost
                 new_path = [*current_path, neighbour]
                 queue.append((neighbour, new_path))
+
+                # Add parent and child coordinates to exploration steps
+                parent_coords = (current.x, current.y)
+                child_coords = (neighbour.x, neighbour.y)
+                exploration_steps.append((parent_coords, child_coords))
 
     # Reconstruct final path
     path = []
