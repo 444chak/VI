@@ -6,7 +6,10 @@ export async function getAlgorithm(
 ) {
   try {
     const response = await apiClient.post(`/${name}/`, params);
-    const data = response.data as { result: number[][], paths: number[][][] };
+    const data = response.data as {
+      result: number[][];
+      paths: { [key: string]: string[][] };
+    };
     return [data.result, data.paths];
   } catch {
     return [];
