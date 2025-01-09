@@ -27,6 +27,7 @@ def bfs(
         tuple[list[tuple[int, int]], list[tuple[list[tuple[int, int]], int]]]:
             - Shortest path
             - List of (path, cost) for each exploration step
+
     """
     start = hexagon_grid.start
     end = hexagon_grid.end
@@ -46,7 +47,7 @@ def bfs(
             (
                 get_path([Hexagon(pos.x, pos.y, pos.value) for pos in current_path]),
                 cost[current],
-            )
+            ),
         )
 
         if current == end:
