@@ -20,30 +20,41 @@ def manhattan_distance(pos: Hexagon, end: Hexagon) -> int:
     return abs(pos.x - end.x) + abs(pos.y - end.y)
 
 
-def a_star(hexagon_grid: HexagonGrid) -> list[tuple[int, int]]:
-    """Return result of A* algorithm for hexagonal grid.
-
-    Args:
-        hexagon_grid (HexagonGrid): hexagonal grid
+def a_star(
+    hexagon_grid: HexagonGrid,
+) -> tuple[list[tuple[int, int]], list[tuple[list[tuple[int, int]], int]]]:
+    """Return result of A* algorithm with exploration steps.
 
     Returns:
-        list[tuple[int, int]]: path from start to end
+        tuple[list[tuple[int, int]], list[tuple[list[tuple[int, int]], int]]]:
+            - Shortest path
+            - List of (path, cost) for each exploration step
 
     """
     start = hexagon_grid.start
     end = hexagon_grid.end
 
-    queue = [(0, start)]
+    queue = [(0, start, [start])]  # Add current path to queue
     visited = {start}
     came_from = {start: None}
     g_score = {start: 0}
     f_score = {start: manhattan_distance(start, end)}
 
+    exploration_steps = []
+
     while queue:
-        _, current = heappop(queue)
+        _, current, current_path = heappop(queue)
+
+        # Add current exploration step
+        exploration_steps.append(
+            (
+                get_path([Hexagon(pos.x, pos.y, pos.value) for pos in current_path]),
+                g_score[current],
+            ),
+        )
 
         if current == end:
-            return get_path(came_from)
+            return get_path(came_from), exploration_steps
 
         for neighbor in current.neighbors():
             if (
@@ -57,7 +68,8 @@ def a_star(hexagon_grid: HexagonGrid) -> list[tuple[int, int]]:
                     came_from[neighbor] = current
                     g_score[neighbor] = tentative_g
                     f_score[neighbor] = tentative_g + manhattan_distance(neighbor, end)
-                    heappush(queue, (f_score[neighbor], neighbor))
+                    new_path = [*current_path, neighbor]
+                    heappush(queue, (f_score[neighbor], neighbor, new_path))
                     visited.add(neighbor)
 
-    return []  # No path found
+    return [], exploration_steps  # No path found
