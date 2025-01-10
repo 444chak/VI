@@ -81,6 +81,7 @@ export const TOOLTIPS = {
   RESET_ALGO: "Réinitialiser l'algorithme en cours",
   NO_ALGORITHM_CHANGE_SIZE:
     "Impossible de changer la taille de la grille pendant un algorithme",
+  RANDOM_COLORS: "Générer des couleurs aléatoires",
 };
 
 // Alerts
