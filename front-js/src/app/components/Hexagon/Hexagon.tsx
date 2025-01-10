@@ -12,6 +12,7 @@ interface HexaProps {
 
 const defaultSize = 64;
 const defaultColor = "lightgrey";
+const arrowColor = "black";
 
 function getSize(size?: number) {
   return size ? size : defaultSize;
@@ -53,22 +54,22 @@ export default function Hexa({
           ></path>
         )}
         {arrows?.includes("top") && (
-          <path d="M100 20 L90 40 L110 40 Z" fill="darkgreen"></path>
+          <path d="M100 20 L90 40 L110 40 Z" fill={arrowColor}></path>
         )}
         {arrows?.includes("bottom") && (
-          <path d="M100 160 L90 140 L110 140 Z" fill="darkgreen"></path>
+          <path d="M100 160 L90 140 L110 140 Z" fill={arrowColor}></path>
         )}
         {arrows?.includes("top-left") && (
-          <path d="M 43 41 L 51 59 L 62 46 Z" fill="darkgreen"></path>
+          <path d="M 43 41 L 51 59 L 62 46 Z" fill={arrowColor}></path>
         )}
         {arrows?.includes("top-right") && (
-          <path d="M 168 54 L 146 57 L 155 72 Z" fill="darkgreen"></path>
+          <path d="M 168 54 L 146 57 L 155 72 Z" fill={arrowColor}></path>
         )}
         {arrows?.includes("bottom-right") && (
-          <path d="M 146 129 L 135 141 L 156 147 Z" fill="darkgreen"></path>
+          <path d="M 146 129 L 135 141 L 156 147 Z" fill={arrowColor}></path>
         )}
         {arrows?.includes("bottom-left") && (
-          <path d="M 53 125 L 45 143 L 64 136 Z" fill="darkgreen"></path>
+          <path d="M 53 125 L 45 143 L 64 136 Z" fill={arrowColor}></path>
         )}
       </svg>
     </>
