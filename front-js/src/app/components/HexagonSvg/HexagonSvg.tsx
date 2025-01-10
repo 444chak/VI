@@ -51,10 +51,10 @@ const HexagonSvg: React.FC = () => {
                 // Mettre à jour la couleur
                 line.setAttribute(
                   "stroke",
-                  `hsl(${Math.random() * 360}, 80%, 60%)`
+                  `hsl(${Math.random() * 360}, 80%, 60%)`,
                 );
               },
-            }
+            },
           );
         }
       });
@@ -89,7 +89,7 @@ const HexagonSvg: React.FC = () => {
   // Générer plusieurs chemins aléatoires
   const numberOfLines = 10; // Nombre de lignes (modifiable)
   const lines = Array.from({ length: numberOfLines }, () =>
-    generateHexagonPath()
+    generateHexagonPath(),
   );
 
   return (

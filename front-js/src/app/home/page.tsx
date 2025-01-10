@@ -70,7 +70,7 @@ export default function Home() {
 
   // Gestion de l'état des couleurs pour chaque hexagone
   const [hexColors, setHexColors] = useState(
-    Array(Columns * Rows).fill("") // Init with empty colors
+    Array(Columns * Rows).fill(""), // Init with empty colors
   );
 
   // Réinitialise toutes les couleurs
@@ -329,7 +329,7 @@ export default function Home() {
                 return updatedArrows;
               });
             },
-            i * Rows + j
+            i * Rows + j,
           ); // 1 second timeout for each arrow
         }
       }
