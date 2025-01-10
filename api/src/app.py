@@ -3,7 +3,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routes import a_star, bfs, dfs, dijkstra, bellman_ford
+from routes import a_star, bellman_ford, bfs, dfs, dijkstra
 
 app = FastAPI(title="VI API", version="1.0.0")
 
