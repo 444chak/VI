@@ -9,6 +9,7 @@ import {
   Tooltip,
   Slider,
   Alert,
+  Link,
 } from "@mui/joy";
 import Hexa from "../components/Hexagon/Hexagon";
 import { Grid2 } from "@mui/material";
@@ -22,7 +23,7 @@ import Space from "../components/Space/Space";
 import FlagIcon from "../components/icons/Flag";
 import HouseIcon from "../components/icons/House";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import Logo from "../components/Logo";
+import Logo from "../components/Logo/Logo";
 import InfoIcon from "../components/icons/Info";
 import WarningIcon from "../components/icons/Warning";
 import { getAlgorithm } from "../api/viApi";
@@ -409,6 +410,14 @@ export default function Home() {
 
   return (
     <>
+      <Link
+        href="/"
+        variant="plain"
+        underline="none"
+        sx={{ margin: "1rem", position: "absolute" }}
+      >
+        Retour à l&rsquo;accueil
+      </Link>
       <Box display="flex" flexDirection={"column"} alignItems={"center"}>
         <Logo />
       </Box>
@@ -842,6 +851,18 @@ export default function Home() {
           </Box>
         </Grid2>
       </Grid2>
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="10vh"
+        width="100vw"
+        style={{ background: "#fff", opacity: 0.8 }}
+      >
+        <Typography style={{ color: "black", fontSize: "1rem" }}>
+          © Tous droits réservés : BARKER, OUALI, OUVRARD, RUBIO, GRAVIER
+        </Typography>
+      </Box>
     </>
   );
 }
