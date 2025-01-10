@@ -429,21 +429,6 @@ export default function Home() {
                 Outils
               </Typography>
             </Box>
-            <Box
-              display="flex"
-              flexDirection={"column"}
-              alignItems={"center"}
-              paddingLeft={"2rem"}
-              paddingRight={"2rem"}
-            >
-              <Alert
-                color="primary"
-                startDecorator={<InfoIcon color="currentColor" />}
-                size="sm"
-              >
-                {ALERTS.HEXA_DEFAULT_VALUE}
-              </Alert>
-            </Box>
             <Box display="flex" flexDirection={"column"} alignItems={"center"}>
               <Tooltip
                 title={TOOLTIPS.RANDOM_COLORS}
@@ -861,6 +846,46 @@ export default function Home() {
           </Box>
         </Grid2>
       </Grid2>
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        flexDirection={"column"}
+      >
+        <Alert
+          color="neutral"
+          startDecorator={<InfoIcon color="currentColor" />}
+          size="sm"
+          sx={{ margin: "1rem" }}
+        >
+          <Typography fontSize="sm" padding={"1rem"}>
+            Pour placer le point de départ et d&rsquo;arrivée, cliquez sur les
+            boutons correspondants puis sur l&rsquo;hexagone de votre choix.
+            <br />
+            L&rsquo;objectif est de trouver le chemin le plus court entre ces
+            deux points. <br />
+            Vous pouvez également personnaliser la grille en ajoutant des
+            obstacles et des bonus/malus.
+            <br />
+            <br />
+            Légende des couleurs :<br />
+            <Hexa size={20} color={COLORS[1]} /> : Chemin par défaut, 2 points{" "}
+            <br />
+            <Hexa size={20} color={COLORS[2]} /> : Mur, impossible de passer
+            <br />
+            <Hexa size={20} color={COLORS[3]} /> : Eau, 5 points
+            <br />
+            <Hexa size={20} color={COLORS[4]} /> : Herbe, 3 points
+            <br />
+            <Hexa size={20} color={COLORS[5]} /> : Glace, 1 point
+            <br />
+            <Hexa size={20} color={COLORS[6]} /> : Départ
+            <br />
+            <Hexa size={20} color={COLORS[7]} /> : Arrivée
+          </Typography>
+        </Alert>
+      </Box>
+
       <Box
         display="flex"
         justifyContent="center"
