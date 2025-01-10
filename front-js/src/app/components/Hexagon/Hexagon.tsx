@@ -56,27 +56,19 @@ export default function Hexa({
           <path d="M100 20 L90 40 L110 40 Z" fill="darkgreen"></path>
         )}
         {arrows?.includes("bottom") && (
-          <path d="M100 180 L90 160 L110 160 Z" fill="darkgreen"></path>
+          <path d="M100 160 L90 140 L110 140 Z" fill="darkgreen"></path>
         )}
         {arrows?.includes("top-left") && (
-          <path
-            d="M30 30 L20 50 L40 50 Z"
-            fill="darkgreen"
-            transform="rotate(-30 30 30)"
-          ></path>
+          <path d="M 43 41 L 51 59 L 62 46 Z" fill="darkgreen"></path>
         )}
         {arrows?.includes("top-right") && (
-          <path
-            d="M170 30 L160 50 L180 50 Z"
-            fill="darkgreen"
-            transform="rotate(30 170 30)"
-          ></path>
+          <path d="M 168 54 L 146 57 L 155 72 Z" fill="darkgreen"></path>
         )}
         {arrows?.includes("bottom-right") && (
-          <path d="M150 130 L140 150 L160 150 Z" fill="darkgreen"></path>
+          <path d="M 146 129 L 135 141 L 156 147 Z" fill="darkgreen"></path>
         )}
         {arrows?.includes("bottom-left") && (
-          <path d="M50 130 L40 150 L60 150 Z" fill="darkgreen"></path>
+          <path d="M 53 125 L 45 143 L 64 136 Z" fill="darkgreen"></path>
         )}
       </svg>
     </>
