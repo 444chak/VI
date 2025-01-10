@@ -1,6 +1,6 @@
 # :lipstick: VI Web
 
-**Table des matières**
+**Table des matières**  
 
 - [Framework](#framework)
 - [Mise en place (Si vous ne passez pas par le Docker)](#mise-en-place-si-vous-ne-passez-pas-par-le-docker)
