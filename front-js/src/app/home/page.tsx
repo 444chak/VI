@@ -785,15 +785,7 @@ export default function Home() {
                   color: "neutral" as const,
                   label: ALGORITHM_LABELS.BELLMAN_FORD,
                   tooltip: TOOLTIPS.BELLMAN_FORD,
-                  onClick: () =>
-                    setActiveAlgorithmIntermediary(
-                      ALGORITHM_PATHS.BELLMAN_FORD
-                    ),
-                },
-                {
-                  color: "neutral" as const,
-                  label: ALGORITHM_LABELS.BELLMAN_FORD,
-                  tooltip: TOOLTIPS.BELLMAN_FORD,
+                  slug: ALGORITHM_PATHS.BELLMAN_FORD,
                   onClick: () =>
                     setActiveAlgorithmIntermediary(
                       ALGORITHM_PATHS.BELLMAN_FORD
