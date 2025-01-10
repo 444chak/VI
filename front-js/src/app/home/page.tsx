@@ -789,6 +789,12 @@ export default function Home() {
                 },
                 {
                   color: "neutral" as const,
+                  label: ALGORITHM_LABELS.BELLMAN_FORD,
+                  tooltip: TOOLTIPS.BELLMAN_FORD,
+                  onClick: () => callAlgorithm(ALGORITHM_PATHS.BELLMAN_FORD),
+                },
+                {
+                  color: "neutral" as const,
                   label: ALGORITHM_LABELS.DFS,
                   tooltip: TOOLTIPS.DFS,
                   slug: ALGORITHM_PATHS.DFS,
