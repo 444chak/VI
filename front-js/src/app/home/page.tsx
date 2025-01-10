@@ -30,13 +30,13 @@ import {
   ALERTS,
   ALGORITHM_LABELS,
   ALGORITHM_PATHS,
+  BUTTONS,
   COLOR_VALUES,
   COLORS,
   ERROR_MESSAGES,
   TOOLTIPS,
   VALUE_TO_COLOR,
 } from "../dict";
-import ArrowIcon from "../components/icons/Arrow";
 
 export default function Home() {
   // const Columns = 20;
@@ -95,6 +95,7 @@ export default function Home() {
       newGrid[Columns * Rows - 1] = COLOR_VALUES.end;
       return newGrid;
     });
+    setArrows([]);
   };
 
   const resetAlgo = () => {
@@ -109,11 +110,13 @@ export default function Home() {
         updatedColors[i] = VALUE_TO_COLOR[grid[i]];
       }
     }
+    setBordereds(Array(Columns * Rows).fill(false));
     setHexColors(updatedColors);
     setInProgress(false);
     setError("");
     setResultSize(0);
     setAlgo(false);
+    setArrows([]);
   };
 
   const [startState, setStartState] = useState({ x: 0, y: 0 });
@@ -271,15 +274,25 @@ export default function Home() {
 
   const [inProgress, setInProgress] = useState(false);
 
-  const timeForAlgorithm = 100;
+  const timeForAlgorithm = 50;
 
   const [algo, setAlgo] = useState(false);
 
-  const [pathsState, setPathsState] = useState<{ [key: string]: string[][] }>(
-    {}
-  );
+  const [activeAlgorithm, setActiveAlgorithm] = useState("");
 
-  const callAlgorithm = async (name: string) => {
+  const setActiveAlgorithmIntermediary = (algo: string) => {
+    if (activeAlgorithm === algo) {
+      setActiveAlgorithm("");
+    } else {
+      setActiveAlgorithm(algo);
+    }
+  };
+
+  const startAlgo = async () => {
+    if (activeAlgorithm === "") {
+      setError(ERROR_MESSAGES.NO_ALGORITHM);
+      return;
+    }
     if (inProgress) {
       setError(ERROR_MESSAGES.ALGO_IN_PROGRESS);
       return;
@@ -288,16 +301,42 @@ export default function Home() {
       setError(ERROR_MESSAGES.RESET_ALGO);
       return;
     }
+
     const gridParam = mapGrid(grid);
     const params = {
       grid: gridParam,
       start: [startState.x, startState.y],
       end: [endState.x, endState.y],
     };
-    const data = await getAlgorithm(name, params);
+    const data = await getAlgorithm(activeAlgorithm, params);
     const response = data[0] as number[][];
     const paths = data[1] as { [key: string]: string[][] };
-    setPathsState(paths);
+
+    const newArrows = Array(Columns * Rows).fill([]);
+    for (let i = 0; i < Columns; i++) {
+      for (let j = 0; j < Rows; j++) {
+        const index = i * Rows + j;
+        if (paths[`${i},${j}`]) {
+          setTimeout(() => {
+            setArrows((prevArrows) => {
+              const updatedArrows = [...prevArrows];
+              newArrows[index] = paths[`${i},${j}`];
+              updatedArrows[index] = newArrows[index];
+              // updatedArrows[index] = paths[`${i},${j}`];
+              return updatedArrows;
+            });
+          }, i * Rows + j); // 1 second timeout for each arrow
+        }
+      }
+    }
+    setTimeout(() => {
+      callAlgorithm(response);
+    }, Columns * Rows);
+  };
+
+  const [bordereds, setBordereds] = useState(Array(Columns * Rows).fill(false));
+
+  const callAlgorithm = async (response: number[][]) => {
     if (response.length === 0) {
       setError(ERROR_MESSAGES.NO_PATH);
     } else if (response) {
@@ -313,12 +352,15 @@ export default function Home() {
             index !== startState.x * Rows + startState.y &&
             index !== endState.x * Rows + endState.y
           ) {
+            setBordereds((prev) => {
+              const newBordereds = [...prev];
+              newBordereds[index] = true;
+              return newBordereds;
+            });
             const color = updatedColors[index];
             size += COLOR_VALUES[color];
-            updatedColors[index] = "red";
+            console.log(size);
             setResultSize(size);
-
-            setHexColors([...updatedColors]);
           }
         }, i * timeForAlgorithm);
       }
@@ -329,37 +371,12 @@ export default function Home() {
     }
   };
 
-  const [borders, setBorders] = useState([] as string[][]);
-
-  const setBordersS = () => {
-    const newBorders = Array(Columns * Rows).fill([]);
-    for (let i = 0; i < Columns; i++) {
-      for (let j = 0; j < Rows; j++) {
-        const index = i * Rows + j;
-        if (pathsState[`${i},${j}`]) {
-          newBorders[index] = pathsState[`${i},${j}`];
-        }
-      }
-    }
-    setBorders(newBorders);
-  };
+  const [arrows, setArrows] = useState([] as string[][]);
 
   return (
     <>
       <Box display="flex" flexDirection={"column"} alignItems={"center"}>
         <Logo />
-        {/* TODO: Changer l'affichage de la taille du chemin */}
-        <Button
-          onClick={setBordersS}
-          color="primary"
-          variant="outlined"
-          startDecorator={<ArrowIcon color="currentColor" direction="down" />}
-        >
-          Afficher les chemins
-        </Button>
-        <Typography level="h1" sx={{ mb: 2 }}>
-          {resultSize}
-        </Typography>
       </Box>
       <Grid2 container spacing={2}>
         <Grid2 size={isMediumScreen ? 12 : 3}>
@@ -663,17 +680,8 @@ export default function Home() {
                             () => handleMouseEnter(index, activeColor) // Gestion du survol
                           }
                           className="no-select"
-                          borders={borders[index]}
-                          // border={}
-                          // border="top-left"
-                          // borders={searchSuivants(
-                          //   { x: colIndex, y: rowIndex },
-                          //   pathsState
-                          // )
-                          //   .map((coords) =>
-                          //     getBorder(coords, { x: colIndex, y: rowIndex })
-                          //   )
-                          //   .flat()}
+                          arrows={arrows[index]}
+                          bordered={bordereds[index]}
                         />
                         <br />
                       </React.Fragment>
@@ -695,25 +703,33 @@ export default function Home() {
                   color: "neutral" as const,
                   label: ALGORITHM_LABELS.DIJKSTRA,
                   tooltip: TOOLTIPS.DIJKSTRA,
-                  onClick: () => callAlgorithm(ALGORITHM_PATHS.DIJKSTRA),
+                  slug: ALGORITHM_PATHS.DIJKSTRA,
+                  onClick: () =>
+                    setActiveAlgorithmIntermediary(ALGORITHM_PATHS.DIJKSTRA),
                 },
                 {
                   color: "neutral" as const,
                   label: ALGORITHM_LABELS.ASTAR,
                   tooltip: TOOLTIPS.ASTAR,
-                  onClick: () => callAlgorithm(ALGORITHM_PATHS.ASTAR),
+                  slug: ALGORITHM_PATHS.ASTAR,
+                  onClick: () =>
+                    setActiveAlgorithmIntermediary(ALGORITHM_PATHS.ASTAR),
                 },
                 {
                   color: "neutral" as const,
                   label: ALGORITHM_LABELS.DFS,
                   tooltip: TOOLTIPS.DFS,
-                  onClick: () => callAlgorithm(ALGORITHM_PATHS.DFS),
+                  slug: ALGORITHM_PATHS.DFS,
+                  onClick: () =>
+                    setActiveAlgorithmIntermediary(ALGORITHM_PATHS.DFS),
                 },
                 {
                   color: "neutral" as const,
                   label: ALGORITHM_LABELS.BFS,
                   tooltip: TOOLTIPS.BFS,
-                  onClick: () => callAlgorithm(ALGORITHM_PATHS.BFS),
+                  slug: ALGORITHM_PATHS.BFS,
+                  onClick: () =>
+                    setActiveAlgorithmIntermediary(ALGORITHM_PATHS.BFS),
                 },
                 {
                   color: "danger" as const,
@@ -732,7 +748,9 @@ export default function Home() {
                   <Button
                     key={index}
                     color={buttonProps.color}
-                    variant="outlined"
+                    variant={
+                      activeAlgorithm === buttonProps.slug ? "soft" : "outlined"
+                    }
                     onClick={buttonProps.onClick}
                   >
                     {buttonProps.label}
@@ -740,6 +758,27 @@ export default function Home() {
                 </Tooltip>
               ))}
             </ButtonGroup>
+            <Button
+              onClick={startAlgo}
+              color="neutral"
+              variant="outlined"
+              size="lg"
+              sx={{ marginTop: "1rem" }}
+            >
+              {BUTTONS.START}
+            </Button>
+            {resultSize > 0 && (
+              <Box
+                display="flex"
+                flexDirection={"column"}
+                alignItems={"center"}
+                justifyContent={"center"}
+              >
+                <Typography level="h3" sx={{ mt: 2 }}>
+                  {resultSize}
+                </Typography>
+              </Box>
+            )}
           </Box>
         </Grid2>
       </Grid2>
