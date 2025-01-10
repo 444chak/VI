@@ -69,7 +69,7 @@ export default function Home() {
 
   // Gestion de l'état des couleurs pour chaque hexagone
   const [hexColors, setHexColors] = useState(
-    Array(Columns * Rows).fill(""), // Init with empty colors
+    Array(Columns * Rows).fill("") // Init with empty colors
   );
 
   // Réinitialise toutes les couleurs
@@ -328,7 +328,7 @@ export default function Home() {
                 return updatedArrows;
               });
             },
-            i * Rows + j,
+            i * Rows + j
           ); // 1 second timeout for each arrow
         }
       }
@@ -785,13 +785,19 @@ export default function Home() {
                   color: "neutral" as const,
                   label: ALGORITHM_LABELS.BELLMAN_FORD,
                   tooltip: TOOLTIPS.BELLMAN_FORD,
-                  onClick: () => callAlgorithm(ALGORITHM_PATHS.BELLMAN_FORD),
+                  onClick: () =>
+                    setActiveAlgorithmIntermediary(
+                      ALGORITHM_PATHS.BELLMAN_FORD
+                    ),
                 },
                 {
                   color: "neutral" as const,
                   label: ALGORITHM_LABELS.BELLMAN_FORD,
                   tooltip: TOOLTIPS.BELLMAN_FORD,
-                  onClick: () => callAlgorithm(ALGORITHM_PATHS.BELLMAN_FORD),
+                  onClick: () =>
+                    setActiveAlgorithmIntermediary(
+                      ALGORITHM_PATHS.BELLMAN_FORD
+                    ),
                 },
                 {
                   color: "neutral" as const,
