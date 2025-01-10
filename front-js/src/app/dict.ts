@@ -77,7 +77,7 @@ export const ALGORITHM_PATHS = {
 // Tooltips
 export const TOOLTIPS = {
   DIJKSTRA: "Algorithme de Dijkstra",
-  BELLMAN_FORD : "Algorithme de Bellman-Ford",
+  BELLMAN_FORD: "Algorithme de Bellman-Ford",
   ASTAR: "Heuristique de Manhattan",
   DFS: "Parcours en profondeur",
   BFS: "Parcours en largeur",
