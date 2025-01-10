@@ -37,15 +37,6 @@ def dfs(
     while stack:
         current, current_path = stack.pop()
 
-        # Add current point and its weight to exploration steps
-        point_coords = (current.x, current.y)
-        point_weight = hexagon_grid.get_value(current)
-        weight = point_weight
-        if len(exploration_steps) > 0:
-            weight += exploration_steps[-1][1]
-        if (point_coords, weight) not in exploration_steps:
-            exploration_steps.append((point_coords, weight))
-
         if current == end:
             return get_path(current_path), exploration_steps
 
@@ -57,5 +48,8 @@ def dfs(
                 visited.add(neighbour)
                 new_path = [*current_path, neighbour]
                 stack.append((neighbour, new_path))
+                exploration_steps.append(
+                    ((current.x, current.y), (neighbour.x, neighbour.y)),
+                )
 
     return [], exploration_steps
