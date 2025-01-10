@@ -454,19 +454,19 @@ export default function Home() {
               >
                 {[
                   {
-                    color: "success" as const,
+                    color: "warning" as const,
                     label: "Départ",
                     tooltip: "Place le point de départ",
                     variant: "soft",
                     onClick: () => handleOnActionButtons(6),
-                    startDecorator: <HouseIcon color="#1F7A1F" />,
+                    startDecorator: <HouseIcon color="#e6c850" />,
                   },
                   {
-                    color: "warning" as const,
+                    color: "danger" as const,
                     label: "Objectif",
                     tooltip: "Place le point d'arrivée",
                     onClick: () => handleOnActionButtons(7),
-                    startDecorator: <FlagIcon color="#9A5B13" />,
+                    startDecorator: <FlagIcon color="#7D1212" />,
                   },
                 ].map((buttonProps, index) => (
                   <Tooltip
