@@ -6,6 +6,7 @@ from algorithmes.dijkstra import dijkstra
 from classes.hexagon import Hexagon
 from classes.hexagon_grid import HexagonGrid
 from models.grid import GridModel
+from utils.paths_utils import setup_paths
 
 router = APIRouter()
 
@@ -25,4 +26,4 @@ async def dijkstra_route(grid: GridModel) -> dict:
     result, paths = dijkstra(grid_model)
     # if len(result) == 0:
     #     raise HTTPException(status_code=400, detail="No path found.")
-    return {"result": result, "paths": paths}
+    return {"result": result, "paths": setup_paths(paths)}

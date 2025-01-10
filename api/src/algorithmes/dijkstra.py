@@ -28,13 +28,6 @@ def dijkstra(
         current_cost, current, current_path = heappop(queue)
 
         # Add current point and its weight to exploration steps
-        point_coords = (current.x, current.y)
-        point_weight = hexagon_grid.get_value(current)
-        weight = point_weight
-        if len(exploration_steps) > 0:
-            weight += exploration_steps[-1][1]
-        if (point_coords, weight) not in exploration_steps:
-            exploration_steps.append((point_coords, weight))
 
         if current == end:
             path = []
@@ -57,5 +50,8 @@ def dijkstra(
                     heappush(queue, (new_cost, next_pos, new_path))
                     came_from[next_pos] = current
                     visited.add(next_pos)
+                    exploration_steps.append(
+                        ((current.x, current.y), (next_pos.x, next_pos.y)),
+                    )
 
     return [], exploration_steps
