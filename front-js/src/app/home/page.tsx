@@ -697,6 +697,22 @@ export default function Home() {
             <Typography level="h2" sx={{ mb: 2 }}>
               Algorithmes
             </Typography>
+            <Tooltip
+              title={TOOLTIPS.RESET_ALGO}
+              arrow
+              placement="left"
+              variant="outlined"
+            >
+              <Button
+                onClick={resetAlgo}
+                color="danger"
+                variant="outlined"
+                size="lg"
+                sx={{ marginBottom: "1rem" }}
+              >
+                {ALGORITHM_LABELS.RESET}
+              </Button>
+            </Tooltip>
             <ButtonGroup orientation="vertical" size="lg" variant="outlined">
               {[
                 {
@@ -730,12 +746,6 @@ export default function Home() {
                   slug: ALGORITHM_PATHS.BFS,
                   onClick: () =>
                     setActiveAlgorithmIntermediary(ALGORITHM_PATHS.BFS),
-                },
-                {
-                  color: "danger" as const,
-                  label: ALGORITHM_LABELS.RESET,
-                  tooltip: TOOLTIPS.RESET_ALGO,
-                  onClick: resetAlgo,
                 },
               ].map((buttonProps, index) => (
                 <Tooltip
