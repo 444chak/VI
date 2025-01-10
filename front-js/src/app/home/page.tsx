@@ -69,7 +69,7 @@ export default function Home() {
 
   // Gestion de l'état des couleurs pour chaque hexagone
   const [hexColors, setHexColors] = useState(
-    Array(Columns * Rows).fill(""), // Init with empty colors
+    Array(Columns * Rows).fill("") // Init with empty colors
   );
 
   // Réinitialise toutes les couleurs
@@ -328,7 +328,7 @@ export default function Home() {
                 return updatedArrows;
               });
             },
-            i * Rows + j,
+            i * Rows + j
           ); // 1 second timeout for each arrow
         }
       }
@@ -842,6 +842,18 @@ export default function Home() {
           </Box>
         </Grid2>
       </Grid2>
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="10vh"
+        width="100vw"
+        style={{ background: "#fff", opacity: 0.8 }}
+      >
+        <Typography style={{ color: "black", fontSize: "1rem" }}>
+          © Tous droits réservés : BARKER, OUALI, OUVRARD, RUBIO, GRAVIER
+        </Typography>
+      </Box>
     </>
   );
 }
