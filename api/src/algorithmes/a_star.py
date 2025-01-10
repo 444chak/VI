@@ -22,8 +22,15 @@ def manhattan_distance(pos: Hexagon, end: Hexagon) -> int:
 
 def a_star(
     hexagon_grid: HexagonGrid,
-) -> tuple[list[tuple[int, int]], list[tuple[list[tuple[int, int]], int]]]:
-    """Return result of A* algorithm with exploration steps."""
+) -> tuple[list[tuple[int, int]], list[tuple[tuple[int, int], int]]]:
+    """Return result of A* algorithm with exploration steps.
+
+    Returns:
+        tuple[list[tuple[int, int]], list[tuple[tuple[int, int], int]]]:
+            - Shortest path found
+            - List of (point_coordinates, point_weight) for each visited point
+
+    """
     start = hexagon_grid.start
     end = hexagon_grid.end
 
@@ -31,20 +38,12 @@ def a_star(
     visited = {start}
     g_score = {start: 0}
     f_score = {start: manhattan_distance(start, end)}
-    exploration_steps = []
+    exploration_steps = []  # Will store (point_coords, point_weight)
 
     while queue:
         _, current, current_path = heappop(queue)
 
-        exploration_steps.append(
-            (
-                get_path([Hexagon(pos.x, pos.y, pos.value) for pos in current_path]),
-                g_score[current],
-            ),
-        )
-
         if current == end:
-            # Return current path instead of reconstructing from came_from
             return get_path(
                 [Hexagon(pos.x, pos.y, pos.value) for pos in current_path],
             ), exploration_steps
@@ -63,5 +62,8 @@ def a_star(
                     new_path = [*current_path, neighbor]
                     heappush(queue, (f_score[neighbor], neighbor, new_path))
                     visited.add(neighbor)
+                    exploration_steps.append(
+                        ((current.x, current.y), (neighbor.x, neighbor.y)),
+                    )
 
     return [], exploration_steps

@@ -52,6 +52,7 @@ export const ERROR_MESSAGES = {
   NO_PATH: "Aucun chemin trouvé",
   INVALID_START: "Position de départ invalide",
   INVALID_END: "Position d'arrivée invalide",
+  NO_ALGORITHM: "Veuillez sélectionner un algorithme",
 };
 
 // Labels des algorithmes
@@ -80,10 +81,16 @@ export const TOOLTIPS = {
   RESET_ALGO: "Réinitialiser l'algorithme en cours",
   NO_ALGORITHM_CHANGE_SIZE:
     "Impossible de changer la taille de la grille pendant un algorithme",
+  RANDOM_COLORS: "Générer des couleurs aléatoires",
 };
 
 // Alerts
 export const ALERTS = {
   HEXA_DEFAULT_VALUE: "Les hexagones ont un poids par défaut de 2",
   CHANGE_SIZE_ALERT: "Changer la taille réinitialise la grille.",
+};
+
+// Boutons divers
+export const BUTTONS = {
+  START: "Démarrer",
 };

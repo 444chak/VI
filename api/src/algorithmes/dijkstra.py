@@ -7,30 +7,27 @@ from classes.hexagon_grid import HexagonGrid, get_path
 
 def dijkstra(
     hexagon_grid: HexagonGrid,
-) -> tuple[list[tuple[int, int]], list[tuple[list[tuple[int, int]], int]]]:
+) -> tuple[list[tuple[int, int]], list[tuple[tuple[int, int], int]]]:
     """Dijkstra algorithm for hexagonal grid with exploration tracking.
 
     Returns:
-        tuple[list[tuple[int, int]], list[tuple[list[tuple[int, int]], int]]]:
+        tuple[list[tuple[int, int]], list[tuple[tuple[int, int], int]]]:
             - Shortest path
-            - List of (path, cost) for each exploration step
+            - List of (point_coordinates, point_weight) for each visited point
 
     """
     start = hexagon_grid.start
     end = hexagon_grid.end
-    queue = [(0, start, [start])]  # Added current path tracking
+    queue = [(0, start, [start])]
     visited = {start}
     came_from = {start: None}
     cost_so_far = {start: 0}
-    exploration_steps = []  # Track exploration history
+    exploration_steps = []  # Will store (point_coords, point_weight)
 
     while queue:
         current_cost, current, current_path = heappop(queue)
 
-        # Record current exploration step
-        exploration_steps.append(
-            (get_path(list(current_path)), current_cost),
-        )
+        # Add current point and its weight to exploration steps
 
         if current == end:
             path = []
@@ -53,5 +50,8 @@ def dijkstra(
                     heappush(queue, (new_cost, next_pos, new_path))
                     came_from[next_pos] = current
                     visited.add(next_pos)
+                    exploration_steps.append(
+                        ((current.x, current.y), (next_pos.x, next_pos.y)),
+                    )
 
-    return [], exploration_steps  # No path found
+    return [], exploration_steps

@@ -1,3 +1,3 @@
 export interface IconProps {
-    color?: string;
+  color?: string;
 }

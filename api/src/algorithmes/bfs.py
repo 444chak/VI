@@ -20,35 +20,25 @@ def explore_neighbours(
 
 def bfs(
     hexagon_grid: HexagonGrid,
-) -> tuple[list[tuple[int, int]], list[tuple[list[tuple[int, int]], int]]]:
+) -> tuple[list[tuple[int, int]], list[tuple[tuple[int, int], int]]]:
     """Breadth-first search on a hexagonal grid with exploration tracking.
 
     Returns:
-        tuple[list[tuple[int, int]], list[tuple[list[tuple[int, int]], int]]]:
-            - Shortest path
-            - List of (path, cost) for each exploration step
+        tuple[list[tuple[int, int]], list[tuple[tuple[int, int], int]]]:
+            - First path found
+            - List of (point_coordinates, point_weight) for each visited point
 
     """
     start = hexagon_grid.start
     end = hexagon_grid.end
-    queue = deque([(start, [start])])  # Track full path with each node
+    queue = deque([(start, [start])])
     visited = {start}
     parent = {start: None}
+    exploration_steps = []  # Will store (parent_coords, child_coords)
     cost = {start: 0}
-
-    # Track exploration steps
-    exploration_steps = []
 
     while queue:
         current, current_path = queue.popleft()
-
-        # Add current exploration step
-        exploration_steps.append(
-            (
-                get_path([Hexagon(pos.x, pos.y, pos.value) for pos in current_path]),
-                cost[current],
-            ),
-        )
 
         if current == end:
             break
@@ -62,6 +52,11 @@ def bfs(
                 cost[neighbour] = new_cost
                 new_path = [*current_path, neighbour]
                 queue.append((neighbour, new_path))
+
+                # Add parent and child coordinates to exploration steps
+                parent_coords = (current.x, current.y)
+                child_coords = (neighbour.x, neighbour.y)
+                exploration_steps.append((parent_coords, child_coords))
 
     # Reconstruct final path
     path = []

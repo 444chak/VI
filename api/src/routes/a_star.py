@@ -1,11 +1,12 @@
 """A* route."""
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 
 from algorithmes.a_star import a_star
 from classes.hexagon import Hexagon
 from classes.hexagon_grid import HexagonGrid
 from models.grid import GridModel
+from utils.paths_utils import setup_paths
 
 router = APIRouter()
 
@@ -23,6 +24,4 @@ async def a_star_route(grid: GridModel) -> dict:
     grid_model.set_start(start)
     grid_model.set_end(end)
     result, paths = a_star(grid_model)
-    if len(result) == 0:
-        raise HTTPException(status_code=400, detail="No path found.")
-    return {"result": result, "paths": paths}
+    return {"result": result, "paths": setup_paths(paths)}

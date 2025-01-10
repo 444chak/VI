@@ -14,7 +14,7 @@ class ApiClient {
 
   public async get<T>(
     url: string,
-    config?: AxiosRequestConfig
+    config?: AxiosRequestConfig,
   ): Promise<AxiosResponse<T>> {
     return this.client.get<T>(url, config);
   }
@@ -22,7 +22,7 @@ class ApiClient {
   public async post<T, D = unknown>(
     url: string,
     data: D,
-    config?: AxiosRequestConfig
+    config?: AxiosRequestConfig,
   ): Promise<AxiosResponse<T>> {
     return this.client.post<T>(url, data, config);
   }
@@ -30,14 +30,14 @@ class ApiClient {
   public async put<T, D = unknown>(
     url: string,
     data: D,
-    config?: AxiosRequestConfig
+    config?: AxiosRequestConfig,
   ): Promise<AxiosResponse<T>> {
     return this.client.put<T>(url, data, config);
   }
 
   public async delete<T>(
     url: string,
-    config?: AxiosRequestConfig
+    config?: AxiosRequestConfig,
   ): Promise<AxiosResponse<T>> {
     return this.client.delete<T>(url, config);
   }

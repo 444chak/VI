@@ -1,16 +1,16 @@
 .space {
-    &.horizontal {
-      display: flex;
-      flex-direction: row;
-      &.space-between {
-        justify-content: space-between;
-      }
-    }
-    &.vertical {
-      display: flex;
-      flex-direction: column;
-      &.space-between {
-        justify-content: space-between;
-      }
+  &.horizontal {
+    display: flex;
+    flex-direction: row;
+    &.space-between {
+      justify-content: space-between;
     }
   }
+  &.vertical {
+    display: flex;
+    flex-direction: column;
+    &.space-between {
+      justify-content: space-between;
+    }
+  }
+}
