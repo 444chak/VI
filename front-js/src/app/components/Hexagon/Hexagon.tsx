@@ -6,7 +6,8 @@ interface HexaProps {
   onMouseEnter?: () => void; // Fonction appelée au survol
   onMouseDown?: () => void; // Fonction appelée au clic
   className?: string;
-  borders?: string[];
+  arrows?: string[];
+  bordered?: boolean;
 }
 
 const defaultSize = 64;
@@ -22,7 +23,8 @@ export default function Hexa({
   onMouseEnter,
   onMouseDown,
   className,
-  borders,
+  arrows,
+  bordered,
 }: HexaProps) {
   const size = getSize(propSize);
 
@@ -43,30 +45,37 @@ export default function Hexa({
         onMouseDown={onMouseDown} // Déclenchement de la fonction au clic
       >
         <path d="M0 86.60254037844386L50 0L150 0L200 86.60254037844386L150 173.20508075688772L50 173.20508075688772Z"></path>
-        {borders?.includes("top") && (
+        {bordered && (
+          <path
+            d="M10 86.60254037844386L55 10L145 10L190 86.60254037844386L145 163.20508075688772L55 163.20508075688772Z"
+            stroke="red"
+            strokeWidth={7.5}
+          ></path>
+        )}
+        {arrows?.includes("top") && (
           <path d="M100 20 L90 40 L110 40 Z" fill="darkgreen"></path>
         )}
-        {borders?.includes("bottom") && (
+        {arrows?.includes("bottom") && (
           <path d="M100 180 L90 160 L110 160 Z" fill="darkgreen"></path>
         )}
-        {borders?.includes("top-left") && (
+        {arrows?.includes("top-left") && (
           <path
             d="M30 30 L20 50 L40 50 Z"
             fill="darkgreen"
             transform="rotate(-30 30 30)"
           ></path>
         )}
-        {borders?.includes("top-right") && (
+        {arrows?.includes("top-right") && (
           <path
             d="M170 30 L160 50 L180 50 Z"
             fill="darkgreen"
             transform="rotate(30 170 30)"
           ></path>
         )}
-        {borders?.includes("bottom-right") && (
+        {arrows?.includes("bottom-right") && (
           <path d="M150 130 L140 150 L160 150 Z" fill="darkgreen"></path>
         )}
-        {borders?.includes("bottom-left") && (
+        {arrows?.includes("bottom-left") && (
           <path d="M50 130 L40 150 L60 150 Z" fill="darkgreen"></path>
         )}
       </svg>
