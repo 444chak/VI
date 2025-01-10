@@ -43,15 +43,6 @@ def a_star(
     while queue:
         _, current, current_path = heappop(queue)
 
-        # Add current point and its weight to exploration steps
-        point_coords = (current.x, current.y)
-        point_weight = hexagon_grid.get_value(current)
-        weight = point_weight
-        if len(exploration_steps) > 0:
-            weight += exploration_steps[-1][1]
-        if (point_coords, weight) not in exploration_steps:
-            exploration_steps.append((point_coords, weight))
-
         if current == end:
             return get_path(
                 [Hexagon(pos.x, pos.y, pos.value) for pos in current_path],
@@ -71,5 +62,8 @@ def a_star(
                     new_path = [*current_path, neighbor]
                     heappush(queue, (f_score[neighbor], neighbor, new_path))
                     visited.add(neighbor)
+                    exploration_steps.append(
+                        ((current.x, current.y), (neighbor.x, neighbor.y)),
+                    )
 
     return [], exploration_steps
