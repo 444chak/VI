@@ -2,7 +2,7 @@ import apiClient from "@/utils/apiClient";
 
 export async function getAlgorithm(
   name: string,
-  params: { grid: number[][]; start: number[]; end: number[] }
+  params: { grid: number[][]; start: number[]; end: number[] },
 ) {
   try {
     const response = await apiClient.post(`/${name}/`, params);

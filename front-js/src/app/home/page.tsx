@@ -58,18 +58,18 @@ export default function Home() {
   const size = isSmallScreen
     ? sizes.small
     : isMediumScreen
-    ? sizes.medium
-    : isMediumLargeScreen
-    ? sizes.mediumLarge
-    : isLargeScreen
-    ? sizes.large
-    : sizes.ultraLarge;
+      ? sizes.medium
+      : isMediumLargeScreen
+        ? sizes.mediumLarge
+        : isLargeScreen
+          ? sizes.large
+          : sizes.ultraLarge;
 
   const [grid, setGrid] = useState(Array(Columns * Rows).fill(2));
 
   // Gestion de l'état des couleurs pour chaque hexagone
   const [hexColors, setHexColors] = useState(
-    Array(Columns * Rows).fill("") // Init with empty colors
+    Array(Columns * Rows).fill(""), // Init with empty colors
   );
 
   // Réinitialise toutes les couleurs
@@ -318,15 +318,18 @@ export default function Home() {
       for (let j = 0; j < Rows; j++) {
         const index = i * Rows + j;
         if (paths[`${i},${j}`]) {
-          setTimeout(() => {
-            setArrows((prevArrows) => {
-              const updatedArrows = [...prevArrows];
-              newArrows[index] = paths[`${i},${j}`];
-              updatedArrows[index] = newArrows[index];
-              // updatedArrows[index] = paths[`${i},${j}`];
-              return updatedArrows;
-            });
-          }, i * Rows + j); // 1 second timeout for each arrow
+          setTimeout(
+            () => {
+              setArrows((prevArrows) => {
+                const updatedArrows = [...prevArrows];
+                newArrows[index] = paths[`${i},${j}`];
+                updatedArrows[index] = newArrows[index];
+                // updatedArrows[index] = paths[`${i},${j}`];
+                return updatedArrows;
+              });
+            },
+            i * Rows + j,
+          ); // 1 second timeout for each arrow
         }
       }
     }
@@ -470,8 +473,8 @@ export default function Home() {
                   isSmallScreen
                     ? "sm"
                     : isMediumScreen || isMediumLargeScreen
-                    ? "md"
-                    : "lg"
+                      ? "md"
+                      : "lg"
                 }
               >
                 {[
@@ -544,8 +547,8 @@ export default function Home() {
                   isSmallScreen
                     ? "sm"
                     : isMediumScreen || isMediumLargeScreen
-                    ? "md"
-                    : "lg"
+                      ? "md"
+                      : "lg"
                 }
               >
                 {[
