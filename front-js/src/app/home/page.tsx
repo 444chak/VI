@@ -9,6 +9,7 @@ import {
   Tooltip,
   Slider,
   Alert,
+  Link,
 } from "@mui/joy";
 import Hexa from "../components/Hexagon/Hexagon";
 import { Grid2 } from "@mui/material";
@@ -409,6 +410,14 @@ export default function Home() {
 
   return (
     <>
+      <Link
+        href="/"
+        variant="plain"
+        underline="none"
+        sx={{ margin: "1rem", position: "absolute" }}
+      >
+        Retour à l&rsquo;accueil
+      </Link>
       <Box display="flex" flexDirection={"column"} alignItems={"center"}>
         <Logo />
       </Box>
