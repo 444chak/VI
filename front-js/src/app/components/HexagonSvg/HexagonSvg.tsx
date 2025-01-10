@@ -1,9 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 
-interface HexagonSvgProps {}
-
-const HexagonSvg: React.FC<HexagonSvgProps> = () => {
+const HexagonSvg: React.FC = () => {
   const linesRef = useRef<SVGPathElement[]>([]); // Références pour toutes les lignes
   const [dimensions, setDimensions] = useState({
     width: window.innerWidth,
@@ -53,16 +51,17 @@ const HexagonSvg: React.FC<HexagonSvgProps> = () => {
                 // Mettre à jour la couleur
                 line.setAttribute(
                   "stroke",
-                  `hsl(${Math.random() * 360}, 80%, 60%)`,
+                  `hsl(${Math.random() * 360}, 80%, 60%)`
                 );
               },
-            },
+            }
           );
         }
       });
     };
 
     animateLines();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dimensions]); // Réanime les lignes lorsque l'écran change de dimensions
 
   // Fonction pour générer un chemin aléatoire dans les hexagones
@@ -90,7 +89,7 @@ const HexagonSvg: React.FC<HexagonSvgProps> = () => {
   // Générer plusieurs chemins aléatoires
   const numberOfLines = 10; // Nombre de lignes (modifiable)
   const lines = Array.from({ length: numberOfLines }, () =>
-    generateHexagonPath(),
+    generateHexagonPath()
   );
 
   return (
@@ -177,7 +176,11 @@ const HexagonSvg: React.FC<HexagonSvgProps> = () => {
       {lines.map((path, index) => (
         <path
           key={index}
-          ref={(el) => (linesRef.current[index] = el)} // Stocker chaque ligne
+          ref={(el) => {
+            if (el) {
+              linesRef.current[index] = el;
+            }
+          }} // Stocker chaque ligne
           d={path} // Chemin généré
           strokeWidth="7" // Épaisseur légèrement augmentée
           fill="none"

@@ -7,7 +7,6 @@ import Typography from "@mui/joy/Typography";
 import { useEffect } from "react";
 import HexagonSvg from "./components/HexagonSvg/HexagonSvg";
 import Logo from "./components/Logo/Logo";
-import Hexagon from "./components/Hexagon/Hexagon";
 
 const theme = extendTheme({
   colorSchemes: {
@@ -67,24 +66,11 @@ export default function Home() {
               justifyContent: "center",
               alignItems: "center",
               height: "10vh",
+              opacity: 0.8,
             }}
           >
             <Logo />
           </div>
-          <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            width="100%"
-            style={{
-              position: "absolute",
-              transform: "translateY(7.5vh)", // Place les hexagones à moitié sur la boîte
-            }}
-          >
-            {Array.from({ length: 30 }).map((_, index) => (
-              <Hexagon key={index} color="#fff" />
-            ))}
-          </Box>
         </Box>
         <Box
           display="flex"
@@ -118,25 +104,8 @@ export default function Home() {
             alignItems="center"
             height="35vh"
             width="100vw"
-            style={{ background: "#fff", position: "relative" }}
+            style={{ background: "#fff", position: "relative", opacity: 0.8 }}
           >
-            {/* Ligne d'hexagones noirs */}
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              width="100%"
-              style={{
-                position: "absolute",
-                top: 0,
-                transform: "translateY(-50%)", // Place les hexagones à moitié sur la boîte
-              }}
-            >
-              {Array.from({ length: 30 }).map((_, index) => (
-                <Hexagon key={index} color="#fff" />
-              ))}
-            </Box>
-
             {/* Contenu existant */}
             <Typography
               style={{
@@ -169,7 +138,7 @@ export default function Home() {
             alignItems="center"
             height="10vh"
             width="100vw"
-            style={{ background: "#fff" }}
+            style={{ background: "#fff", opacity: 0.8 }}
           >
             <Typography style={{ color: "black", fontSize: "1rem" }}>
               © Tous droits réservés : BARKER, OUALI, OUVRARD, RUBIO, GRAVIER

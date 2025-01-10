@@ -8,6 +8,7 @@ interface HexaProps {
   className?: string;
   arrows?: string[];
   bordered?: boolean;
+  style?: React.CSSProperties;
 }
 
 const defaultSize = 64;
@@ -26,6 +27,7 @@ export default function Hexa({
   className,
   arrows,
   bordered,
+  style,
 }: HexaProps) {
   const size = getSize(propSize);
 
@@ -44,6 +46,7 @@ export default function Hexa({
         fill={fillColor}
         onMouseEnter={onMouseEnter}
         onMouseDown={onMouseDown} // Déclenchement de la fonction au clic
+        style={style}
       >
         <path d="M0 86.60254037844386L50 0L150 0L200 86.60254037844386L150 173.20508075688772L50 173.20508075688772Z"></path>
         {bordered && (
