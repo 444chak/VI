@@ -126,7 +126,7 @@ const HexagonSvg: React.FC<HexagonSvgProps> = () => {
             style={{
               fill: "rgb(125,155,132,0)",
               strokeWidth: 2,
-              stroke: "#000",
+              stroke: "#ffAAAA",
             }}
           />
           <use xlinkHref="#hex" x="25" />

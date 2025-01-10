@@ -6,7 +6,7 @@ import { BlurGradientBg } from "./modules/BlurGradientBg.module";
 import Typography from '@mui/joy/Typography';
 import { useEffect } from "react";
 import HexagonSvg from "./components/HexagonSvg/HexagonSvg";
-import WhiteLogo from "./components/Logo/WhiteLogo";
+import Logo from "./components/Logo/Logo";
 import Hexagon from "./components/Hexagon/Hexagon";
 
 const theme = extendTheme({
@@ -61,7 +61,7 @@ export default function Home() {
           <div
             className="logo"
             style={{
-              background: "#000000",
+              background: "#fff",
               width: "100vw",
               display: "flex",
               justifyContent: "center",
@@ -69,7 +69,7 @@ export default function Home() {
               height: "10vh",
             }}
           >
-            <WhiteLogo />
+            <Logo />
           </div>
           <Box
               display="flex"
@@ -84,7 +84,7 @@ export default function Home() {
               {Array.from({ length: 30 }).map((_, index) => (
                 <Hexagon
                   key={index}
-                  color="#000000"
+                  color="#fff"
                 />
               ))}
             </Box>
@@ -121,7 +121,7 @@ export default function Home() {
             alignItems="center"
             height="35vh"
             width="100vw"
-            style={{ background: "#000000", position: "relative" }}
+            style={{ background: "#fff", position: "relative" }}
           >
             {/* Ligne d'hexagones noirs */}
             <Box
@@ -138,7 +138,7 @@ export default function Home() {
               {Array.from({ length: 30 }).map((_, index) => (
                 <Hexagon
                   key={index}
-                  color="#000000"
+                  color="#fff"
                 />
               ))}
             </Box>
@@ -146,7 +146,7 @@ export default function Home() {
             {/* Contenu existant */}
             <Typography
               style={{
-                color: "white",
+                color: "black",
                 fontSize: "1.5rem",
                 padding: "2vw 10vw",
                 textAlign: "justify",
@@ -156,7 +156,7 @@ export default function Home() {
             </Typography>
             <Typography
               level="h4"
-              style={{ color: "white", fontSize: "1.5rem" }}
+              style={{ color: "black", fontSize: "1.5rem" }}
             >
               Essayez-la et transformez l’abstrait en concret !
             </Typography>
@@ -167,9 +167,9 @@ export default function Home() {
             alignItems="center"
             height="10vh"
             width="100vw"
-            style={{ background: "#000000" }}
+            style={{ background: "#fff" }}
           >
-            <Typography style={{ color: "white", fontSize: "1rem" }}>
+            <Typography style={{ color: "black", fontSize: "1rem" }}>
               © Tous droits réservés : BARKER, OUALI, OUVRARD, RUBIO, GRAVIER
             </Typography>
           </Box>
