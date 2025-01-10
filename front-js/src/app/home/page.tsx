@@ -81,6 +81,7 @@ export default function Home() {
     setError("");
     setResultSize(0);
     setAlgo(false);
+    resetAlgo();
     setHexColors(Array(Columns * Rows).fill(""));
     setGrid(Array(Columns * Rows).fill(2));
     setStartState({ x: 0, y: 0 });
@@ -359,7 +360,6 @@ export default function Home() {
             });
             const color = updatedColors[index];
             size += COLOR_VALUES[color];
-            console.log(size);
             setResultSize(size);
           }
         }, i * timeForAlgorithm);
@@ -369,6 +369,37 @@ export default function Home() {
         setAlgo(true);
       }, response.length * timeForAlgorithm);
     }
+  };
+
+  const randomColors = () => {
+    resetAlgo();
+    const newColors = Array(Columns * Rows).fill("");
+    const newGrid = Array(Columns * Rows).fill("");
+    for (let i = 0; i < Columns * Rows; i++) {
+      const randomColor = Math.floor(Math.random() * 5) + 1;
+      newColors[i] = COLORS[randomColor];
+      newGrid[i] = COLOR_VALUES[COLORS[randomColor]];
+    }
+
+    const newStart = Math.floor(Math.random() * (Columns * Rows));
+    let newEnd = Math.floor(Math.random() * (Columns * Rows));
+    while (newEnd === newStart) {
+      // Vérifie que le point de départ et d'arrivée ne sont pas les mêmes
+      newEnd = Math.floor(Math.random() * (Columns * Rows));
+    }
+
+    // set new start
+    setStartState({ x: Math.floor(newStart / Rows), y: newStart % Rows });
+    newColors[newStart] = COLORS[6];
+    newGrid[newStart] = COLOR_VALUES.start;
+
+    // set new end
+    setEndState({ x: Math.floor(newEnd / Rows), y: newEnd % Rows });
+    newColors[newEnd] = COLORS[7];
+    newGrid[newEnd] = COLOR_VALUES.end;
+
+    setHexColors(newColors);
+    setGrid(newGrid);
   };
 
   const [arrows, setArrows] = useState([] as string[][]);
@@ -402,6 +433,22 @@ export default function Home() {
               </Alert>
             </Box>
             <Box display="flex" flexDirection={"column"} alignItems={"center"}>
+              <Tooltip
+                title={TOOLTIPS.RANDOM_COLORS}
+                arrow
+                placement="right"
+                variant="outlined"
+              >
+                <Button
+                  color="warning"
+                  variant="outlined"
+                  onClick={randomColors}
+                  sx={{ marginBottom: "1rem" }}
+                >
+                  Aléatoire
+                </Button>
+              </Tooltip>
+
               <Button
                 color="danger"
                 variant="outlined"
