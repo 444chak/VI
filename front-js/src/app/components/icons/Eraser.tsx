@@ -1,5 +1,5 @@
 import React from "react";
-import {IconProps} from "./props";
+import { IconProps } from "./props";
 
 const EraserIcon: React.FC<IconProps> = ({ color = "#fff" }) => (
   <svg
