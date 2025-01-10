@@ -22,7 +22,7 @@ import Space from "../components/Space/Space";
 import FlagIcon from "../components/icons/Flag";
 import HouseIcon from "../components/icons/House";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import Logo from "../components/Logo";
+import Logo from "../components/Logo/Logo";
 import InfoIcon from "../components/icons/Info";
 import WarningIcon from "../components/icons/Warning";
 import { getAlgorithm } from "../api/viApi";
