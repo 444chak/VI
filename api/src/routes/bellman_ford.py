@@ -1,6 +1,6 @@
 """Bellman ford route."""
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 
 from algorithmes.bellman_ford import bellman_ford
 from classes.hexagon import Hexagon
@@ -24,6 +24,4 @@ async def bellman_route(grid: GridModel) -> dict:
     grid_model.set_start(start)
     grid_model.set_end(end)
     result, paths = bellman_ford(grid_model)
-    if len(result) == 0:
-        raise HTTPException(status_code=400, detail="No path found.")
     return {"result": result, "paths": setup_paths(paths)}
