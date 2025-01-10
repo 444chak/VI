@@ -429,21 +429,6 @@ export default function Home() {
                 Outils
               </Typography>
             </Box>
-            <Box
-              display="flex"
-              flexDirection={"column"}
-              alignItems={"center"}
-              paddingLeft={"2rem"}
-              paddingRight={"2rem"}
-            >
-              <Alert
-                color="primary"
-                startDecorator={<InfoIcon color="currentColor" />}
-                size="sm"
-              >
-                {ALERTS.HEXA_DEFAULT_VALUE}
-              </Alert>
-            </Box>
             <Box display="flex" flexDirection={"column"} alignItems={"center"}>
               <Tooltip
                 title={TOOLTIPS.RANDOM_COLORS}
