@@ -18,7 +18,7 @@ export const COLORS: ColorMapping = {
   3: "blue", // Eau
   4: "green", // Herbe
   5: "lightblue", // Glace
-  6: "#afafaf", // Départ
+  6: "#EA9A3E", // Départ
   7: "#9b1111", // Arrivée
 };
 
