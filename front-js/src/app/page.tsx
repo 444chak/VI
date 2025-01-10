@@ -3,7 +3,7 @@
 import { Box, Button } from "@mui/joy";
 import { CssVarsProvider, extendTheme } from "@mui/joy/styles";
 import { BlurGradientBg } from "./modules/BlurGradientBg.module";
-import Typography from '@mui/joy/Typography';
+import Typography from "@mui/joy/Typography";
 import { useEffect } from "react";
 import HexagonSvg from "./components/HexagonSvg/HexagonSvg";
 import Logo from "./components/Logo/Logo";
@@ -31,10 +31,10 @@ export default function Home() {
 
     handleResize();
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -72,22 +72,19 @@ export default function Home() {
             <Logo />
           </div>
           <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              width="100%"
-              style={{
-                position: "absolute",
-                transform: "translateY(7.5vh)", // Place les hexagones à moitié sur la boîte
-              }}
-            >
-              {Array.from({ length: 30 }).map((_, index) => (
-                <Hexagon
-                  key={index}
-                  color="#fff"
-                />
-              ))}
-            </Box>
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            width="100%"
+            style={{
+              position: "absolute",
+              transform: "translateY(7.5vh)", // Place les hexagones à moitié sur la boîte
+            }}
+          >
+            {Array.from({ length: 30 }).map((_, index) => (
+              <Hexagon key={index} color="#fff" />
+            ))}
+          </Box>
         </Box>
         <Box
           display="flex"
@@ -136,10 +133,7 @@ export default function Home() {
               }}
             >
               {Array.from({ length: 30 }).map((_, index) => (
-                <Hexagon
-                  key={index}
-                  color="#fff"
-                />
+                <Hexagon key={index} color="#fff" />
               ))}
             </Box>
 
@@ -152,7 +146,15 @@ export default function Home() {
                 textAlign: "justify",
               }}
             >
-              Découvrez notre application web éducative dédiée à la théorie des graphes ! Grâce à une grille hexagonale interactive, vous pouvez placer un point de départ, une destination, ainsi que des obstacles ou des murs pour explorer le fonctionnement des algorithmes comme A*, Dijkstra, ou BFS. Visualisez en temps réel leurs calculs et comprenez comment les chemins sont trouvés selon vos configurations. Ludique, intuitive et pédagogique, cette plateforme est idéale pour apprendre, enseigner ou simplement expérimenter avec les concepts fondamentaux des graphes.
+              Découvrez notre application web éducative dédiée à la théorie des
+              graphes ! Grâce à une grille hexagonale interactive, vous pouvez
+              placer un point de départ, une destination, ainsi que des
+              obstacles ou des murs pour explorer le fonctionnement des
+              algorithmes comme A*, Dijkstra, ou BFS. Visualisez en temps réel
+              leurs calculs et comprenez comment les chemins sont trouvés selon
+              vos configurations. Ludique, intuitive et pédagogique, cette
+              plateforme est idéale pour apprendre, enseigner ou simplement
+              expérimenter avec les concepts fondamentaux des graphes.
             </Typography>
             <Typography
               level="h4"

@@ -5,7 +5,10 @@ interface HexagonSvgProps {}
 
 const HexagonSvg: React.FC<HexagonSvgProps> = () => {
   const linesRef = useRef<SVGPathElement[]>([]); // Références pour toutes les lignes
-  const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
+  const [dimensions, setDimensions] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
 
   // Mettre à jour les dimensions à chaque redimensionnement de l'écran
   useEffect(() => {
@@ -34,7 +37,7 @@ const HexagonSvg: React.FC<HexagonSvgProps> = () => {
             {
               strokeDasharray: pathLength,
               strokeDashoffset: -pathLength, // Déplace complètement la ligne vers la gauche
-              duration: Math.random() * 20+ 10, // Durée aléatoire initiale
+              duration: Math.random() * 20 + 10, // Durée aléatoire initiale
               delay: Math.random() * 30, // Délai de départ aléatoire
               ease: "linear",
               repeat: -1, // Répétition infinie
@@ -42,15 +45,18 @@ const HexagonSvg: React.FC<HexagonSvgProps> = () => {
               onRepeat: () => {
                 // Recalculer la couleur
                 line.setAttribute("d", generateHexagonPath());
-                
+
                 // Générer une nouvelle durée et l'appliquer à l'animation
-                const newDuration = Math.random() * 20+10;
+                const newDuration = Math.random() * 20 + 10;
                 gsap.set(line, { duration: newDuration }); // Modifier la durée de l'animation
-            
+
                 // Mettre à jour la couleur
-                line.setAttribute("stroke", `hsl(${Math.random() * 360}, 80%, 60%)`);
+                line.setAttribute(
+                  "stroke",
+                  `hsl(${Math.random() * 360}, 80%, 60%)`,
+                );
               },
-            }
+            },
           );
         }
       });
@@ -83,7 +89,9 @@ const HexagonSvg: React.FC<HexagonSvgProps> = () => {
 
   // Générer plusieurs chemins aléatoires
   const numberOfLines = 10; // Nombre de lignes (modifiable)
-  const lines = Array.from({ length: numberOfLines }, () => generateHexagonPath());
+  const lines = Array.from({ length: numberOfLines }, () =>
+    generateHexagonPath(),
+  );
 
   return (
     <svg
@@ -101,16 +109,34 @@ const HexagonSvg: React.FC<HexagonSvgProps> = () => {
       }}
     >
       <defs>
-        <linearGradient id="opacityGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="62%" style={{ stopColor: `hsl(${Math.random() * 360}, 80%, 60%)`, stopOpacity: 0 }} />
-          <stop offset="100%" style={{ stopColor: `hsl(${Math.random() * 360}, 80%, 60%)`, stopOpacity: 1 }} />
+        <linearGradient
+          id="opacityGradient"
+          x1="0%"
+          y1="0%"
+          x2="100%"
+          y2="100%"
+        >
+          <stop
+            offset="62%"
+            style={{
+              stopColor: `hsl(${Math.random() * 360}, 80%, 60%)`,
+              stopOpacity: 0,
+            }}
+          />
+          <stop
+            offset="100%"
+            style={{
+              stopColor: `hsl(${Math.random() * 360}, 80%, 60%)`,
+              stopOpacity: 1,
+            }}
+          />
         </linearGradient>
       </defs>
       {/* Dégradé */}
       <defs>
         <linearGradient id="fadeLeft" x1="1" y1="0" x2="0" y2="0">
           <stop offset="62%" stopOpacity="0" />
-          <stop offset="100%" stopOpacity="1" />  
+          <stop offset="100%" stopOpacity="1" />
         </linearGradient>
 
         <pattern
