@@ -3,7 +3,7 @@
 from classes.hexagon_grid import Hexagon, HexagonGrid, get_path
 
 
-def bellman_ford(
+def bellman_ford(  # noqa: C901, PLR0912
     hexagon_grid: HexagonGrid,
 ) -> tuple[list[tuple[int, int]], list[tuple[tuple[int, int], int]]]:
     """Bellman-Ford algorithm for hexagonal grid.
@@ -12,6 +12,7 @@ def bellman_ford(
         tuple[list[tuple[int, int]], list[tuple[tuple[int, int], int]]]:
             - Shortest path found
             - List of (point_coordinates, point_weight) for each visited point
+
     """
     start = hexagon_grid.start
     end = hexagon_grid.end
@@ -32,7 +33,6 @@ def bellman_ford(
                 all_hexagons.append(hex_coords)
                 distance[hex_coords] = float("inf")
                 predecessor[hex_coords] = None
-                exploration_steps.append((hex_coords, hexagon_grid.grid[x][y]))
 
     start_coords = (start.x, start.y)
     distance[start_coords] = 0
@@ -55,6 +55,7 @@ def bellman_ford(
         for neighbor in current.neighbors():
             neighbor_coords = (neighbor.x, neighbor.y)
             if neighbor_coords in distance:
+                exploration_steps.append((hex_coords, neighbor_coords))
                 weight = hexagon_grid.get_value(neighbor)
                 if distance[hex_coords] + weight < distance[neighbor_coords]:
                     msg = "Graph contains a negative weight cycle"
