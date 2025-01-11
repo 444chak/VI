@@ -673,6 +673,12 @@ export default function Home() {
                   onClick: () => callAlgorithm(ALGORITHM_PATHS.BFS),
                 },
                 {
+                  color: "neutral" as const,
+                  label: ALGORITHM_LABELS.PRIM,
+                  tooltip: TOOLTIPS.PRIM,
+                  onClick: () => callAlgorithm(ALGORITHM_PATHS.PRIM),
+                },
+                {
                   color: "danger" as const,
                   label: ALGORITHM_LABELS.RESET,
                   tooltip: TOOLTIPS.RESET_ALGO,
