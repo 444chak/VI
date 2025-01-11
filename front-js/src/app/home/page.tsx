@@ -72,7 +72,7 @@ export default function Home() {
 
   // Gestion de l'état des couleurs pour chaque hexagone
   const [hexColors, setHexColors] = useState(
-    Array(Columns * Rows).fill("") // Init with empty colors
+    Array(Columns * Rows).fill(""), // Init with empty colors
   );
 
   /**
@@ -397,7 +397,7 @@ export default function Home() {
                 return updatedArrows;
               });
             },
-            i * Rows + j // Durée de l'animation
+            i * Rows + j, // Durée de l'animation
           );
         }
       }
@@ -863,7 +863,7 @@ export default function Home() {
                   slug: ALGORITHM_PATHS.BELLMAN_FORD,
                   onClick: () =>
                     setActiveAlgorithmIntermediary(
-                      ALGORITHM_PATHS.BELLMAN_FORD
+                      ALGORITHM_PATHS.BELLMAN_FORD,
                     ),
                 },
                 {
