@@ -801,6 +801,14 @@ export default function Home() {
                   onClick: () =>
                     setActiveAlgorithmIntermediary(ALGORITHM_PATHS.BFS),
                 },
+                {
+                  color: "neutral" as const,
+                  label: ALGORITHM_LABELS.PRIM,
+                  tooltip: TOOLTIPS.PRIM,
+                  slug: ALGORITHM_PATHS.PRIM,
+                  onClick: () =>
+                    setActiveAlgorithmIntermediary(ALGORITHM_PATHS.PRIM),
+                },
               ].map((buttonProps, index) => (
                 <Tooltip
                   title={buttonProps.tooltip ? buttonProps.tooltip : ""}
