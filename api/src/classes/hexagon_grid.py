@@ -18,10 +18,15 @@ class HexagonGrid:
         width: int,
         height: int,
         grid: list[list[int]],
-        # start: tuple[int, int],
-        # end: tuple[int, int],
     ) -> None:
-        """Initialize the Hexagon Grid."""
+        """Initialize the Hexagon Grid.
+
+        Args:
+            width (int): horizontal (max x)
+            height (int): vertical (max y)
+            grid (list[list[int]]): grid
+
+        """
         self.width = width
         self.height = height
         self.grid = grid
@@ -42,7 +47,7 @@ class HexagonGrid:
         """Set the end hexagon.
 
         Args:
-            hexagon (Hex): end hexagon
+            hexagon (Hexagon): end hexagon
 
         """
         if not self.in_bounds(hexagon):
@@ -54,7 +59,7 @@ class HexagonGrid:
         """Return True if the hexagon is in bounds, False otherwise.
 
         Args:
-            hexagon (Hex): hexagon
+            hexagon (Hexagon): hexagon
 
         Returns:
             bool: True if the hexagon is in bounds, False otherwise
@@ -66,7 +71,7 @@ class HexagonGrid:
         """Return the value of the hexagon.
 
         Args:
-            hexagon (Hex): hexagon
+            hexagon (Hexagon): hexagon
 
         Returns:
             int: value of the hexagon
