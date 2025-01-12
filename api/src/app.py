@@ -3,7 +3,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routes import a_star, bellman_ford, bfs, dfs, dijkstra
+from routes import a_star, bellman_ford, bfs, dfs, dijkstra, prim
 
 app = FastAPI(title="VI API", version="1.0.0")
 
@@ -31,3 +31,4 @@ app.include_router(dijkstra.router, prefix="/dijkstra", tags=["dijkstra"])
 app.include_router(bfs.router, prefix="/bfs", tags=["bfs"])
 app.include_router(dfs.router, prefix="/dfs", tags=["dfs"])
 app.include_router(bellman_ford.router, prefix="/bellman_ford", tags=["belman-ford"])
+app.include_router(prim.router, prefix="/prim", tags=["prim"])

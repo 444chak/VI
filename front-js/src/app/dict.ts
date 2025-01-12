@@ -62,6 +62,7 @@ export const ALGORITHM_LABELS = {
   ASTAR: "A*",
   DFS: "DFS",
   BFS: "BFS",
+  PRIM: "Prim",
   RESET: "Réinitialiser",
 };
 
@@ -72,6 +73,7 @@ export const ALGORITHM_PATHS = {
   ASTAR: "astar",
   DFS: "dfs",
   BFS: "bfs",
+  PRIM: "prim",
 };
 
 // Tooltips
@@ -81,6 +83,7 @@ export const TOOLTIPS = {
   ASTAR: "Heuristique de Manhattan",
   DFS: "Parcours en profondeur",
   BFS: "Parcours en largeur",
+  PRIM: "Algorithme de Prim",
   RESET_ALGO: "Réinitialiser l'algorithme en cours",
   NO_ALGORITHM_CHANGE_SIZE:
     "Impossible de changer la taille de la grille pendant un algorithme",
