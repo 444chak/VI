@@ -23,6 +23,8 @@ docker compose up --build
 
 L'application sera alors accessible à l'adresse suivante : [http://localhost:3000](http://localhost:3000)
 
+> Vous pouvez également accéder au swagger de l'API à l'adresse suivante : [http://localhost:8000/docs](http://localhost:8000/docs). Vous y trouverez l'ensemble des routes disponibles.
+
 Pour lancer l'application en mode développement, il suffit de lancer la commande suivante :
 
 ```bash
