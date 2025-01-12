@@ -15,9 +15,21 @@ Il consiste en une application pour réaliser des graphes où les sommets sont d
 
 ### :rocket: • Lancement
 
+Pour lancer le projet, il suffit de lancer la commande suivante :
+
 ```bash
-docker compose up
+docker compose up --build 
 ```
+
+L'application sera alors accessible à l'adresse suivante : [http://localhost:3000](http://localhost:3000)
+
+Pour lancer l'application en mode développement, il suffit de lancer la commande suivante :
+
+```bash
+docker compose --profile dev up --build
+```
+
+> Il est possible d'ajouter l'option `-d` pour lancer les conteneurs en arrière-plan.
 
 ## :clipboard: • Documentation technique
 
