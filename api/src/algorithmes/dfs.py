@@ -29,27 +29,35 @@ def dfs(
     """
     start = hexagon_grid.start
     end = hexagon_grid.end
-    stack = [(start, [start])]
-    visited = {start}
-    exploration_steps = []  # Will store (point_coords, point_weight)
-    cost = {start: 0}
+    
+    stack = [(start, [start])]     # Pile DFS avec (noeud, chemin)
+    visited = {start}              # Noeuds visités
+    exploration_steps = []         # Suivi de l'exploration
+    cost = {start: 0}             # Coûts des chemins
 
     while stack:
+        # Récupère le dernier noeud ajouté (LIFO)
         current, current_path = stack.pop()
 
+        # Si on atteint l'objectif, on retourne le chemin
         if current == end:
             return get_path(current_path), exploration_steps
 
         for neighbour_coords in explore_neighbours(current, hexagon_grid):
             neighbour = Hexagon(*neighbour_coords)
             new_cost = cost[current] + hexagon_grid.get_value(neighbour)
+
+            # Si nouveau noeud ou meilleur chemin trouvé
             if neighbour not in visited or new_cost < cost[neighbour]:
                 cost[neighbour] = new_cost
                 visited.add(neighbour)
                 new_path = [*current_path, neighbour]
                 stack.append((neighbour, new_path))
+
+                # Enregistre l'étape d'exploration
                 exploration_steps.append(
                     ((current.x, current.y), (neighbour.x, neighbour.y)),
                 )
 
+    # Aucun chemin trouvé
     return [], exploration_steps

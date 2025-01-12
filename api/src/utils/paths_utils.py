@@ -20,16 +20,22 @@ def get_path(parent: tuple, child: tuple) -> str:  # noqa: PLR0911
     """
     parent = Hexagon(*parent)
     child = Hexagon(*child)
+    
+    # Cas 1: Même colonne (x)
     if parent.x == child.x:
         if parent.y > child.y:
             return "top"
         return "bottom"
+
+    # Cas 2: Déplacement vers la droite
     if parent.x < child.x:
         if parent.y == child.y:
             return "bottom-right"
         if parent.y < child.y:
             return "top-right"
         return "bottom-left"
+
+    # Cas 3: Déplacement vers la gauche
     if parent.y == child.y:
         return "top-left"
     if parent.y < child.y:
@@ -58,12 +64,14 @@ def setup_paths(
         # {1: ['top', 'bottom'], 2: ['top-right']}
 
     """
+    # Étape 1: Conversion des chemins en directions
     directions = []
     for path in paths:
         parent, child = path
         direction = get_path(parent, child)
         directions.append((parent, direction))
 
+    # Étape 2: Groupement par hexagone
     directions_map = {}
     for hexagon, direction in directions:
         if hexagon not in directions_map:

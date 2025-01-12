@@ -40,14 +40,15 @@ import {
 } from "../dict";
 
 export default function Home() {
-  // const Columns = 20;
-  // const Rows = 16;
-  const [Rows, setRows] = useState(16);
-  const [Columns, setColumns] = useState(20);
-  const isSmallScreen = useMediaQuery("(max-width:600px)");
-  const isMediumScreen = useMediaQuery("(max-width:960px)");
-  const isMediumLargeScreen = useMediaQuery("(max-width:1280px)");
-  const isLargeScreen = useMediaQuery("(max-width:1440px)");
+  const [Rows, setRows] = useState(16); // Nombre de lignes
+  const [Columns, setColumns] = useState(20); // Nombre de colonnes
+  const isSmallScreen = useMediaQuery("(max-width:600px)"); // Vérifie si l'écran est petit
+  const isMediumScreen = useMediaQuery("(max-width:960px)"); // Vérifie si l'écran est moyen
+  const isMediumLargeScreen = useMediaQuery("(max-width:1280px)"); // Vérifie si l'écran est moyen-large
+  const isLargeScreen = useMediaQuery("(max-width:1440px)"); // Vérifie si l'écran est grand
+
+  // Taille de l'hexagone en fonction de la taille de l'écran
+
   const sizes = {
     small: 20,
     medium: 30,
@@ -66,30 +67,35 @@ export default function Home() {
           ? sizes.large
           : sizes.ultraLarge;
 
+  // Grille contenant les valeurs de chaque hexagone (2 pour tous les hexagones par défaut)
   const [grid, setGrid] = useState(Array(Columns * Rows).fill(2));
 
   // Gestion de l'état des couleurs pour chaque hexagone
   const [hexColors, setHexColors] = useState(
-    Array(Columns * Rows).fill("") // Init with empty colors
+    Array(Columns * Rows).fill(""), // Init with empty colors
   );
 
-  // Réinitialise toutes les couleurs
-  const resetColors = () => {
+  /**
+   * Réinitialise les couleurs de la grille
+   * @returns {void}
+   */
+  const resetColors = (): void => {
     if (inProgress) {
+      // Si un algorithme est en cours, affiche un message d'erreur
       setError(ERROR_MESSAGES.ALGO_IN_PROGRESS);
       return;
     }
-    setError("");
-    setResultSize(0);
-    setAlgo(false);
-    resetAlgo();
-    setHexColors(Array(Columns * Rows).fill(""));
-    setGrid(Array(Columns * Rows).fill(2));
-    setStartState({ x: 0, y: 0 });
-    setEndState({ x: Columns - 1, y: Rows - 1 });
+    setError(""); // Réinitialise le message d'erreur
+    setResultSize(0); // Réinitialise la taille du résultat
+    setAlgo(false); // Défini que aucun algorithme n'est en cours
+    resetAlgo(); // Réinitialise l'algorithme
+    setHexColors(Array(Columns * Rows).fill("")); // Réinitialise les couleurs
+    setGrid(Array(Columns * Rows).fill(2)); // Réinitialise les valeurs de la grille
+    setStartState({ x: 0, y: 0 }); // Réinitialise le point de départ
+    setEndState({ x: Columns - 1, y: Rows - 1 }); // Réinitialise le point d'arrivée
     const newColors = [];
-    newColors[0] = COLORS[6];
-    newColors[Columns * Rows - 1] = COLORS[7];
+    newColors[0] = COLORS[6]; // Couleur du point de départ
+    newColors[Columns * Rows - 1] = COLORS[7]; // Couleur du point d'arrivée
     setHexColors(newColors);
     setGrid((prevGrid) => {
       const newGrid = [...prevGrid];
@@ -100,19 +106,25 @@ export default function Home() {
     setArrows([]);
   };
 
-  const resetAlgo = () => {
+  /**
+   * Réinitialise l'algorithme courant
+   * @returns {void}
+   */
+  const resetAlgo = (): void => {
     if (inProgress) {
+      // Si un algorithme est en cours, affiche un message d'erreur
       setError(ERROR_MESSAGES.ALGO_IN_PROGRESS);
       return;
     }
-    // set colors which are on the grid
-    const updatedColors = [...hexColors];
+    const updatedColors = [...hexColors]; // Copie des couleurs actuelles
     for (let i = 0; i < Columns * Rows; i++) {
+      // Parcours de chaque hexagone
       if (updatedColors[i] === "red") {
-        updatedColors[i] = VALUE_TO_COLOR[grid[i]];
+        // Si l'hexagone est rouge
+        updatedColors[i] = VALUE_TO_COLOR[grid[i]]; // On le remet à sa couleur d'origine
       }
     }
-    setBordereds(Array(Columns * Rows).fill(false));
+    setBordereds(Array(Columns * Rows).fill(false)); // Réinitialise les bordures (chemin)
     setHexColors(updatedColors);
     setInProgress(false);
     setError("");
@@ -127,13 +139,21 @@ export default function Home() {
     y: Rows - 1,
   });
 
-  // Change la couleur d'un hexagone au clic
-  const handleHexClick = (index: number, color: string) => {
+  /**
+   * Gère le clic sur un hexagone
+   * @param {number} index Index de l'hexagone cliqué
+   * @param {string} color Couleur de l'hexagone
+   * @returns {void}
+   */
+  const handleHexClick = (index: number, color: string): void => {
     if (activeButton === 6) {
+      // Si le bouton actif est le bouton de départ, on défini le point de départ
       setStart(index);
     } else if (activeButton === 7) {
+      // Si le bouton actif est le bouton d'arrivée, on défini le point d'arrivée
       setEnd(index);
     } else if (activeButton !== 0) {
+      // Si un autre bouton est actif, on change la couleur de l'hexagone
       if (hexColors[index] !== COLORS[6] && hexColors[index] !== COLORS[7]) {
         const newColors = [...hexColors];
         newColors[index] = color;
@@ -147,15 +167,22 @@ export default function Home() {
     }
   };
 
-  const setStart = (index?: number) => {
+  /** Définit le point de départ
+   * @param {number} index Index de l'hexagone
+   * @returns {void}
+   */
+  const setStart = (index?: number): void => {
     if (index === undefined) {
+      // Si l'index n'est pas défini, on le défini à partir de l'état actuel
       index = startState.x * Rows + startState.y;
     }
-    const old_start = startState;
-    // set new start
+
+    const old_start = startState; // Sauvegarde de l'ancien point de départ
+
+    // Définit le nouveau point de départ
     setStartState({ x: Math.floor(index / Rows), y: index % Rows });
     const updatedColors = [...hexColors];
-    updatedColors[index] = COLORS[6];
+    updatedColors[index] = COLORS[6]; // Couleur du point de départ
     setHexColors(updatedColors);
     setGrid((prevGrid) => {
       const newGrid = [...prevGrid];
@@ -163,9 +190,10 @@ export default function Home() {
       return newGrid;
     });
 
-    // remove old start
+    // Supprime l'ancien point de départ
     const old_start_index = old_start.x * Rows + old_start.y;
     if (old_start_index !== index) {
+      // Si le point de départ est différent de l'ancien point de départ, on le supprime
       updatedColors[old_start_index] = "";
       setHexColors(updatedColors);
       setGrid((prevGrid) => {
@@ -175,17 +203,24 @@ export default function Home() {
       });
     }
   };
-  const setEnd = (index?: number) => {
+
+  /**
+   * Définit le point d'arrivée
+   * @param {number} index Index de l'hexagone
+   * @returns {void}
+   */
+  const setEnd = (index?: number): void => {
     if (index === undefined) {
+      // Si l'index n'est pas défini, on le défini à partir de l'état actuel
       index = endState.x * Rows + endState.y;
     }
 
-    const old_end = endState;
-    // set new end
+    const old_end = endState; // Sauvegarde de l'ancien point d'arrivée
+
+    // Définit le nouveau point d'arrivée
     setEndState({ x: Math.floor(index / Rows), y: index % Rows });
     const updatedColors = [...hexColors];
-
-    updatedColors[index] = COLORS[7];
+    updatedColors[index] = COLORS[7]; // Couleur du point d'arrivée
     setHexColors(updatedColors);
     setGrid((prevGrid) => {
       const newGrid = [...prevGrid];
@@ -193,9 +228,10 @@ export default function Home() {
       return newGrid;
     });
 
-    // remove old end
+    // Supprime l'ancien point d'arrivée
     const old_end_index = old_end.x * Rows + old_end.y;
     if (old_end_index !== index) {
+      // Si le point d'arrivée est différent de l'ancien point d'arrivée, on le supprime
       updatedColors[old_end_index] = "";
       setHexColors(updatedColors);
       setGrid((prevGrid) => {
@@ -206,21 +242,23 @@ export default function Home() {
     }
   };
 
+  // Réinitialise les couleurs de la grille au chargement de la page
   useEffect(() => {
     resetColors();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Désactiver la sélection du texte pour les éléments avec la classe "no-select" (notamment les hexagones)
   useEffect(() => {
-    // Désactiver la sélection du texte pour les éléments
     const noSelectElements = document.querySelectorAll(".no-select");
     noSelectElements.forEach((element) => {
       (element as HTMLElement).style.userSelect = "none";
     });
   }, []);
 
-  const [mouseStatus, setMouseStatus] = useState(false); // false = souris relâchée, true = souris enfoncée
-  // vérifier quand le bouton de souris est enfoncé
+  const [mouseStatus, setMouseStatus] = useState(false); // Status de la souris (false si le bouton de la souris est relâché)
+
+  // Vérifier quand le bouton de souris est enfoncé
   useEffect(() => {
     const handleMouseDown = () => {
       setMouseStatus(true);
@@ -231,7 +269,7 @@ export default function Home() {
     };
   }, []);
 
-  // vérifier quand le bouton de souris est relâché
+  // Vérifier quand le bouton de souris est relâché
   useEffect(() => {
     const handleMouseUp = () => {
       setMouseStatus(false);
@@ -242,47 +280,69 @@ export default function Home() {
     };
   }, []);
 
-  // Gestion du survol de la souris
-  const handleMouseEnter = (index: number, color: string) => {
+  /**
+   * Gère le survol de la souris sur un hexagone
+   * @param {number} index Index de l'hexagone
+   * @param {string} color Couleur de l'hexagone
+   * @returns {void}
+   */
+  const handleMouseEnter = (index: number, color: string): void => {
     if (mouseStatus) {
+      // Si le bouton de la souris est enfoncé, on change la couleur de l'hexagone
       handleHexClick(index, color);
     }
   };
 
-  const [activeButton, setActiveButton] = useState(0);
-  const [activeColor, setActiveColor] = useState("");
+  const [activeButton, setActiveButton] = useState(0); // Bouton actif (outil sélectionné)
+  const [activeColor, setActiveColor] = useState(""); // Couleur actuelle sélectionnée
 
-  const handleOnActionButtons = (index: number) => {
-    setActiveButton(activeButton === index ? 0 : index);
-    setActiveColor(COLORS[index]);
+  /**
+   * Gère les boutons d'actions
+   * @param {number} index Index du bouton
+   * @returns {void}
+   */
+  const handleOnActionButtons = (index: number): void => {
+    setActiveButton(activeButton === index ? 0 : index); // Active ou désactive le bouton
+    setActiveColor(COLORS[index]); // Définit la couleur actuelle
   };
 
-  const mapGrid = (grid: number[]) => {
-    // row is x, column is y
+  /**
+   * Convertit la grille en tableau 2D (x,y) (lignes -> x, colonnes -> y)
+   * @param {number[]} grid Grille
+   * @returns {number[][]} Grille 2D
+   */
+  const mapGrid = (grid: number[]): number[][] => {
     const newGrid: number[][] = [];
     for (let i = 0; i < Columns; i++) {
+      // Parcours des colonnes
       const row = [];
       for (let j = 0; j < Rows; j++) {
-        row.push(grid[i * Rows + j]);
+        // Parcours des lignes
+        row.push(grid[i * Rows + j]); // Ajoute la valeur de l'hexagone à la ligne
       }
-      newGrid.push(row);
+      newGrid.push(row); // Ajoute la ligne à la grille
     }
     return newGrid;
   };
 
-  const [resultSize, setResultSize] = useState(0);
+  const [resultSize, setResultSize] = useState(0); // Taille du résultat (nombre de points)
 
-  const [error, setError] = useState("");
+  const [error, setError] = useState(""); // Message d'erreur
 
-  const [inProgress, setInProgress] = useState(false);
+  const [inProgress, setInProgress] = useState(false); // Algorithme en cours
 
-  const timeForAlgorithm = 50;
+  const timeForAlgorithm = 50; // Temps pour chaque étape de l'algorithme
 
-  const [algo, setAlgo] = useState(false);
+  const [algo, setAlgo] = useState(false); // Algorithme terminé
 
-  const [activeAlgorithm, setActiveAlgorithm] = useState("");
+  const [activeAlgorithm, setActiveAlgorithm] = useState(""); // Algorithme actif
 
-  const setActiveAlgorithmIntermediary = (algo: string) => {
+  /**
+   * Fonction intermédiaire pour définir l'algorithme actif
+   * @param {string} algo Algorithme
+   * @returns {void}
+   */
+  const setActiveAlgorithmIntermediary = (algo: string): void => {
     if (activeAlgorithm === algo) {
       setActiveAlgorithm("");
     } else {
@@ -290,16 +350,24 @@ export default function Home() {
     }
   };
 
-  const startAlgo = async () => {
+  /**
+   * Démarre l'algorithme
+   * @param {string} algo Algorithme
+   * @returns {void}
+   */
+  const startAlgo = async (): Promise<void> => {
     if (activeAlgorithm === "") {
+      // Vérifie si un algorithme est sélectionné et affiche un message d'erreur si ce n'est pas le cas
       setError(ERROR_MESSAGES.NO_ALGORITHM);
       return;
     }
     if (inProgress) {
+      // Vérifie si un algorithme est en cours et affiche un message d'erreur si c'est le cas
       setError(ERROR_MESSAGES.ALGO_IN_PROGRESS);
       return;
     }
     if (algo) {
+      // Si un algorithme est déjà sélectionné, on affiche un message d'erreur
       setError(ERROR_MESSAGES.RESET_ALGO);
       return;
     }
@@ -311,9 +379,10 @@ export default function Home() {
       end: [endState.x, endState.y],
     };
     const data = await getAlgorithm(activeAlgorithm, params);
-    const response = data[0] as number[][];
-    const paths = data[1] as { [key: string]: string[][] };
+    const response = data[0] as number[][]; // Récupère la réponse de l'algorithme (chemin)
+    const paths = data[1] as { [key: string]: string[][] }; // Récupère tous les chemins essayés
 
+    // Affiche les chemins essayés
     const newArrows = Array(Columns * Rows).fill([]);
     for (let i = 0; i < Columns; i++) {
       for (let j = 0; j < Rows; j++) {
@@ -325,31 +394,38 @@ export default function Home() {
                 const updatedArrows = [...prevArrows];
                 newArrows[index] = paths[`${i},${j}`];
                 updatedArrows[index] = newArrows[index];
-                // updatedArrows[index] = paths[`${i},${j}`];
                 return updatedArrows;
               });
             },
-            i * Rows + j
-          ); // 1 second timeout for each arrow
+            i * Rows + j, // Durée de l'animation
+          );
         }
       }
     }
     setTimeout(() => {
-      callAlgorithm(response);
+      callAlgorithm(response); // Appelle la fonction pour afficher le chemin
     }, Columns * Rows);
   };
 
-  const [bordereds, setBordereds] = useState(Array(Columns * Rows).fill(false));
+  const [bordereds, setBordereds] = useState(Array(Columns * Rows).fill(false)); // Chemin
 
-  const callAlgorithm = async (response: number[][]) => {
+  /**
+   * Affiche le chemin
+   * @param {number[][]} response Chemin
+   * @returns {void}
+   */
+  const callAlgorithm = async (response: number[][]): Promise<void> => {
     if (response.length === 0) {
+      // Si le chemin est vide, affiche un message d'erreur
       setError(ERROR_MESSAGES.NO_PATH);
     } else if (response) {
+      // Si le chemin est défini
       setInProgress(true);
       setError("");
       const updatedColors = [...hexColors];
       let size = 0;
 
+      // Affiche le chemin
       for (let i = 0; i < response.length; i++) {
         setTimeout(() => {
           const index = response[i][0] * Rows + response[i][1];
@@ -366,7 +442,7 @@ export default function Home() {
             size += COLOR_VALUES[color];
             setResultSize(size);
           }
-        }, i * timeForAlgorithm);
+        }, i * timeForAlgorithm); // Durée de l'animation
       }
       setTimeout(() => {
         setInProgress(false);
@@ -375,16 +451,23 @@ export default function Home() {
     }
   };
 
-  const randomColors = () => {
-    resetAlgo();
+  /**
+   * Génère des couleurs aléatoires pour la grille
+   * @returns {void}
+   */
+  const randomColors = (): void => {
+    resetAlgo(); // Réinitialise l'algorithme
+
+    // Change les couleurs de chaque hexagone de manière aléatoire
     const newColors = Array(Columns * Rows).fill("");
     const newGrid = Array(Columns * Rows).fill("");
     for (let i = 0; i < Columns * Rows; i++) {
-      const randomColor = Math.floor(Math.random() * 5) + 1;
+      const randomColor = Math.floor(Math.random() * 5) + 1; // Couleur aléatoire
       newColors[i] = COLORS[randomColor];
       newGrid[i] = COLOR_VALUES[COLORS[randomColor]];
     }
 
+    // Définit le point de départ et d'arrivée aléatoirement
     const newStart = Math.floor(Math.random() * (Columns * Rows));
     let newEnd = Math.floor(Math.random() * (Columns * Rows));
     while (newEnd === newStart) {
@@ -392,12 +475,10 @@ export default function Home() {
       newEnd = Math.floor(Math.random() * (Columns * Rows));
     }
 
-    // set new start
     setStartState({ x: Math.floor(newStart / Rows), y: newStart % Rows });
     newColors[newStart] = COLORS[6];
     newGrid[newStart] = COLOR_VALUES.start;
 
-    // set new end
     setEndState({ x: Math.floor(newEnd / Rows), y: newEnd % Rows });
     newColors[newEnd] = COLORS[7];
     newGrid[newEnd] = COLOR_VALUES.end;
@@ -782,7 +863,7 @@ export default function Home() {
                   slug: ALGORITHM_PATHS.BELLMAN_FORD,
                   onClick: () =>
                     setActiveAlgorithmIntermediary(
-                      ALGORITHM_PATHS.BELLMAN_FORD
+                      ALGORITHM_PATHS.BELLMAN_FORD,
                     ),
                 },
                 {

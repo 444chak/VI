@@ -31,21 +31,28 @@ def bfs(
     """
     start = hexagon_grid.start
     end = hexagon_grid.end
+    
+    # File pour BFS avec le noeud de départ et son chemin initial
     queue = deque([(start, [start])])
-    visited = {start}
-    parent = {start: None}
-    exploration_steps = []  # Will store (parent_coords, child_coords)
-    cost = {start: 0}
+
+    visited = {start}           # Noeuds visités
+    parent = {start: None}      # Parents de chaque noeud
+    exploration_steps = []      # Étapes d'exploration (parent -> enfant)
+    cost = {start: 0}           # Coût pour atteindre chaque noeud
 
     while queue:
+        # Récupère le prochain noeud à explorer
         current, current_path = queue.popleft()
 
+        # Si on atteint l'objectif, on sort de la boucle
         if current == end:
             break
 
         for neighbour_coords in explore_neighbours(current, hexagon_grid):
             neighbour = Hexagon(*neighbour_coords)
             new_cost = cost[current] + hexagon_grid.get_value(neighbour)
+
+            # Si le voisin n'est pas visité ou si on trouve un meilleur chemin
             if neighbour not in visited or new_cost < cost[neighbour]:
                 visited.add(neighbour)
                 parent[neighbour] = current
@@ -53,12 +60,12 @@ def bfs(
                 new_path = [*current_path, neighbour]
                 queue.append((neighbour, new_path))
 
-                # Add parent and child coordinates to exploration steps
+                # Enregistre l'étape d'exploration
                 parent_coords = (current.x, current.y)
                 child_coords = (neighbour.x, neighbour.y)
                 exploration_steps.append((parent_coords, child_coords))
 
-    # Reconstruct final path
+    # Reconstruction du chemin final en remontant les parents
     path = []
     step = end
     while step is not None:
@@ -66,6 +73,7 @@ def bfs(
         step = parent.get(step)
     path.reverse()
 
+    # Si pas de chemin trouvé, retourne liste vide
     if path == [end]:
         return [], exploration_steps
 
