@@ -19,23 +19,20 @@ const theme = extendTheme({
 });
 
 export default function Home() {
+  const handleResize = () => {
+    new BlurGradientBg({
+      dom: "box",
+      colors: ["#3d1414", "#411b1b", "#521919", "#a30008"],
+      loop: true,
+    });
+  };
   useEffect(() => {
-    const handleResize = () => {
-      new BlurGradientBg({
-        dom: "box",
-        colors: ["#3d1414", "#411b1b", "#521919", "#a30008"],
-        loop: true,
-      });
-    };
-
     handleResize();
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
   }, []);
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+  });
 
   return (
     <CssVarsProvider theme={theme}>
