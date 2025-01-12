@@ -1,11 +1,12 @@
 """Prim route."""
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 
 from algorithmes.prim import prim
 from classes.hexagon import Hexagon
 from classes.hexagon_grid import HexagonGrid
 from models.grid import GridModel
+from utils.paths_utils import setup_paths
 
 router = APIRouter()
 
@@ -23,6 +24,4 @@ async def prim_route(grid: GridModel) -> dict:
     grid_model.set_start(start)
     grid_model.set_end(end)
     result, paths = prim(grid_model)
-    if len(result) == 0:
-        raise HTTPException(status_code=400, detail="No path found.")
-    return {"result": result, "paths": paths}
+    return {"result": result, "paths": setup_paths(paths)}
