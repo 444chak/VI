@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 
 services:
   api:
@@ -13,22 +13,33 @@ services:
       - "8000:8000"
     networks:
       - app-network
-  # web:
-  #   image: node:23.0
-  #   container_name: networkers-web
-  #   working_dir: /opt/web
-  #   command: bash -c "npm install && npm run build && npm run start"
-  #   volumes:
-  #     - ./front-js:/opt/web
-  #   depends_on:
-  #     - api
-  #   restart: always
-  #   ports:
-  #     - "3000:3000"
-  #   env_file:
-  #     - .env/common
-  #   networks:
-  #     - app-network
+    profiles: ["", "dev"]
+  front:
+    container_name: vi-web
+    build: ./front-js
+    restart: always
+    environment:
+      - NODE_ENV=production
+    ports:
+      - 3000:3000
+    profiles: [""]
+  front-dev:
+    container_name: vi-web-dev
+    build:
+      context: ./front-js
+      target: dev
+    restart: always
+    command: npm run dev
+    environment:
+      - NODE_ENV=development
+      - WATCHPACK_POLLING=true
+    volumes:
+      - .:/front-js/app
+      - /front-js/app/node_modules
+      - /front-js/app/.next
+    ports:
+      - 3000:3000
+    profiles: ["dev"]
 
 networks:
   app-network:
